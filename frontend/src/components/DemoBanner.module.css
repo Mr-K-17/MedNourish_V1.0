@@ -1,0 +1,27 @@
+.banner {
+  background-color: #fff8e6;
+  border-bottom: 1px solid #ffd591;
+  padding: var(--spacing-2) var(--spacing-4);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: #873800;
+  font-size: var(--font-size-sm);
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  color: var(--color-warning);
+}
+
+.bannerText {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.bannerLink {
+  color: #873800;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-left: var(--spacing-2);
+}
