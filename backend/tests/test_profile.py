@@ -228,3 +228,61 @@ async def test_live_emulator_token_integration():
         assert data["id"] == local_id
         assert data["display_name"] == "E2E User"
         assert data["is_adult_confirmed"] is True
+
+
+@pytest.mark.anyio
+async def test_database_failure_graceful_handling():
+    """Endpoints return 503 Service Unavailable when the database is unreachable."""
+    app.dependency_overrides[get_current_user] = lambda: AuthenticatedUser(uid="db_fail_user")
+
+    class FailingSession:
+        def query(self, *args, **kwargs):
+            raise RuntimeError("Database connection timed out or refused")
+
+    def failing_db():
+        yield FailingSession()
+
+    app.dependency_overrides[get_db] = failing_db
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        res = await client.get("/v1/profile")
+        assert res.status_code == 503
+        assert "Database service unavailable" in res.json()["detail"]
+
+    # Restore in-memory db override
+    app.dependency_overrides[get_db] = override_get_db
+
+
+@pytest.mark.anyio
+async def test_account_deletion_removes_consent_logs_in_dev():
+    """Development deletes all records including consent logs upon account deletion per OD-08 and M1A.6."""
+    app.dependency_overrides[get_current_user] = lambda: AuthenticatedUser(uid="consent_log_del_user")
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        # Create profile and consent log
+        await client.post(
+            "/v1/profile",
+            json={
+                "is_adult_confirmed": True,
+                "terms_consent_version": "v1.0",
+                "display_name": "Consent User",
+            },
+        )
+
+        # Delete account
+        del_res = await client.delete("/v1/profile")
+        assert del_res.status_code == 200
+
+        # Verify DB directly: consent logs must be removed
+        db = TestingSessionLocal()
+        from app.models.user import UserConsentLog, UserProfile
+
+        consent_count = db.query(UserConsentLog).filter(UserConsentLog.user_id == "consent_log_del_user").count()
+        profile_count = db.query(UserProfile).filter(UserProfile.id == "consent_log_del_user").count()
+        db.close()
+
+        assert consent_count == 0
+        assert profile_count == 0
+

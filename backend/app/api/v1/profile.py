@@ -40,7 +40,15 @@ def get_user_profile(
     db: Session = Depends(get_db),
 ):
     """Retrieves the authenticated user's minimal profile."""
-    profile = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    try:
+        profile = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    except Exception as exc:
+        logger.error("Database error retrieving profile: %s", type(exc).__name__)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable. Please check database configuration.",
+        )
+
     if not profile:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -56,7 +64,15 @@ def create_user_profile(
     db: Session = Depends(get_db),
 ):
     """Creates initial minimal user profile. Requires explicit 18+ adult confirmation."""
-    existing = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    try:
+        existing = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    except Exception as exc:
+        logger.error("Database error querying existing profile: %s", type(exc).__name__)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable. Please check database configuration.",
+        )
+
     if existing:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -91,8 +107,8 @@ def create_user_profile(
         db.rollback()
         logger.error("Failed to persist user profile: %s", type(exc).__name__)
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to save profile.",
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Failed to save profile due to database error.",
         )
 
 
@@ -103,7 +119,15 @@ def update_user_profile(
     db: Session = Depends(get_db),
 ):
     """Updates optional demographic profile fields (display_name, gender, height, weight)."""
-    profile = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    try:
+        profile = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
+    except Exception as exc:
+        logger.error("Database error retrieving profile for update: %s", type(exc).__name__)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable. Please check database configuration.",
+        )
+
     if not profile:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -127,8 +151,8 @@ def update_user_profile(
         db.rollback()
         logger.error("Failed to update profile: %s", type(exc).__name__)
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to update profile.",
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Failed to update profile due to database error.",
         )
 
 
@@ -139,12 +163,20 @@ def delete_user_account(
 ):
     """Deletes the user's profile, consent logs, and triggers account deletion in Auth Emulator.
 
-    Adheres strictly to AUTH-05 and PRIV-01: deletes user-associated data.
+    Adheres strictly to AUTH-05, OD-08, and PRIV-01: development deletes everything.
     """
-    # 1. Delete relational records in database
-    db.query(UserConsentLog).filter(UserConsentLog.user_id == current_user.uid).delete()
-    db.query(UserProfile).filter(UserProfile.id == current_user.uid).delete()
-    db.commit()
+    try:
+        # Delete relational records in database
+        db.query(UserConsentLog).filter(UserConsentLog.user_id == current_user.uid).delete()
+        db.query(UserProfile).filter(UserProfile.id == current_user.uid).delete()
+        db.commit()
+    except Exception as exc:
+        db.rollback()
+        logger.error("Database error during account deletion: %s", type(exc).__name__)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database service unavailable. Failed to delete user records.",
+        )
 
     return AccountDeletionResponse(
         status="deleted",

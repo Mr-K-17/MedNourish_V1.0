@@ -5,6 +5,7 @@ import { DemoBanner } from './components/DemoBanner';
 import { EmergencyHelpModal } from './components/EmergencyHelpModal';
 import { AuthForm } from './components/AuthForm';
 import { ConsentProfileModal } from './components/ConsentProfileModal';
+import { Dashboard } from './components/Dashboard';
 import styles from './App.module.css';
 
 interface ServiceStatus {
@@ -212,65 +213,65 @@ export const App: React.FC = () => {
             />
           )
         ) : (
-          <section className={styles.card}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <h2 className={styles.cardTitle}>Welcome, {userProfile.display_name || 'Member'}!</h2>
-                <p style={{ margin: '0.25rem 0 1rem 0', color: 'var(--color-text-secondary)', fontSize: '0.95rem' }}>
-                  Your account is registered as a verified adult (18+) under educational terms {userProfile.terms_consent_version}.
-                </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <Dashboard
+              displayName={userProfile.display_name}
+              consentVersion={userProfile.terms_consent_version}
+            />
+
+            <section className={styles.card}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+                <div>
+                  <h3 className={styles.cardTitle} style={{ margin: 0, fontSize: '1.1rem' }}>Account & Profile Summary</h3>
+                  <p style={{ margin: '0.25rem 0 1rem 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+                    User ID: {currentUser.uid} · Email: {currentUser.email}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleDeleteAccount}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 0.75rem',
+                    background: '#fff1f2',
+                    border: '1px solid #fda4af',
+                    color: '#e11d48',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  <Trash2 size={16} /> Delete Account & Data
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={handleDeleteAccount}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.5rem 0.75rem',
-                  background: '#fff1f2',
-                  border: '1px solid #fda4af',
-                  color: '#e11d48',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                }}
-              >
-                <Trash2 size={16} /> Delete Account & Data
-              </button>
-            </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '0.5rem' }}>
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Adult Confirmation</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 600, color: 'var(--color-accent)' }}>18+ Confirmed (SAF-10)</p>
+                </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
-              <div style={{ padding: '1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Adult Confirmation</span>
-                <p style={{ margin: '0.25rem 0 0 0', fontWeight: 600, color: 'var(--color-accent)' }}>18+ Confirmed (SAF-10)</p>
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Gender</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.gender || 'Not specified'}</p>
+                </div>
+
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Height</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.height_cm ? `${userProfile.height_cm} cm` : 'Not specified'}</p>
+                </div>
+
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Weight</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.weight_kg ? `${userProfile.weight_kg} kg` : 'Not specified'}</p>
+                </div>
               </div>
-
-              <div style={{ padding: '1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Gender</span>
-                <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.gender || 'Not specified'}</p>
-              </div>
-
-              <div style={{ padding: '1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Height</span>
-                <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.height_cm ? `${userProfile.height_cm} cm` : 'Not specified'}</p>
-              </div>
-
-              <div style={{ padding: '1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Weight</span>
-                <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.weight_kg ? `${userProfile.weight_kg} kg` : 'Not specified'}</p>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '2rem', padding: '1.25rem', background: '#f8fafc', borderRadius: '8px', border: '1px dashed #cbd5e1' }}>
-              <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>Phase 1B Feature Preview</h3>
-              <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>
-                Symptom Reference Explorer and MedBot (deterministic reference matcher over cleaned nutritional knowledge) will be available in Phase 1B.
-              </p>
-            </div>
-          </section>
+            </section>
+          </div>
         )}
       </main>
 
