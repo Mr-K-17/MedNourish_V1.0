@@ -6,6 +6,7 @@ import { EmergencyHelpModal } from './components/EmergencyHelpModal';
 import { AuthForm } from './components/AuthForm';
 import { ConsentProfileModal } from './components/ConsentProfileModal';
 import { Dashboard } from './components/Dashboard';
+import { SymptomExplorer } from './components/SymptomExplorer';
 import styles from './App.module.css';
 
 interface ServiceStatus {
@@ -45,6 +46,7 @@ export const App: React.FC = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
+  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer'>('dashboard');
 
   useEffect(() => {
     // Probe local backend health endpoint
@@ -214,10 +216,22 @@ export const App: React.FC = () => {
           )
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <Dashboard
-              displayName={userProfile.display_name}
-              consentVersion={userProfile.terms_consent_version}
-            />
+            {activeView === 'symptom-explorer' && idToken ? (
+              <SymptomExplorer
+                idToken={idToken}
+                onBackToDashboard={() => setActiveView('dashboard')}
+              />
+            ) : (
+              <Dashboard
+                displayName={userProfile.display_name}
+                consentVersion={userProfile.terms_consent_version}
+                onSelectTile={(tileId) => {
+                  if (tileId === 'symptom-explorer') {
+                    setActiveView('symptom-explorer');
+                  }
+                }}
+              />
+            )}
 
             <section className={styles.card}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>

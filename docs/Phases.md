@@ -154,7 +154,7 @@ Acceptance criteria:
 - d. Every entry carries a review status of "unreviewed draft" unless a reviewer is recorded.
 - e. The package has a version identifier that is stored with every result.
 
-**M1B.2 Symptom Reference Explorer (M).** Delivers: tag search and multi-select grouped by body region; an **ordered reference-match summary** that shows, for each reference entry, the matched tags and the number of matched tags; an "Insufficient information" state; the educational-prototype disclaimer and banner. No bands, no percentages, no severity, urgency, advice or treatment, and no non-nutritional classes. Requirement IDs: SYMP-01 to SYMP-04, SAFE-01, SAFE-03; SAF-05, SAF-06, SAF-09, SAF-17. Depends on: M1B.1, OD-19, OD-20.
+**M1B.2 Symptom Reference Explorer (M) — Complete.** Delivers: tag search and multi-select grouped by body region; an **ordered reference-match summary** that shows, for each reference entry, the matched tags and the number of matched tags; an "Insufficient information" state; the educational-prototype disclaimer and banner. No bands, no percentages, no severity, urgency, advice or treatment, and no non-nutritional classes. Requirement IDs: SYMP-01 to SYMP-04, SAFE-01, SAFE-03; SAF-05, SAF-06, SAF-09, SAF-17. Depends on: M1B.1, OD-19, OD-20.
 Acceptance criteria:
 - a. For fixed fictional tag sets, output order and content match the matcher-specification test cases exactly (deterministic).
 - b. Every result shows its matched tags.

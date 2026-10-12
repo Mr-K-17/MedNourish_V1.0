@@ -26,6 +26,7 @@
 | **PHASE-1A: M1A.6** | 18+ Confirmation, Consent & Minimal Profile | **COMPLETE** | Mandatory explicit adult confirmation (18+), zero DOB/age storage, minimal demographic profile, audit consent logs in MySQL, account deletion endpoint. Pytest passing. |
 | **PHASE-1A: M1A.7** | Dashboard & Phase 1A Review | **COMPLETE** | Responsive Dashboard with Phase 1B module tiles (MedBot, Symptom Explorer, CarePlan, Files & Reports) in explicit "Coming Soon" state; Account summary & deletion flow integrated; 10/10 tests PASS; Vite build clean. Phase 1A reviewed and approved. |
 | **PHASE-1B: M1B.1** | Reference Package Specification & Mechanical Cleaning | **COMPLETE** | 13 reference CSVs curated into `knowledge/curated/` with byte-identical original archive verification (`test_knowledge.py`); Tier-1 mechanical fixes applied to Hair CSVs (rows 30 & 23); `knowledge/CHANGELOG.md` created with pediatric & drug exclusions; `docs/REFERENCE_MATCHER_SPEC.md` authored; automated tests passing (14 passed, 1 skipped). |
+| **PHASE-1B: M1B.2** | Symptom Reference Explorer | **COMPLETE** | Curated reference service and deterministic set-intersection matcher implemented (`backend/app/services/knowledge_service.py`); API endpoints `GET /v1/explorer/categories` and `POST /v1/explorer/match`; SAF-09, SAF-10, SAF-16 exclusions enforced; Insufficient information states (`SAF-06`); Responsive interactive frontend (`frontend/src/components/SymptomExplorer.tsx`); 23 passed, 1 skipped in Pytest; Vite build clean. |
 
 ---
 

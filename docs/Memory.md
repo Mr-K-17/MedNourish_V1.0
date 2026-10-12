@@ -49,7 +49,7 @@
 |---|---|---|
 | 0 | Foundations and verification | **Complete (Owner exit sign-off 2026-10-12)** |
 | 1A | Foundation and safety shell | **Complete (Owner reviewed and approved)** |
-| 1B | Initial features | **In progress (M1B.1 Complete; M1B.2 pending owner authorization)** |
+| 1B | Initial features | **In progress (M1B.1 & M1B.2 Complete; M1B.3 pending owner authorization)** |
 | 2 | MedScan and model evaluation | Not started; gated |
 | 3 | VirtualWard and Google integrations | Not started |
 | 4 | Doctor chat and booking | Not started |
@@ -423,7 +423,31 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Verification & Test Summary:
   - Pytest: 14 passed, 1 skipped in 6.20s across full backend test suite (`test_health`, `test_profile`, `test_knowledge`).
   - Git status: Local repository clean, untracked `.env` preserved, archive untouched.
-- Next action: Present M1B.1 results to owner; await owner authorization before starting M1B.2 (Symptom Reference Explorer).
+- Next action: Completed M1B.1; proceeding to M1B.2 upon owner request.
+
+### S-012 — 2026-10-12 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.2 Symptom Reference Explorer; SYMP-01–04, SAFE-01, SAFE-03, SAF-05, SAF-06, SAF-09, SAF-10, SAF-13, SAF-16, SAF-17, C-01, C-08, C-18, C-21.
+- Actions taken:
+  - Gate 1 Safety Audit & Verification:
+    - Confirmed git commit `857105a` and working tree status.
+    - Verified all 13 curated CSVs, exact column counts, and repaired Hair rows 30 & 23. Original archive byte-identical.
+    - Audited pediatric and drug occurrences across all CSVs: determined that master table `MedNourish_Symptom_Keywords_vs_Vitamin_Deficiency_Mapping.csv` contains 116 condition classes, which are filtered by code to exclude all non-nutritional classes (SAF-09), all Normal entries, and all pediatric/child references (SAF-10). Detailed routines with unreviewed drugs/dosages are strictly excluded from explorer displays (SAF-16).
+    - Verified `backend/tests/test_profile.py` offline emulator socket probe: passes cleanly without background processes active.
+  - Backend Implementation:
+    - `backend/app/services/knowledge_service.py`: Implemented `KnowledgeRepository` and deterministic matcher engine. Enforces input normalization, set intersection, tie-breaking rules, adult/nutritional filtering, and insufficient information handling.
+    - `backend/app/schemas/explorer.py`: Defined Pydantic models for categories, tags, match queries, and structured match responses with mandatory prototype disclaimers.
+    - `backend/app/api/v1/explorer.py`: Implemented authenticated endpoints `GET /v1/explorer/categories` and `POST /v1/explorer/match`.
+    - `backend/app/main.py`: Registered explorer router under `/v1`.
+    - `backend/tests/test_explorer.py`: Authored 9 comprehensive tests covering data loading, SAF-09/10 exclusions, unauthenticated 401s, categories retrieval, insufficient info on empty/unmatched inputs, deterministic ranking, region filtering, and forbidden term absence.
+  - Frontend Implementation:
+    - `frontend/src/components/SymptomExplorer.tsx` & `.module.css`: Built responsive, accessible UI supporting body region filtering, tag search, tag selection chips, query lookup action, ordered reference match results with matched tag counts, insufficient information guidance, and clear return to Dashboard.
+    - `frontend/src/components/Dashboard.tsx`: Enabled Symptom Reference Explorer tile as "Available Now" with Launch action.
+    - `frontend/src/App.tsx`: Wired view switching between Dashboard and SymptomExplorer, preserving emergency help modal and adult consent context.
+- Verification & Test Summary:
+  - Pytest: 23 passed, 1 skipped in 5.61s (all unit, auth, knowledge, profile, and explorer tests passing).
+  - Frontend Build: `tsc && vite build` built cleanly in 2.75s with zero errors (`dist/` generated).
+  - Medical Safety: Confirmed zero diagnostic scores, probabilities, risk bands, or drug treatment recommendations appear in code, schemas, or screens.
+- Next action: Present M1B.2 completion report to owner; await authorization before starting M1B.3 (Saved Summaries & History).
 
 ---
 

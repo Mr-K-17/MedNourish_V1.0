@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.v1.health import router as health_router
 from app.api.v1.profile import router as profile_router
+from app.api.v1.explorer import router as explorer_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -27,6 +28,7 @@ app.add_middleware(
 # Versioned API routes under /v1
 app.include_router(health_router, prefix=settings.API_V1_STR, tags=["Health"])
 app.include_router(profile_router, prefix=settings.API_V1_STR, tags=["Profile"])
+app.include_router(explorer_router, prefix=settings.API_V1_STR, tags=["Explorer"])
 
 
 @app.get("/")

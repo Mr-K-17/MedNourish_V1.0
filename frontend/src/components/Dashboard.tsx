@@ -48,8 +48,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         'Browse and select anatomical symptom tags to look up educational reference-table associations.',
       icon: <Search size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Phase 1B',
-      status: 'coming_soon',
-      tag: 'Coming Soon',
+      status: 'ready',
+      tag: 'Available Now',
     },
     {
       id: 'careplan',
@@ -119,11 +119,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <button
                 type="button"
                 className={styles.tileActionBtn}
-                disabled
-                aria-disabled="true"
+                disabled={m.status === 'coming_soon'}
+                aria-disabled={m.status === 'coming_soon'}
                 onClick={() => onSelectTile?.(m.id)}
               >
-                <Sparkles size={14} /> Preview (Phase 1B)
+                {m.status === 'ready' ? (
+                  <>
+                    <Search size={14} /> Launch Explorer
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={14} /> Preview (Phase 1B)
+                  </>
+                )}
               </button>
             </div>
           </div>
