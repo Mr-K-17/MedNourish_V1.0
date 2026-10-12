@@ -115,14 +115,14 @@ Acceptance criteria:
 - d. An invalid or expired session returns the user to sign-in.
 - e. No real credentials and no cloud project are used.
 
-**M1A.5 Authorization and restrictive rules (M).** Delivers: Firestore security rules that deny everything by default, allow only the owner to **read** their own documents, and deny **all** client writes (every write goes through the API in Phase 1); an API that verifies the Firebase ID token on every route except the health check and checks ownership; rules and API tests on the emulator. Requirement IDs: PROF-02, NFR-SEC-01; SEC-01 to SEC-04, SEC-02 (`Rules.md`). Depends on: M1A.4.
+**M1A.5 Authorization and data-access controls (M).** Delivers: FastAPI security middleware verifying Firebase ID token on every route except public `/` and `/v1/health`; ownership enforcement verifying authenticated UID matches resource owner on MySQL user records and MongoDB reference lookups; strict database protection denying all client direct writes (all mutations execute through the authenticated FastAPI service); rules and API tests on emulator/local suite. Requirement IDs: PROF-02, NFR-SEC-01; SEC-01 to SEC-04, SEC-02 (`Rules.md`). Depends on: M1A.4.
 Acceptance criteria:
-- a. Tests prove user A cannot read or write user B's documents.
+- a. Tests prove user A cannot read or write user B's records in MySQL.
 - b. Unauthenticated reads and writes are denied.
-- c. Every direct client write is denied.
-- d. The API rejects missing, invalid and expired tokens.
-- e. The rules contain no wildcard allow; the owner has reviewed the rules file.
-- f. A test shows logs contain no tokens, names or health details.
+- c. Direct client database access is blocked; all mutations route through FastAPI.
+- d. The API rejects missing, invalid and expired Firebase tokens.
+- e. Security controls contain no wildcard bypass; code verified against test suite.
+- f. A test shows logs contain no tokens, passwords, names or health details.
 
 **M1A.6 18+ confirmation, consent, minimal profile, account deletion (M).** Delivers: an explicit, not pre-ticked 18+ confirmation and a versioned health-data consent before any data is saved; a profile that holds only an optional display name and optional gender, height and weight (no date of birth, no age); first-time versus returning routing; profile editing; deletion of the account and all of the user's data. Requirement IDs: AUTH-03, AUTH-04, AUTH-05, PROF-01, PROF-03, PRIV-01 (consent, minimisation, deletion); SAF-10. Depends on: OD-12 (closed, C-21); M1A.5.
 Acceptance criteria:

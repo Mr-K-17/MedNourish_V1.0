@@ -121,8 +121,9 @@ These are decisions by the owner, as recorded in the planning conversation and i
 | C-22 | **No medication reminders.** CarePlan in Phase 1 supports user-created water, food, and exercise tasks only. No medication reminders or medicine suggestions. | `PRD.md` 2, 5.1, 6.6 · `Design.md` 4 · `Architecture.md` 5.1, 12 |
 | C-23 | **Scripted help and log minimisation.** NurseBot is scripted; no transcripts are stored. Server logs must not record health details, symptoms, user answers, names, or image data. | `Architecture.md` 5.1, 11 · `Rules.md` SEC-04 |
 | C-24 | **No usability testing with human participants.** No usability testing with real people until institutional ethics and supervisor requirements are confirmed. | `Design.md` 10, 15 · `Phases.md` 1, 1B.7 · `Rules.md` GR-14 |
+| C-25 | **Data store architecture: MySQL + MongoDB.** User accounts, profiles, consent logs, and audit logs are stored in local MySQL 8.0+ via SQLAlchemy models (`backend/app/models/user.py`). Versioned reference packages, clean catalog lookups, and audit artifacts are stored in local MongoDB 9.0+. Firestore is deprecated from the active path and replaced by local databases, eliminating cloud dependency. | `Architecture.md` 2, 3, 5 · `Rules.md` SEC-02, ENG-01 · `Phases.md` M1A.5 |
 
-*Note:* Confirmed decisions C-01 through C-24 are now canonical across all documents.
+*Note:* Confirmed decisions C-01 through C-25 are now canonical across all documents.
 
 ## 5. Open decisions (OD-xx)
 
@@ -338,6 +339,23 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Register changes: OD-09, OD-10, OD-15 changed from Pending to Confirmed. Phase 0 status updated to Complete; Phase 1A updated to In progress.
 - Still pending: Completion of M1A.1 scaffold tests and local emulator setup.
 - Approvals given by the owner this session: Deletion of 5 temporary pack files; Phase 0 exit; M1A.1 scaffold implementation.
+
+### S-007 — 2026-10-12 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1A.1 Backend Database Integration & Architecture Update; MySQL 8.0, MongoDB 9.0, Firebase Auth Emulator; ENG-01–03, PROF-01–02, SEC-01–04, C-07, C-14, C-21, C-25.
+- Files changed:
+  - `backend/app/core/config.py`: Added MySQL (`MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`) and MongoDB (`MONGODB_URI`, `MONGODB_DATABASE`) configuration with safe fallback defaults.
+  - `backend/app/db/session.py`: Implemented SQLAlchemy synchronous engine/sessionmaker and non-blocking health check pingers for MySQL and MongoDB.
+  - `backend/app/models/user.py`: Added `UserProfile` and `UserConsentLog` SQLAlchemy models. Strictly enforces `adult_confirmed=True`, excludes DOB/age, and keys to `firebase_uid`.
+  - `backend/app/api/v1/health.py` & `backend/app/schemas/health.py`: Updated `/v1/health` endpoint to report granular status of `mysql`, `mongodb`, and `firebase_auth_emulator`.
+  - `backend/tests/test_health.py`: Updated tests to assert multi-service health report. Pytest passing 2/2.
+  - `.env.example`: Created root template with MySQL, MongoDB, Firebase emulator, and CORS settings.
+  - Documentation: Reconciled `Architecture.md`, `Phases.md`, `Rules.md`, `PRD.md`, and `Memory.md` to establish C-25 decision and deprecate Firestore from active path.
+- What was verified, and how:
+  - Pytest verified: `python -m pytest tests` passed cleanly (2 passed in 3.17s).
+  - MySQL service verified: Service `MySQL80` running on port 3306.
+  - MongoDB service inspected: MongoDB 9.0 installed at `C:\Program Files\MongoDB\Server\9.0\bin\mongod.exe`; service currently stopped with stale lock from disk space event; health pinger handles offline state gracefully without crashing API.
+- Register changes: Confirmed Decision C-25 added to `Memory.md`.
+- Next actions: Connect frontend shared shell to `/v1/health` with service status badges, implement Firebase Auth emulator client service and login/register UI (M1A.4), and implement FastAPI profile/consent endpoints backed by MySQL (M1A.6).
 
 ---
 

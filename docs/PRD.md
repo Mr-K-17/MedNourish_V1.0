@@ -127,7 +127,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 | AUTH-04 | After sign-in: first-time users go to the 18+ confirmation, consent and profile setup; returning users go to the Dashboard. | 1 (1A) | Confirmed (workflow in brief) |
 | AUTH-05 | User can delete their account and all associated data. Whether a minimal consent record survives deletion, and for how long, must be decided before any real user data (OD-08); development deletes everything. | 1 (1A) | Proposed |
 | PROF-01 | Profile holds only the minimum: an optional display name, and optional gender, height and weight (each required only if a documented feature needs it; none does yet). **No date of birth and no age field**; the 18+ confirmation is the age control. Any additional field needs a documented feature and an owner decision. | 1 (1A) | Confirmed (C-21) |
-| PROF-02 | Every record is keyed to the user's Firebase user ID; no user can read or write another user's data. | 1 (1A) | Confirmed (brief: "like a primary key") |
+| PROF-02 | Every record in MySQL (`user_profiles`, `user_consent_logs`, `assessments`) is keyed to the user's Firebase user ID (`firebase_uid`); no user can read or write another user's data. | 1 (1A) | Confirmed (brief: "like a primary key", OD-16) |
 | PROF-03 | Users can edit and clear their optional profile fields. | 1 (1A) | Proposed |
 
 ### 6.2 Dashboard

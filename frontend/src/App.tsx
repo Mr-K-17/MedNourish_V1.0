@@ -1,16 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Activity, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { DemoBanner } from './components/DemoBanner';
+import { EmergencyHelpModal } from './components/EmergencyHelpModal';
 import styles from './App.module.css';
+
+interface ServiceStatus {
+  status?: string;
+  message?: string;
+  host?: string;
+  database?: string;
+  project?: string;
+}
 
 interface BackendHealth {
   status: string;
   version: string;
   environment: string;
+  services?: {
+    mysql?: ServiceStatus;
+    mongodb?: ServiceStatus;
+    firebase_auth_emulator?: ServiceStatus;
+  };
 }
 
 export const App: React.FC = () => {
   const [health, setHealth] = useState<BackendHealth | null>(null);
+  const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
 
   useEffect(() => {
     // Probe local backend health endpoint
@@ -34,10 +49,14 @@ export const App: React.FC = () => {
         </div>
 
         {/* Emergency safety layer reachable from every screen per C-20 & SAF-03 */}
-        <a href="#urgent-help" className={styles.urgentHelpButton} role="button">
+        <button
+          type="button"
+          onClick={() => setIsEmergencyModalOpen(true)}
+          className={styles.urgentHelpButton}
+        >
           <ShieldAlert size={18} />
           Need urgent help?
-        </a>
+        </button>
       </header>
 
       <main className={styles.main}>
@@ -55,8 +74,27 @@ export const App: React.FC = () => {
               {health ? `${health.status} (${health.environment})` : 'Offline / Mock mode'}
             </span>
           </div>
+
+          {health?.services && (
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
+                <strong>MySQL:</strong> {health.services.mysql?.status || 'unknown'}
+              </span>
+              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
+                <strong>MongoDB:</strong> {health.services.mongodb?.status || 'unknown'}
+              </span>
+              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
+                <strong>Auth Emulator:</strong> {health.services.firebase_auth_emulator?.host || '127.0.0.1:9099'}
+              </span>
+            </div>
+          )}
         </section>
       </main>
+
+      <EmergencyHelpModal
+        isOpen={isEmergencyModalOpen}
+        onClose={() => setIsEmergencyModalOpen(false)}
+      />
 
       <footer className={styles.footer}>
         MEDNOURISH Phase 1A MVP Prototype · Strictly Local Development · Fictional Data Only

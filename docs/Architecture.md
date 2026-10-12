@@ -34,7 +34,9 @@ Stack status: **Confirmed as the prototype stack** (React, Vite, TypeScript, Fas
 | Frontend | React + Vite + TypeScript, responsive; installable PWA shell that caches static assets only | Confirmed (C-03, C-07) | PV-15 (offline emergency page per platform); OD-15 (styling/UI toolkit) |
 | Backend API | Python + FastAPI | Confirmed (C-03, C-07) | PV-14 (versions) |
 | Authentication | Firebase Authentication, on the local emulator in Phase 1 | Confirmed (C-07, C-14) | OD-10 (sign-in methods) |
-| Database | Cloud Firestore, on the local emulator in Phase 1 | Confirmed (C-07, C-14) | PV-13 only before any cloud use |
+| Relational Database | MySQL 8.0+ (local development / self-hosted) for user profiles, consent logs, and audit logs | Confirmed (OD-16 / Arch Revision 2026-10-12) | Local service availability & credentials |
+| Document Database | MongoDB 9.0+ (local development / self-hosted) for versioned reference packages, clean knowledge lookups, and audit artifacts | Confirmed (OD-16 / Arch Revision 2026-10-12) | Local service availability & mongod lock resolution |
+| Cloud Database | Cloud Firestore: **replaced in active application path** by MySQL + MongoDB; retained only as optional legacy/emulator fallback | Deprecated in Phase 1 | PV-13 only if cloud sync ever requested |
 | File storage | Cloud Storage: **not used in Phase 1** (C-07). Later: opt-in saved images, private model artifacts | Later; Proposed | PV-13 (plan requirements, pricing, region) |
 | Tabular ML | XGBoost and LightGBM behind a replaceable scoring interface | Later, in the Phase 2 evaluation track (C-12); no training in Phase 1 | Blocked by PV-01, PV-02, PV-17 and a demonstrated match between collected inputs and verified labels |
 | Image ML | MobileNetV2 transfer learning, one model per body region, served from the backend | Later (Phase 2); Proposed (original brief; C-06) | Blocked by PV-04 to PV-06; PV-14 (export format) |
@@ -44,7 +46,7 @@ Stack status: **Confirmed as the prototype stack** (React, Vite, TypeScript, Fas
 | Maps / Calendar / Tasks | Google Maps Platform, Google Calendar API, Google Tasks API | Confirmed (brief); Phase 3 | PV-16 |
 | Java | Not used in the MVP | Confirmed (C-03) | — |
 
-**Why a separate backend is needed.** In Phase 1 the backend verifies the user's token, checks ownership, runs the deterministic matcher against the versioned reference package and is the only writer of saved records, so a user cannot forge a saved result. Later it also keeps keys off users' devices (LLM, Google), runs Python models that cannot run safely in the browser, and enforces image validation and deletion.
+**Why a separate backend is needed.** In Phase 1 the backend verifies the user's Firebase token, checks ownership, runs the deterministic matcher against the versioned MongoDB reference package and is the only writer of saved records in MySQL, so a user cannot forge a saved result. Later it also keeps keys off users' devices (LLM, Google), runs Python models that cannot run safely in the browser, and enforces image validation and deletion.
 
 **On-device inference (TensorFlow Lite) from the original brief.** Version 1 uses server-side inference (C-06). On-device inference (TensorFlow Lite, now also called LiteRT, or TensorFlow.js) remains a later option with a privacy benefit (images never leave the device). The choice of model export format is deferred (PV-14).
 
@@ -53,12 +55,11 @@ Stack status: **Confirmed as the prototype stack** (React, Vite, TypeScript, Fas
 ```mermaid
 flowchart LR
   U[User - browser / installed PWA] --> EH[Static emergency help page - bundled in the frontend]
-  U -->|sign in| FA[Firebase Authentication - local emulator in Phase 1]
-  U -->|own-data reads under security rules| FS[(Firestore - local emulator in Phase 1)]
-  U -->|ID token + requests| API[FastAPI service - local in Phase 1]
+  U -->|sign in / register| FA[Firebase Authentication - local emulator :9099]
+  U -->|ID token + API requests| API[FastAPI service - local :8000]
   API -->|verify token| FA
-  API -->|Admin access| FS
-  API --> KB[Versioned reference package files]
+  API -->|user profile, consent logs, audits| MY[(MySQL 8.0 - local :3306)]
+  API -->|versioned reference package, clean knowledge| MG[(MongoDB 9.0 - local :27017)]
   API --> MATCH[Deterministic reference matcher]
   API -.->|Phase 2| IMG[Image pipeline: validate, OpenCV, MobileNetV2]
   API -.->|Phase 2, gated evaluation track| TAB[XGBoost / LightGBM models]
@@ -69,12 +70,15 @@ flowchart LR
 
 Solid lines exist in Phase 1; dotted lines are later phases. The emergency help page needs neither the API, nor Firebase, nor a signed-in session.
 
-### 3.1 Two doors
+### 3.1 Architecture boundaries and flow
 
-- **Door 1 — browser to Firebase:** sign-in, and reading the user's **own** data, controlled by security rules. In Phase 1 the rules allow **no client writes at all**.
-- **Door 2 — browser to the FastAPI service:** everything involving matching, report creation, every write to the user's data, account deletion, and (later) AI, images, chat and third-party calls. The API verifies the user's Firebase ID token on every request except the health check.
+- **Authentication boundary — browser to Firebase Auth Emulator:** sign-in and token issuance (`127.0.0.1:9099`).
+- **Application boundary — browser to FastAPI service:** everything involving profile management, consent recording, matching, reports, and data retrieval. The API verifies the user's Firebase ID token on every request except `/` and `/v1/health`.
+- **Data storage boundary:**
+  - **MySQL (`app/models/user.py`):** Relational store for `user_profiles` (`id`, `firebase_uid`, `adult_confirmed`, `display_name`, `gender`, `height_cm`, `weight_kg`, timestamps) and `user_consent_logs` (`id`, `user_id`, `consent_version`, `adult_confirmed`, `granted_at`, `ip_hash`). DOB and age are strictly prohibited.
+  - **MongoDB:** Document store for `reference_packages`, `clean_knowledge_entries`, and structured audit records.
 
-Clients **cannot write** assessments, summaries, reports, care-plan items or profile data directly; only the API writes them (so a user cannot forge a saved result and rules stay simple to test). Whether any field may later be written by the client is a new decision.
+Clients **cannot write** assessments, summaries, reports, care-plan items or profile data directly to any database; only the authenticated FastAPI service writes them (so a user cannot forge a saved result and all constraints are strictly validated).
 
 ## 4. Proposed repository layout
 
@@ -95,21 +99,28 @@ Datasets, secrets, environment files, emulator data, large model files and image
 
 ## 5. Data architecture
 
-### 5.1 Firestore collections (proposed)
+### 5.1 Relational database schemas (MySQL 8.0)
 
-| Collection (path pattern) | Contents | Written by | Read by |
+MySQL stores user accounts, consent history, assessment summaries, reports, and care-plan actions. Foreign keys link records to `user_profiles.id`, which maps 1:1 to `firebase_uid`.
+
+| Table | Contents | Written by | Read by |
 |---|---|---|---|
-| `users/{uid}` | 18+ confirmation and consent summary; optional display name; optional gender, height and weight (C-21). No date of birth, no age | API only | Owner |
-| `users/{uid}/consents/{id}` | Versioned consent records | API only | Owner |
-| `users/{uid}/assessments/{id}` | MedBot answers and reference match summary; reference package and matcher versions | API only | Owner |
-| `users/{uid}/symptomChecks/{id}` | Selected tags and the ordered reference match summary (matched tags, counts); no bands, percentages or scores | API only | Owner |
-| `users/{uid}/reports/{id}` | Reference match summary snapshot and check-in history entries; no Risk Score (C-18) | API only | Owner |
-| `users/{uid}/carePlan/{id}` | User-created tasks, in-app reminders, completion history; no medication items in Phase 1 (C-22) | API only | Owner |
-| `users/{uid}/scans/{id}` | Phase 2: scan results (never raw images unless the user saved them) | API only | Owner |
-| Region configuration | Emergency and support information per region. **Not stored in Firestore in Phase 1:** a non-sensitive configuration file bundled with the frontend, showing "not configured" by default, so the emergency page works signed out and offline (C-20) | Developer, with review | Everyone (public, non-sensitive) |
-| Phase 4 collections | Clinicians, conversations, appointments | Pending design | Pending |
+| `user_profiles` | `id` (PK, UUID), `firebase_uid` (indexed unique), `adult_confirmed` (bool, mandatory True), `display_name` (optional), `gender`, `height_cm`, `weight_kg`, `created_at`, `updated_at`. **DOB and age strictly prohibited (C-01, C-21)** | API only | Owner |
+| `user_consent_logs` | `id` (PK, UUID), `user_id` (FK), `consent_version` (varchar), `adult_confirmed` (bool), `granted_at` (datetime), `ip_hash` (sha256). Permanent immutable record | API only | Owner |
+| `assessments` | `id` (PK, UUID), `user_id` (FK), `session_type` (MedBot / Explorer), `match_summary` (JSON), `reference_package_version`, `matcher_version`, `created_at` | API only | Owner |
+| `symptom_checks` | `id` (PK, UUID), `user_id` (FK), `selected_tags` (JSON), `matched_summary` (JSON), `created_at` | API only | Owner |
+| `saved_reports` | `id` (PK, UUID), `user_id` (FK), `report_snapshot` (JSON), `package_version`, `matcher_version`, `created_at` (No risk scores or bands) | API only | Owner |
+| `care_plan_items` | `id` (PK, UUID), `user_id` (FK), `title`, `description`, `status`, `target_date`, `created_at` (No medication or prescription items) | API only | Owner |
 
-Every user-owned document sits under the user's own ID, which is the project's "primary key" requirement (PROF-02). In Phase 1 no client may write any document (section 3.1). NurseBot is scripted and **no transcripts are stored** in Phase 1 (C-23).
+### 5.2 Document database collections (MongoDB 9.0)
+
+MongoDB stores versioned reference packages, clean knowledge catalog lookups, and audit artifacts.
+
+| Collection | Contents | Written by | Read by |
+|---|---|---|---|
+| `reference_packages` | Versioned knowledge packages (`package_version`, `created_at`, `classes`, `symptoms`, `clean_tags`, `disclaimer_version`). Immutable read-only reference data | ETL / Admin script | API / Matcher |
+| `symptom_catalog` | Normalized symptom vocabulary, region associations, synonyms, and safe educational copy | ETL / Admin script | API / Matcher |
+| `audit_event_logs` | Security, data minimization, and system health audit events (redacted, no PII/health details) | API only | System auditor |
 
 ### 5.2 Cloud Storage (later; not used in Phase 1)
 

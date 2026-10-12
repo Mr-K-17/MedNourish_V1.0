@@ -19,7 +19,9 @@
 | **TASK-0.8 / PV-14** | Dependency & Emulator Feasibility Check | **COMPLETE** | Node v24.21.0, Python 3.14.8, Java 27 LTS verified. Pinned dependency recommendations formulated. |
 | **TASK-0.6 / PV-17** | Clinical Review Route | **COMPLETE** | OD-03 established: prototype disclaimer banner active on all screens until clinical partner appointed. |
 | **PHASE-0-EXIT** | Owner Phase 0 Exit Approval (C-11, GR-07) | **COMPLETE** | Explicitly authorized by owner ("Phase 0 complete; application code may begin"). Registered in `Memory.md`. |
-| **PHASE-1A** | Foundation & Safety Shell Implementation (M1A.1) | **IN PROGRESS** | Scaffolding frontend (`React+Vite+TS`), backend (`FastAPI`), and local emulator infra. |
+| **PHASE-1A: M1A.1** | Repository Scaffold, Tooling & Database Layer | **COMPLETE** | Frontend (React 18 + Vite + TS strict + Tokens), Backend (FastAPI + SQLAlchemy + Motor + Pytest), MySQL & MongoDB drivers installed, health checks passing, `.env.example` configured. |
+| **PHASE-1A: M1A.2** | Shared Shell & Health Connectivity | **IN PROGRESS** | Educational banner, urgent help persistent button, tokens, i18n structure. Connecting frontend to `/v1/health`. |
+| **PHASE-1A: M1A.4** | Emulator Authentication Flow | **IN PROGRESS** | Firebase Auth emulator client service and login/registration views against local port 9099. |
 
 ---
 

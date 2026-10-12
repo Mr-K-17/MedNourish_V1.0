@@ -23,6 +23,10 @@ async def test_health_check_endpoint():
         response = await client.get("/v1/health")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] == "healthy"
-    assert data["environment"] == "local_emulator"
+    assert data["status"] in ("healthy", "degraded")
+    assert data["environment"] in ("local_emulator", "local_development")
     assert "educational prototype" in data["disclaimer"].lower()
+    assert "services" in data
+    assert "mysql" in data["services"]
+    assert "mongodb" in data["services"]
+    assert "firebase_auth_emulator" in data["services"]

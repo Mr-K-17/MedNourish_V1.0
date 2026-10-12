@@ -92,7 +92,7 @@ These implement confirmed decision C-08.
 | ID | Rule |
 |---|---|
 | SEC-01 | Every API route (except the public health check) MUST verify the Firebase ID token and check ownership of the data it touches. |
-| SEC-02 | Firestore (and Cloud Storage, once used) rules MUST deny by default, with explicit and restrictive allow rules and no wildcard allow; test them with the Firebase emulator. In Phase 1 clients MAY read only their own documents and MUST NOT write any document; all writes go through the API (C-14). |
+| SEC-02 | Database access rules MUST deny by default, with strict ownership checks. Direct client database writes are prohibited; all writes to MySQL and MongoDB go through the authenticated FastAPI service (C-14, OD-16). Firestore emulator remains available for legacy security-rule parity tests where applicable. |
 | SEC-03 | Validate all inputs on the server (types, lengths, allowed values). |
 | SEC-04 | Logs MUST NOT contain names, answers, symptoms, health details, tokens, image bytes or other personal data (C-23). |
 | SEC-05 | Image uploads (Phase 2): validate type by content; allow-list JPEG, PNG, WebP; cap size and pixel dimensions; re-encode and strip metadata; random names; delete after processing unless explicitly saved (C-06). |
@@ -106,7 +106,7 @@ These implement confirmed decision C-08.
 
 | ID | Rule |
 |---|---|
-| ENG-01 | Use the architecture in `Architecture.md`: FastAPI, React, Vite, TypeScript, Firebase Authentication and Firestore, run locally on the Firebase emulators in Phase 1 (C-07, C-14). Cloud Storage is not used in Phase 1. Do not add Java or other languages for the MVP (C-03). The stack is subject to dependency and feasibility checks (PV-14). |
+| ENG-01 | Use the architecture in `Architecture.md`: FastAPI, React, Vite, TypeScript, Firebase Authentication emulator, local MySQL 8.0+ for relational user data, and local MongoDB 9.0+ for versioned reference knowledge packages (C-07, C-14, OD-16). Cloud Storage is not used in Phase 1. Do not add Java or other languages for the MVP (C-03). The stack is subject to dependency and feasibility checks (PV-14). |
 | ENG-02 | TypeScript strict mode; Python type hints; formatters and linters configured at scaffold time (tool choice Proposed; versions Pending PV-14). |
 | ENG-03 | All user-facing text lives in translation files; no hard-coded strings (I18N-01). |
 | ENG-04 | Accessibility is part of "done" for every milestone (see `Design.md`, section 10); the final audit in M1B.7 does not replace the per-milestone checks. |
