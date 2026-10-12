@@ -9,6 +9,7 @@ import { Dashboard } from './components/Dashboard';
 import { SymptomExplorer } from './components/SymptomExplorer';
 import { ReportsView } from './components/ReportsView';
 import { MedBotView } from './components/MedBotView';
+import { CarePlanView } from './components/CarePlanView';
 import styles from './App.module.css';
 
 interface ServiceStatus {
@@ -48,7 +49,7 @@ export const App: React.FC = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan'>('dashboard');
 
   useEffect(() => {
     // Probe local backend health endpoint
@@ -233,6 +234,11 @@ export const App: React.FC = () => {
                 idToken={idToken}
                 onBackToDashboard={() => setActiveView('dashboard')}
               />
+            ) : activeView === 'careplan' && idToken ? (
+              <CarePlanView
+                idToken={idToken}
+                onBackToDashboard={() => setActiveView('dashboard')}
+              />
             ) : (
               <Dashboard
                 displayName={userProfile.display_name}
@@ -244,6 +250,8 @@ export const App: React.FC = () => {
                     setActiveView('reports');
                   } else if (tileId === 'medbot') {
                     setActiveView('medbot');
+                  } else if (tileId === 'careplan') {
+                    setActiveView('careplan');
                   }
                 }}
               />

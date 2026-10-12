@@ -21,7 +21,7 @@ from sqlalchemy.orm import Session
 from app.core.auth import AuthenticatedUser, get_current_user, security_scheme
 from app.core.config import settings
 from app.db.session import get_db
-from app.models.user import SavedSummary, UserConsentLog, UserProfile
+from app.models.user import CarePlanItem, SavedSummary, UserConsentLog, UserProfile
 from app.schemas.profile import (
     AccountDeletionResponse,
     ProfileCreateRequest,
@@ -167,6 +167,7 @@ def delete_user_account(
     """
     try:
         # Delete relational records in database
+        db.query(CarePlanItem).filter(CarePlanItem.user_id == current_user.uid).delete()
         db.query(SavedSummary).filter(SavedSummary.user_id == current_user.uid).delete()
         db.query(UserConsentLog).filter(UserConsentLog.user_id == current_user.uid).delete()
         db.query(UserProfile).filter(UserProfile.id == current_user.uid).delete()

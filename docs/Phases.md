@@ -181,7 +181,7 @@ Acceptance criteria:
 - f. If lifestyle questions exist, a test shows they never alter results.
 - g. Listen works, or degrades gracefully where unsupported.
 
-**M1B.5 CarePlan basics (M).** Delivers: user-created general wellness tasks (water, food, exercise, sleep) with completion and history; in-app reminders that fire only while the app is open, with a visible note that they may not alert when the app is closed. Starter suggestions are included only if OD-21 approves owner-authored wording. **No medication reminders** (C-22). Requirement IDs: CARE-01, CARE-02 (without medication), CARE-03, CARE-04.
+**M1B.5 CarePlan basics (M) — Complete.** Delivers: user-created general wellness tasks (water, food, exercise, sleep) with completion and history; in-app reminders that fire only while the app is open, with a visible note that they may not alert when the app is closed. Starter suggestions are included only if OD-21 approves owner-authored wording. **No medication reminders** (C-22). Requirement IDs: CARE-01, CARE-02 (without medication), CARE-03, CARE-04.
 Acceptance criteria:
 - a. Tasks can be created, edited, completed and deleted.
 - b. Completion history is kept.

@@ -515,6 +515,43 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
 - Next action: Checkpoint M1B.4 in local Git; stop and await owner direction before CarePlan (M1B.5).
 
+### S-015 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.5 CarePlan Basics; CARE-01, CARE-02 (without medication), CARE-03, CARE-04, C-08, C-22, PROF-02, AUTH-05, OD-21, PV-15, PV-16.
+- Actions taken:
+  - Database Model & Schemas:
+    - `backend/app/models/user.py`: Added `CarePlanItem` relational model (`id`, `user_id`, `title`, `category`, `target_frequency`, `reminder_time`, `is_completed`, `completed_at`, `created_at`, `updated_at`).
+    - `backend/app/schemas/careplan.py`: Defined Pydantic models `CarePlanItemCreate`, `CarePlanItemUpdate`, `CarePlanItemResponse`, `CarePlanListResponse`, and `CarePlanDeleteResponse`.
+      * Strict field validation: Category restricted to `water`, `food`, `exercise`, `sleep`, `general`.
+      * Title regex validation: Rejects any medication, supplement, dosage, pill, or prescription terms (`C-08`, `C-22`, `SAF-02`).
+      * In-app reminder notice included in all responses: "Reminders only alert while this app is open in your browser" (`CARE-04`).
+  - Backend API Endpoints:
+    - `backend/app/api/v1/careplan.py`: Implemented authenticated CRUD routes:
+      * `GET /v1/careplan/tasks`: Lists current user's wellness tasks and completion history.
+      * `POST /v1/careplan/tasks`: Creates a new general wellness task with strict medication/supplement prohibition (422 if detected).
+      * `PUT /v1/careplan/tasks/{id}`: Updates task details, toggles completion, and tracks `completed_at` timestamps with strict ownership enforcement (403 if unauthorized).
+      * `DELETE /v1/careplan/tasks/{id}`: Deletes task with 403 ownership enforcement.
+    - `backend/app/api/v1/profile.py`: Updated `delete_user_account` (`DELETE /v1/profile`) to cascade deletion to `CarePlanItem` rows per `AUTH-05`.
+    - `backend/app/main.py`: Registered `careplan_router` under `/v1`.
+  - Frontend Implementation:
+    - `frontend/src/components/CarePlanView.tsx` & `.module.css`:
+      * Responsive wellness checklist for daily routines (water, food, exercise, sleep).
+      * Visual category tags and icons.
+      * Interactive completion toggle with completion timestamps.
+      * User-created task form with category picker and time input.
+      * Prominent CARE-04 in-app reminder disclosure notice.
+      * Client-side validation preventing medication/supplement input.
+      * Task deletion confirmation.
+    - `frontend/src/components/Dashboard.tsx`: Promoted "CarePlan Wellness Tasks" module tile to `ready` ("Available Now").
+    - `frontend/src/App.tsx`: Wired view routing for `careplan`.
+  - Automated Testing:
+    - `backend/tests/test_careplan.py`: Added 6 tests verifying unauthenticated rejection (401), task creation and listing, strict medication/supplement rejection (422), completion toggling and timestamp recording, task deletion and cross-user isolation (403), and cascading deletion upon account deletion.
+- Verification & Test Summary:
+  - Pytest: 41 passed, 1 skipped in 5.61s (all careplan, health, explorer, knowledge, medbot, profile, and reports tests passing in isolated SQLite test environment).
+  - Frontend Build: `tsc && vite build` built cleanly in 2.73s with zero errors.
+  - Medical Safety: Strict zero-medication boundary enforced on both backend and frontend. Zero diagnostic claims.
+  - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
+- Next action: Checkpoint M1B.5 in local Git; stop and await owner direction before M1B.6 (NurseBot / Scripted App Help).
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

@@ -58,8 +58,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         'Customizable daily wellness tasks for water intake, nutrition, and exercise. No medication reminders.',
       icon: <CalendarCheck size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Phase 1B',
-      status: 'coming_soon',
-      tag: 'Coming Soon',
+      status: 'ready',
+      tag: 'Available Now',
     },
     {
       id: 'reports',

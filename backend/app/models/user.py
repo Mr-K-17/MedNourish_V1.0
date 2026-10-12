@@ -68,3 +68,28 @@ class SavedSummary(Base):
     disclaimer = Column(String(1024), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
+
+class CarePlanItem(Base):
+    """Stores user-created general wellness tasks for CarePlan (M1B.5).
+
+    Adheres strictly to:
+    - CARE-01, CARE-02: User-created general wellness tasks (water, food, exercise, sleep).
+      Never medication reminders or supplement/drug suggestions (C-08, C-22).
+    - CARE-03: Tracks completion state and completion timestamps.
+    - PROF-02: Keyed to authenticated user_id; data isolation enforced.
+    - AUTH-05: Cascading delete on user account deletion.
+    """
+
+    __tablename__ = "care_plan_items"
+
+    id = Column(String(64), primary_key=True, index=True)
+    user_id = Column(String(128), index=True, nullable=False)
+    title = Column(String(140), nullable=False)
+    category = Column(String(32), default="general", nullable=False)  # water, food, exercise, sleep, general
+    target_frequency = Column(String(64), nullable=True)  # e.g., 'daily', 'twice daily'
+    reminder_time = Column(String(16), nullable=True)  # e.g., '08:00', '14:00'
+    is_completed = Column(Boolean, default=False, nullable=False)
+    completed_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+

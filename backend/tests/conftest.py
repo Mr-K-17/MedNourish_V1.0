@@ -13,7 +13,7 @@ from sqlalchemy.pool import StaticPool
 from app.core.auth import get_current_user
 from app.db.session import Base, get_db
 from app.main import app
-from app.models.user import UserProfile, UserConsentLog, SavedSummary
+from app.models.user import UserProfile, UserConsentLog, SavedSummary, CarePlanItem
 
 # Shared in-memory SQLite database strictly for offline isolated test execution
 test_engine = create_engine(
