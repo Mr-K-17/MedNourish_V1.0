@@ -163,7 +163,7 @@ Acceptance criteria:
 - e. Fewer tags than the specified minimum shows "Insufficient information" with an invitation to continue or speak with a clinician, never reassurance.
 - f. The disclaimer is visible on the result screen and the accessibility checks for the screens pass.
 
-**M1B.3 Saved summaries and history (M).** Delivers: saving a summary through the API; Files and Reports list and detail views in the app; a check-in history with a plain-text alternative; each record stores the package version and matcher-specification version. **No PDF export** (section 9). Requirement IDs: SYMP-05, REPORT-01, REPORT-02, REPORT-04; SAFE-01.
+**M1B.3 Saved summaries and history (M) — Complete.** Delivers: saving a summary through the API; Files and Reports list and detail views in the app; a check-in history with a plain-text alternative; each record stores the package version and matcher-specification version. **No PDF export** (section 9). Requirement IDs: SYMP-05, REPORT-01, REPORT-02, REPORT-04; SAFE-01.
 Acceptance criteria:
 - a. Every saved record contains the package and matcher versions.
 - b. Only the API writes records; direct client writes are denied (the 1A.5 tests are extended to the new collections).

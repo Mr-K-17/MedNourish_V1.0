@@ -68,8 +68,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         'Secure timeline of saved reference match summaries with date stamps and matched tag histories.',
       icon: <FileText size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Phase 1B',
-      status: 'coming_soon',
-      tag: 'Coming Soon',
+      status: 'ready',
+      tag: 'Available Now',
     },
   ];
 

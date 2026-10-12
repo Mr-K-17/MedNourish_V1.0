@@ -23,32 +23,7 @@ from app.core.auth import get_current_user, AuthenticatedUser
 from app.db.session import Base, get_db
 from app.main import app
 
-# In-memory SQLite database setup strictly for isolated test suite
-test_engine = create_engine(
-    "sqlite:///:memory:",
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
-Base.metadata.create_all(bind=test_engine)
-
-
-def override_get_db():
-    db = TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides[get_db] = override_get_db
-
-
-@pytest.fixture(autouse=True)
-def clean_db():
-    Base.metadata.drop_all(bind=test_engine)
-    Base.metadata.create_all(bind=test_engine)
-    yield
+from tests.conftest import TestingSessionLocal, override_get_db
 
 
 @pytest.mark.anyio
@@ -260,6 +235,7 @@ async def test_database_failure_graceful_handling():
 
     # Restore in-memory db override
     app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides.pop(get_current_user, None)
 
 
 @pytest.mark.anyio
@@ -293,4 +269,7 @@ async def test_account_deletion_removes_consent_logs_in_dev():
 
         assert consent_count == 0
         assert profile_count == 0
+
+    app.dependency_overrides.pop(get_current_user, None)
+
 

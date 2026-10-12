@@ -7,6 +7,8 @@ import {
   BookOpen,
   RefreshCw,
   Info,
+  Bookmark,
+  Check,
 } from 'lucide-react';
 import styles from './SymptomExplorer.module.css';
 
@@ -60,6 +62,8 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
   const [isMatching, setIsMatching] = useState<boolean>(false);
   const [matchResult, setMatchResult] = useState<MatchResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     fetchCategories();
@@ -124,6 +128,7 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
       if (res.ok) {
         const data: MatchResponse = await res.json();
         setMatchResult(data);
+        setSaveSuccess(false);
       } else {
         setErrorMessage('Error executing reference match query.');
       }
@@ -131,6 +136,43 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
       setErrorMessage('Unable to connect to reference matcher service.');
     } finally {
       setIsMatching(false);
+    }
+  };
+
+  const handleSaveSummary = async () => {
+    if (!matchResult || matchResult.matched_entries.length === 0) {
+      return;
+    }
+    setIsSaving(true);
+    setErrorMessage(null);
+    try {
+      const payload = {
+        session_type: 'Explorer',
+        body_region_filter: selectedRegion === 'ALL' ? null : selectedRegion,
+        selected_tags: Array.from(selectedTags),
+        matched_entries: matchResult.matched_entries,
+        package_version: matchResult.package_version,
+        matcher_version: matchResult.matcher_version,
+      };
+
+      const res = await fetch('http://127.0.0.1:8000/v1/reports/summaries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setSaveSuccess(true);
+      } else {
+        setErrorMessage('Failed to save summary to reports.');
+      }
+    } catch {
+      setErrorMessage('Unable to connect to reports service.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -309,13 +351,38 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
             <h3 id="results-heading" className={styles.cardTitle}>
               2. Reference Match Summary
             </h3>
-            {matchResult && (
-              <span className={styles.resultBadge}>
-                {matchResult.status === 'MATCHES_FOUND'
-                  ? `${matchResult.matched_entries.length} Association(s)`
-                  : 'Notice'}
-              </span>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {matchResult && (
+                <span className={styles.resultBadge}>
+                  {matchResult.status === 'MATCHES_FOUND'
+                    ? `${matchResult.matched_entries.length} Association(s)`
+                    : 'Notice'}
+                </span>
+              )}
+              {matchResult && matchResult.status === 'MATCHES_FOUND' && (
+                <button
+                  type="button"
+                  onClick={handleSaveSummary}
+                  disabled={isSaving || saveSuccess}
+                  className={styles.saveSummaryBtn}
+                  title="Save summary to your personal Files & Reports timeline"
+                >
+                  {saveSuccess ? (
+                    <>
+                      <Check size={14} /> Saved to Reports
+                    </>
+                  ) : isSaving ? (
+                    <>
+                      <RefreshCw size={14} className={styles.spinner} /> Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Bookmark size={14} /> Save Summary
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           {!matchResult ? (

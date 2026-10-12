@@ -49,7 +49,7 @@
 |---|---|---|
 | 0 | Foundations and verification | **Complete (Owner exit sign-off 2026-10-12)** |
 | 1A | Foundation and safety shell | **Complete (Owner reviewed and approved)** |
-| 1B | Initial features | **In progress (M1B.1 & M1B.2 Complete; M1B.3 pending owner authorization)** |
+| 1B | Initial features | **In progress (M1B.1, M1B.2 & M1B.3 Complete; M1B.4 pending owner authorization)** |
 | 2 | MedScan and model evaluation | Not started; gated |
 | 3 | VirtualWard and Google integrations | Not started |
 | 4 | Doctor chat and booking | Not started |
@@ -447,7 +447,37 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Pytest: 23 passed, 1 skipped in 5.61s (all unit, auth, knowledge, profile, and explorer tests passing).
   - Frontend Build: `tsc && vite build` built cleanly in 2.75s with zero errors (`dist/` generated).
   - Medical Safety: Confirmed zero diagnostic scores, probabilities, risk bands, or drug treatment recommendations appear in code, schemas, or screens.
-- Next action: Present M1B.2 completion report to owner; await authorization before starting M1B.3 (Saved Summaries & History).
+- Next action: Completed M1B.2; proceeding to M1B.3 upon owner request.
+
+### S-013 — 2026-10-12 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.3 Saved summaries and history (Files and Reports); SYMP-05, REPORT-01, REPORT-02, REPORT-04, SAFE-01, SAF-07, SAF-17, AUTH-05, PROF-02, C-01, C-18, C-21, OD-08.
+- Actions taken:
+  - Database Model & Schemas:
+    - `backend/app/models/user.py`: Added `SavedSummary` relational model storing `id`, `user_id` (FK to authenticated user), `session_type`, `body_region_filter`, `selected_tags_json`, `matched_entries_json`, `match_count_total`, `package_version`, `matcher_version`, `review_status`, and `disclaimer`. Prohibits risk scores, probability bands, or free-text diagnoses.
+    - `backend/app/schemas/reports.py`: Created Pydantic request/response schemas `SaveSummaryRequest`, `SavedSummaryItem`, `SavedSummaryDetail`, `SavedSummariesListResponse`, `DeleteSummaryResponse`.
+  - Backend API Endpoints:
+    - `backend/app/api/v1/reports.py`: Implemented authenticated endpoints:
+      * `POST /v1/reports/summaries`: Saves reference-match summary, deriving ownership strictly from verified token `current_user.uid`.
+      * `GET /v1/reports/summaries`: Lists current user's saved summaries ordered by `created_at` descending.
+      * `GET /v1/reports/summaries/{id}`: Retrieves detailed summary with ownership enforcement (403 if accessing another user's summary).
+      * `DELETE /v1/reports/summaries/{id}`: Deletes user's summary with ownership enforcement.
+    - `backend/app/api/v1/profile.py`: Updated `delete_user_account` so deleting an account purges all `SavedSummary` records along with profile and consent logs per `AUTH-05` and `OD-08`.
+    - `backend/app/main.py`: Registered reports router under `/v1`.
+  - Frontend Integration:
+    - `frontend/src/components/SymptomExplorer.tsx`: Added "Save Summary" action button on matched results header with active saving and confirmation states.
+    - `frontend/src/components/ReportsView.tsx` & `.module.css`: Created accessible, responsive history timeline view supporting list browsing, detail inspection with matched tags and reference classes, item deletion, and navigation back to Dashboard.
+    - `frontend/src/components/Dashboard.tsx`: Enabled Files & Reports tile as "Available Now" in Phase 1B.
+    - `frontend/src/App.tsx`: Wired view routing for `reports` view.
+  - Test Suite & Isolation:
+    - `backend/tests/conftest.py`: Created centralized shared SQLite in-memory test database and session fixture with automated table re-creation and override cleanup between tests.
+    - `backend/tests/test_reports.py`: Added 5 comprehensive tests verifying unauthenticated rejections, save/retrieve detail, user data isolation, cross-user forbidden access, and account deletion cascading.
+    - `backend/tests/test_profile.py`: Streamlined to use shared test fixture.
+- Verification & Test Summary:
+  - Pytest: 28 passed, 1 skipped in 5.13s (all unit, auth, knowledge, profile, explorer, and reports tests passing).
+  - Frontend Build: `tsc && vite build` built cleanly in 2.37s with zero errors (`dist/` generated).
+  - Safety & Scope: Zero probability, risk score, diagnostic, or treatment fields added.
+  - Live MySQL Status: Unverified; tests executed exclusively against isolated in-memory SQLite fixtures. Live database schema updates remain unapplied awaiting local credentials.
+- Next action: Checkpoint M1B.3 in Git; await owner authorization before starting M1B.4 (MedBot Questionnaire).
 
 ---
 

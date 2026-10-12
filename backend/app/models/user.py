@@ -40,3 +40,31 @@ class UserConsentLog(Base):
     event_type = Column(String(50), nullable=False)  # 'CONSENT_GRANTED', 'CONSENT_REVOKED'
     consent_version = Column(String(20), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+
+class SavedSummary(Base):
+    """Stores saved reference match summaries for Files & Reports.
+
+    Adheres strictly to:
+    - PROF-02: Keyed to authenticated user_id
+    - REPORT-01: Reference-table match snapshot, never clinical risk scores or probabilities
+    - REPORT-04: Records package_version and matcher_version
+    - SAFE-01, SAF-07: Records educational disclaimer and review status
+    - AUTH-05: Deleted when account is deleted
+    """
+
+    __tablename__ = "saved_summaries"
+
+    id = Column(String(64), primary_key=True, index=True)
+    user_id = Column(String(128), index=True, nullable=False)
+    session_type = Column(String(32), default="Explorer", nullable=False)  # 'Explorer' or 'MedBot'
+    body_region_filter = Column(String(32), nullable=True)
+    selected_tags_json = Column(String(2048), nullable=False)  # JSON-encoded array of selected tags
+    matched_entries_json = Column(String(8192), nullable=False)  # JSON-encoded array of matched reference summaries
+    match_count_total = Column(Integer, default=0, nullable=False)
+    package_version = Column(String(32), nullable=False)
+    matcher_version = Column(String(32), nullable=False)
+    review_status = Column(String(32), default="unreviewed draft", nullable=False)
+    disclaimer = Column(String(1024), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
