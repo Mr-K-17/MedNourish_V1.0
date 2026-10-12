@@ -10,8 +10,9 @@
 # Original datasets must remain strictly on local disk and never be pushed to remote git.
 datasets/
 datasets/**
-knowledge/
-knowledge/**
+knowledge/*
+!knowledge/curated/
+!knowledge/CHANGELOG.md
 ml/
 ml/**
 *.mat

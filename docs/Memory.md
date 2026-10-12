@@ -48,8 +48,8 @@
 | Phase | Name | Status |
 |---|---|---|
 | 0 | Foundations and verification | **Complete (Owner exit sign-off 2026-10-12)** |
-| 1A | Foundation and safety shell | **Implementation Complete (M1A.1–M1A.7 done; awaiting owner review)** |
-| 1B | Initial features | Not started |
+| 1A | Foundation and safety shell | **Complete (Owner reviewed and approved)** |
+| 1B | Initial features | **In progress (M1B.1 Complete; M1B.2 pending owner authorization)** |
 | 2 | MedScan and model evaluation | Not started; gated |
 | 3 | VirtualWard and Google integrations | Not started |
 | 4 | Doctor chat and booking | Not started |
@@ -405,6 +405,25 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Blockers for Phase 1B:
   1. Live MySQL password configuration in local untracked `.env`.
   2. Owner review and authorization of Phase 1A exit criteria to start Phase 1B.
+
+### S-011 — 2026-10-12 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.1 Reference package specification and mechanical cleaning; Firebase Emulator task graceful termination; SAFE-06, SYMP-02, DAT-03, DAT-04, SAF-02, SAF-09, SAF-10, SAF-13, SAF-16, C-01, C-21, PV-18, GR-01.
+- Actions taken:
+  - Task 0 Resolution: Graciously cancelled long-running Antigravity background task for Firebase Auth Emulator (`manage_task kill`). Verified TCP port 9099 is closed and not listening.
+  - Test Offline Resilience: Updated `backend/tests/test_profile.py` with socket probe so tests run cleanly and offline when port 9099 is closed, passing 10/10 tests (1 emulator-specific test gracefully skipped when daemon is offline).
+  - MySQL Readiness Check: Confirmed `.env` is ignored by `.gitignore` (line 24). Verified `Test-Path .env` is false (awaiting user's private creation of `.env`). Inspected config loader in `backend/app/core/config.py`.
+  - Curated Knowledge Base (`knowledge/curated/`): Separated all 13 reference CSVs from original dataset archive `C:\Users\USER\Desktop\MedNourish\datasets\MedBot_datasets`. Preserved original archive integrity byte-for-byte (SHA-256 verified).
+  - Tier-1 Mechanical Repairs:
+    - Fixed unquoted comma fields in `knowledge/curated/Hair_Symptoms_vs_Vitamin_Deficiency_Mapping.csv` row 30 (`HAIR_SHAFT_KINKY_HAIR`), reducing columns from malformed 12 to schema-compliant 10.
+    - Fixed unquoted comma fields in `knowledge/curated/Hair_Vitamin_Deficiency_to_Suggested_Routine.csv` row 23, reducing columns from malformed 9 to schema-compliant 7.
+    - All 13 curated CSVs now load and parse with 100% schema conformance.
+  - Changelog & Exclusions (`knowledge/CHANGELOG.md`): Documented all Tier-1 mechanical fixes. Documented policy flags marking 22 pediatric/child references and 31 supplement/drug dosage references as excluded from user-facing reference matching per `SAF-02`, `SAF-10`, and `SAF-16`.
+  - Reference Matcher Specification (`docs/REFERENCE_MATCHER_SPEC.md`): Authored complete deterministic matching spec detailing token normalization, set intersection, tie-breaking, insufficient information threshold (`SAF-06`), and output schema with educational disclaimers.
+  - Automated Validation Tests (`backend/tests/test_knowledge.py`): Authored 5 automated tests validating original archive SHA-256 byte-invariance, curated CSV schema adherence, Hair dataset repairs, and deterministic matcher set logic.
+- Verification & Test Summary:
+  - Pytest: 14 passed, 1 skipped in 6.20s across full backend test suite (`test_health`, `test_profile`, `test_knowledge`).
+  - Git status: Local repository clean, untracked `.env` preserved, archive untouched.
+- Next action: Present M1B.1 results to owner; await owner authorization before starting M1B.2 (Symptom Reference Explorer).
 
 ---
 

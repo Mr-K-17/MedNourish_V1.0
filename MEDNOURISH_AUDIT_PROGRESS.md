@@ -24,7 +24,8 @@
 | **PHASE-1A: M1A.4** | Emulator Authentication Flow | **COMPLETE** | Firebase Auth emulator client service, Login and Registration views, non-revealing error messages, sign-out, and session clearing. |
 | **PHASE-1A: M1A.5** | Authorization & Token Verification | **COMPLETE** | FastAPI dependency verifying bearer tokens against Auth Emulator (`accounts:lookup`); unauthenticated/invalid requests rejected (401); user data isolation enforced. |
 | **PHASE-1A: M1A.6** | 18+ Confirmation, Consent & Minimal Profile | **COMPLETE** | Mandatory explicit adult confirmation (18+), zero DOB/age storage, minimal demographic profile, audit consent logs in MySQL, account deletion endpoint. Pytest passing. |
-| **PHASE-1A: M1A.7** | Dashboard & Phase 1A Review | **COMPLETE** | Responsive Dashboard with Phase 1B module tiles (MedBot, Symptom Explorer, CarePlan, Files & Reports) in explicit "Coming Soon" state; Account summary & deletion flow integrated; 10/10 tests PASS; Vite build clean. Ready for Owner Phase 1A Exit Review. |
+| **PHASE-1A: M1A.7** | Dashboard & Phase 1A Review | **COMPLETE** | Responsive Dashboard with Phase 1B module tiles (MedBot, Symptom Explorer, CarePlan, Files & Reports) in explicit "Coming Soon" state; Account summary & deletion flow integrated; 10/10 tests PASS; Vite build clean. Phase 1A reviewed and approved. |
+| **PHASE-1B: M1B.1** | Reference Package Specification & Mechanical Cleaning | **COMPLETE** | 13 reference CSVs curated into `knowledge/curated/` with byte-identical original archive verification (`test_knowledge.py`); Tier-1 mechanical fixes applied to Hair CSVs (rows 30 & 23); `knowledge/CHANGELOG.md` created with pediatric & drug exclusions; `docs/REFERENCE_MATCHER_SPEC.md` authored; automated tests passing (14 passed, 1 skipped). |
 
 ---
 
