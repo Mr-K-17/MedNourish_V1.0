@@ -48,7 +48,7 @@
 | Phase | Name | Status |
 |---|---|---|
 | 0 | Foundations and verification | **Complete (Owner exit sign-off 2026-10-12)** |
-| 1A | Foundation and safety shell | **In progress (M1A.1 Scaffold)** |
+| 1A | Foundation and safety shell | **In progress (M1A.1, M1A.4, M1A.5, M1A.6 Complete; M1A.7 pending)** |
 | 1B | Initial features | Not started |
 | 2 | MedScan and model evaluation | Not started; gated |
 | 3 | VirtualWard and Google integrations | Not started |
@@ -356,6 +356,27 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - MongoDB service inspected: MongoDB 9.0 installed at `C:\Program Files\MongoDB\Server\9.0\bin\mongod.exe`; service currently stopped with stale lock from disk space event; health pinger handles offline state gracefully without crashing API.
 - Register changes: Confirmed Decision C-25 added to `Memory.md`.
 - Next actions: Connect frontend shared shell to `/v1/health` with service status badges, implement Firebase Auth emulator client service and login/register UI (M1A.4), and implement FastAPI profile/consent endpoints backed by MySQL (M1A.6).
+
+### S-008 — 2026-10-12 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1A.4 (Emulator Auth), M1A.5 (FastAPI Token Verification & Authz), M1A.6 (Adult Confirmation, Consent & Minimal Profile); AUTH-01–05, PROF-01–03, SAF-10, C-01, C-21, C-25, SEC-01–04.
+- Files changed:
+  - `backend/app/core/auth.py`: Implemented `verify_firebase_id_token` and `get_current_user` FastAPI dependency verifying tokens against `127.0.0.1:9099`.
+  - `backend/app/schemas/profile.py`: Implemented `ProfileCreateRequest`, `ProfileUpdateRequest`, and `ProfileResponse` schemas using Pydantic V2 `ConfigDict`. Strictly mandates `is_adult_confirmed=True`, excludes DOB/age, and provides minimal optional demographic fields.
+  - `backend/app/api/v1/profile.py`: Implemented `GET /v1/profile`, `POST /v1/profile`, `PUT /v1/profile`, and `DELETE /v1/profile` with immutable consent logging and user data isolation.
+  - `backend/app/main.py`: Registered `profile_router` under `/v1`.
+  - `backend/tests/test_profile.py`: Created test suite covering 401 unauthenticated access, invalid tokens, adult confirmation validation, multi-user isolation, update, deletion, and end-to-end emulator token verification. 8/8 tests PASSING.
+  - `frontend/src/services/firebase.ts`: Created client Firebase Auth service configured strictly for the local Auth Emulator (`127.0.0.1:9099`, project `demo-mednourish`).
+  - `frontend/src/components/AuthForm.tsx` & `.module.css`: Created login/registration component with non-revealing error messages.
+  - `frontend/src/components/ConsentProfileModal.tsx` & `.module.css`: Created 18+ explicit confirmation and terms consent setup form.
+  - `frontend/src/App.tsx` & `.module.css`: Wired authentication lifecycle (`onAuthStateChanged`), consent gating, user profile dashboard view, and account deletion. Built and verified cleanly with Vite (`tsc && vite build`).
+- Database & Driver Status:
+  - MySQL 8.0: Service `MySQL80` running on port 3306. Awaiting `MYSQL_PASSWORD` in local ignored `.env` from developer.
+  - MongoDB 9.0: Root cause identified via log inspection (`FTDCController` crash on `metrics.interim.temp` during historical disk space event). Service requires admin privilege to restart. Confirmed that PyMongo Async API (`pymongo.AsyncMongoClient`) is supported in installed `pymongo` 4.18.3, superseding deprecated Motor.
+- What was verified:
+  - Backend tests: `python -m pytest tests` passed cleanly (8 passed in 3.24s).
+  - Frontend build: `tsc && vite build` succeeded without errors (dist created).
+- Register changes: M1A.4, M1A.5, and M1A.6 marked complete.
+- Next action: M1A.7 (Dashboard module tiles with "Coming Soon" states and Settings/Privacy review) and owner review for Phase 1A sign-off.
 
 ---
 

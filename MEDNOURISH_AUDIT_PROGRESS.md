@@ -20,8 +20,11 @@
 | **TASK-0.6 / PV-17** | Clinical Review Route | **COMPLETE** | OD-03 established: prototype disclaimer banner active on all screens until clinical partner appointed. |
 | **PHASE-0-EXIT** | Owner Phase 0 Exit Approval (C-11, GR-07) | **COMPLETE** | Explicitly authorized by owner ("Phase 0 complete; application code may begin"). Registered in `Memory.md`. |
 | **PHASE-1A: M1A.1** | Repository Scaffold, Tooling & Database Layer | **COMPLETE** | Frontend (React 18 + Vite + TS strict + Tokens), Backend (FastAPI + SQLAlchemy + Motor + Pytest), MySQL & MongoDB drivers installed, health checks passing, `.env.example` configured. |
-| **PHASE-1A: M1A.2** | Shared Shell & Health Connectivity | **IN PROGRESS** | Educational banner, urgent help persistent button, tokens, i18n structure. Connecting frontend to `/v1/health`. |
-| **PHASE-1A: M1A.4** | Emulator Authentication Flow | **IN PROGRESS** | Firebase Auth emulator client service and login/registration views against local port 9099. |
+| **PHASE-1A: M1A.2 & M1A.3** | Shared Shell & Static Emergency Safety Layer | **COMPLETE** | Educational prototype banner, neutral design tokens, and static Emergency Help modal reachable everywhere per C-20 and SAF-03. |
+| **PHASE-1A: M1A.4** | Emulator Authentication Flow | **COMPLETE** | Firebase Auth emulator client service, Login and Registration views, non-revealing error messages, sign-out, and session clearing. |
+| **PHASE-1A: M1A.5** | Authorization & Token Verification | **COMPLETE** | FastAPI dependency verifying bearer tokens against Auth Emulator (`accounts:lookup`); unauthenticated/invalid requests rejected (401); user data isolation enforced. |
+| **PHASE-1A: M1A.6** | 18+ Confirmation, Consent & Minimal Profile | **COMPLETE** | Mandatory explicit adult confirmation (18+), zero DOB/age storage, minimal demographic profile, audit consent logs in MySQL, account deletion endpoint. Pytest 8/8 passing. |
+| **PHASE-1A: M1A.7** | Dashboard & Phase 1A Review | **IN PROGRESS** | Preparing dashboard tile statuses and Phase 1A sign-off checklist. |
 
 ---
 

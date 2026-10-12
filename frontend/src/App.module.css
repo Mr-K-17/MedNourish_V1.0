@@ -45,6 +45,25 @@
   background-color: #fecaca;
 }
 
+.signOutButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.signOutButton:hover {
+  background-color: var(--color-bg-app);
+  color: var(--color-text-primary);
+}
+
 .main {
   flex: 1;
   padding: var(--spacing-6);
