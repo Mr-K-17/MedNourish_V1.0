@@ -10,6 +10,7 @@ from app.api.v1.health import router as health_router
 from app.api.v1.profile import router as profile_router
 from app.api.v1.explorer import router as explorer_router
 from app.api.v1.reports import router as reports_router
+from app.api.v1.medbot import router as medbot_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -31,6 +32,7 @@ app.include_router(health_router, prefix=settings.API_V1_STR, tags=["Health"])
 app.include_router(profile_router, prefix=settings.API_V1_STR, tags=["Profile"])
 app.include_router(explorer_router, prefix=settings.API_V1_STR, tags=["Explorer"])
 app.include_router(reports_router, prefix=settings.API_V1_STR, tags=["Reports"])
+app.include_router(medbot_router, prefix=settings.API_V1_STR, tags=["MedBot"])
 
 
 @app.get("/")

@@ -479,6 +479,42 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Live MySQL Status: Unverified; tests executed exclusively against isolated in-memory SQLite fixtures. Live database schema updates remain unapplied awaiting local credentials.
 - Next action: Checkpoint M1B.3 in Git; await owner authorization before starting M1B.4 (MedBot Questionnaire).
 
+### S-014 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.4 Guided MedBot Questionnaire; MEDBOT-01 to MEDBOT-06, MEDBOT-08 to MEDBOT-10, A11Y-03, SAFE-01, SAFE-03, SAF-06, SAF-07, SAF-10, SAF-16, SAF-17, C-01, C-08, C-15, C-17, C-18, OD-18, PV-15.
+- Actions taken:
+  - Schema & Data Model Verification:
+    - Inspected `SavedSummary` foreign-key target against actual database tables (`user_profiles.id` / Firebase UID). Confirmed consistency: `user_id` string index aligns with `user_profiles.id` and Firebase UID across all routes and cascades.
+  - MedBot Services & Schemas:
+    - `backend/app/schemas/medbot.py`: Defined `QuestionOption`, `QuestionnaireQuestion`, `QuestionnaireConfigResponse`, `AnswerSubmission`, `MedBotEvaluateRequest`, and `MedBotEvaluateResponse`.
+    - `backend/app/services/medbot_service.py`: Defined stable 8-question scripted questionnaire (eyes, hair, lips, tongue, nails, skin, general energy, optional lifestyle routine).
+      * Question vocabulary drawn strictly from approved adult nutritional tag repository in `knowledge/curated/`.
+      * Supported Simple (yes/no, large buttons) and Standard (multi-select detailed anatomical questions) modes.
+      * Reused deterministic `KnowledgeRepository.match_symptoms` set-intersection engine for 100% parity with Symptom Explorer.
+      * Enforced that optional lifestyle answers NEVER alter symptom tag extraction or match ordering (verified by test).
+      * Integrated fallback for insufficient inputs (empty or all-negative responses return `INSUFFICIENT_INFORMATION` without false reassurance).
+  - Backend API Endpoints:
+    - `backend/app/api/v1/medbot.py`: Implemented authenticated endpoints:
+      * `GET /v1/medbot/questions`: Delivers question configuration for `simple` or `standard` modes.
+      * `POST /v1/medbot/evaluate`: Evaluates questionnaire answers deterministically.
+      * `POST /v1/medbot/save`: Saves completed MedBot assessment to user's history in Files & Reports (`session_type='MedBot'`).
+    - `backend/app/main.py`: Registered `medbot_router` under `/v1`.
+  - Frontend Implementation:
+    - `frontend/src/components/MedBotView.tsx` & `.module.css`:
+      * Mode Picker: Clear selection between Simple Mode (yes/no) and Standard Mode (multi-choice).
+      * Step progression: Step indicators, progress bar, clear back/continue controls, skip step support, and cancel session.
+      * Accessible Voice Read-Aloud: Integrated browser `speechSynthesis` "Listen" button on questions and results with graceful fallback.
+      * Review & Match Summary Screen: Displays identified symptom tags, deterministic reference-table matches with matched tag highlights, educational prototype disclaimer, retake questionnaire action, and save to history action.
+    - `frontend/src/components/Dashboard.tsx`: Promoted "MedBot Questionnaire" module tile to `ready` ("Available Now").
+    - `frontend/src/App.tsx`: Wired view routing for `medbot`.
+  - Automated Testing:
+    - `backend/tests/test_medbot.py`: Created 7 tests covering unauthenticated rejection (401), Simple and Standard question retrieval, deterministic evaluation and explorer parity, lifestyle context isolation, insufficient information handling, saving MedBot assessment, and prohibited clinical claims scan.
+- Verification & Test Summary:
+  - Pytest: 35 passed, 1 skipped in 5.25s (all health, explorer, knowledge, medbot, profile, and reports tests passing in isolated SQLite test environment).
+  - Frontend Build: `tsc && vite build` built cleanly in 3.17s with zero errors.
+  - Prohibited Words Scan: Verified zero mentions of probability, risk percentages, confirmed diagnoses, or medication recommendations.
+  - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
+- Next action: Checkpoint M1B.4 in local Git; stop and await owner direction before CarePlan (M1B.5).
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

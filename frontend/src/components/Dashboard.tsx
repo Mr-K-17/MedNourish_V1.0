@@ -38,8 +38,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         'Guided health and symptom questionnaire with Simple and Standard modes for transparent reference matching.',
       icon: <Bot size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Phase 1B',
-      status: 'coming_soon',
-      tag: 'Coming Soon',
+      status: 'ready',
+      tag: 'Available Now',
     },
     {
       id: 'symptom-explorer',

@@ -171,7 +171,7 @@ Acceptance criteria:
 - d. The disclaimer appears on every report screen.
 - e. Deleting the account removes these records.
 
-**M1B.4 MedBot, Simple and Standard modes (L).** Delivers: mode picker; scripted guided symptom questions drawn from the approved tag subset; skip, back and resume; saving an assessment; the same matcher and output as the Explorer; a Listen button where the platform supports it. Lifestyle questions are included only if OD-18 approves them; they are optional, consented, and **do not change any result**. No free-text input, no Detailed mode, no food or routine suggestions. Requirement IDs: MEDBOT-01, MEDBOT-02 (Simple and Standard), MEDBOT-03, MEDBOT-04 (reference summary only), MEDBOT-05, MEDBOT-06, MEDBOT-08, MEDBOT-09, MEDBOT-10; A11Y-03; SAFE-01, SAFE-03. Depends on: M1B.2, OD-18, PV-15 (speech).
+**M1B.4 MedBot, Simple and Standard modes (L) — Complete.** Delivers: mode picker; scripted guided symptom questions drawn from the approved tag subset; skip, back and resume; saving an assessment; the same matcher and output as the Explorer; a Listen button where the platform supports it. Lifestyle questions are included only if OD-18 approves them; they are optional, consented, and **do not change any result**. No free-text input, no Detailed mode, no food or routine suggestions. Requirement IDs: MEDBOT-01, MEDBOT-02 (Simple and Standard), MEDBOT-03, MEDBOT-04 (reference summary only), MEDBOT-05, MEDBOT-06, MEDBOT-08, MEDBOT-09, MEDBOT-10; A11Y-03; SAFE-01, SAFE-03. Depends on: M1B.2, OD-18, PV-15 (speech).
 Acceptance criteria:
 - a. The approved question set (OD-18) is recorded.
 - b. The same tag selection through MedBot and through the Explorer gives identical results (test).
