@@ -1,0 +1,96 @@
+# ==============================================================================
+# MEDNOURISH — Root Git Ignore Configuration
+# ==============================================================================
+# Strictly protects original datasets, extracted knowledge, ML artifacts,
+# local environment secrets, dependencies, build caches, and emulator storage.
+# Governing principles: Rules.md (GR-01, GR-09, GR-12) & Architecture.md (C-16).
+# ==============================================================================
+
+# --- 1. Datasets & Model Artifacts (Read-Only Originals & Processed Data) ---
+# Original datasets must remain strictly on local disk and never be pushed to remote git.
+datasets/
+datasets/**
+knowledge/
+knowledge/**
+ml/
+ml/**
+*.mat
+*.parquet
+
+# --- 2. Security & Credentials (Deny-by-Default Secrets) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.cer
+id_rsa*
+secrets/
+service-account*.json
+firebase-adminsdk*.json
+*credentials*.json
+
+# --- 3. Package Dependencies & Virtual Environments ---
+node_modules/
+.npm/
+.yarn/
+vendor/
+
+# Python virtual environments & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- 4. Firebase Emulator Data & Runtime State ---
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+*.emulator.state*
+firestore_export/
+
+# --- 5. Build Outputs, Caches & Generated Logs ---
+.vite/
+dist/
+out/
+coverage/
+.nyc_output/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- 6. Operating System & IDE Artifacts ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.history/
