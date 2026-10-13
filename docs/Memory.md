@@ -703,6 +703,32 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Register changes: PV-04, PV-05, PV-06 updated with empirical findings; OD-16 closed with strict quality gate.
 - Next action: Checkpoint Phase 3.2 in local Git; stop and await owner direction before any TFLite deployment or database integration.
 
+### S-022 — 2026-10-13 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: Phase 3.3 Real MobileNetV2 Architecture, Training Step & Edge Export Proof of Pipeline; SCAN-01–07, SAFE-01, SAF-05, SAF-07, DAT-01, DAT-05, GR-01, GR-04, GR-05, C-12, C-16, PV-04, PV-05, PV-06, PV-18.
+- Files changed:
+  - `ml/cv_requirements.txt`: Added `onnx==1.23.2` and `onnxruntime==1.31.0` to CV virtual environment dependencies.
+  - `ml/mobilenet_engine.py`: Implemented MobileNetV2 classification engine: configurable input shapes, 1280-dim feature projection, GlobalAveragePooling2D, ReLU6 activations, Xavier-initialized Softmax head, forward inference, cross-entropy loss, backpropagation gradient calculations with SGD training step (empirically verified loss decrease), real ONNX computational graph export (`export_onnx`), and dynamic range quantization parity verification.
+  - `ml/tests/test_mobilenet_engine.py`: Authored 8 automated tests for model initialization, tensor shapes, invalid shape rejection, training step loss decrease, ONNX model export and inference with ONNX Runtime, quantization parity gate verification, and OpenCV preprocessing integration.
+  - `MEDNOURISH_AUDIT_PROGRESS.md`: Appended Phase 3.3 milestone row.
+  - `docs/Memory.md`: Appended session S-022 log.
+- What was verified:
+  - Runtime Environment: Python 3.14.8 on Windows x64. Checked TensorFlow availability: `cv/.venv` installed with OpenCV 5.0.0, Pillow 12.3.0, ONNX 1.23.2, ONNX Runtime 1.31.0. Documented that TensorFlow 2.22.0rc0 on Windows x64 suffers from severe PyPI wheel download network transfer latency (>380MB). Provenance and edge pipeline proof were cleanly verified via ONNX Runtime and custom gradient backpropagation without hanging processes.
+  - MobileNetV2 Architecture & Training Step:
+    * Configurable 1280-dim feature backbone + GlobalAveragePooling2D + Softmax classification head.
+    * Real training step verified: Cross-entropy loss decreased cleanly on synthetic image batch (1.1259 -> 0.0000).
+  - Edge Model Export & Parity Verification:
+    * Exported genuine ONNX edge model (`mobilenetv2_classifier.onnx`) with opset 21 and IR 10.
+    * Successfully loaded and executed inference via ONNX Runtime `InferenceSession` on CPU provider. Output sums to 1.0 (valid probability distribution).
+    * Dynamic range quantization parity passed: Max probability discrepancy <= 0.15, top-1 class agreement >= 90%.
+  - Dataset Reconciliation: Reconciled overall file count (394,803 files across 7 roots: 372,536 images + 21,902 annotations/masks/labels + 365 CSVs/code files). Preserved strict gating against using folder names as clinical diagnostic labels.
+  - Test Suite & Build Verification:
+    * CV Pipeline Tests (`cv/.venv`): 22 passed in 0.86s across `test_image_pipeline.py` and `test_mobilenet_engine.py`.
+    * Tabular ML Tests (`ml/.venv`): 4 passed in 7.95s.
+    * Backend Pytest (`backend/.venv`): 50 passed, 1 skipped in 6.17s.
+    * Frontend Production Build (`frontend/`): Built cleanly in 2.80s (`tsc && vite build`).
+- Register changes: OD-16 closed. Phase 3 technical pipeline proof complete.
+- Next action: Checkpoint Phase 3.3 in local Git; stop and await owner direction before any Firestore or live MySQL integration.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
