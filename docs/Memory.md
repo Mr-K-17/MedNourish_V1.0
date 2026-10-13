@@ -610,6 +610,30 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Phase 1B Status: Complete. All milestones M1B.1 through M1B.7 implemented and validated.
 - Next action: Checkpoint M1B.7 in local Git; stop and await owner direction before any future milestones.
 
+### S-018 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.8 Local Integration Verification & Demo Readiness; PV-14, PV-18, NFR-SEC-01, AUTH-01–05, C-14, GR-07.
+- Actions taken:
+  - Configuration Loading Verification & Fix:
+    - Inspected `backend/app/core/config.py`. Identified that `os.getenv` alone does not load values from `.env` files into process environment in Python without a parser (and neither `python-dotenv` nor `pydantic-settings` were installed).
+    - Added minimal, zero-dependency, safe `.env` file loader `_load_env_file()` in `backend/app/core/config.py` that parses `KEY=VALUE` pairs, strips quotes, respects already-set `os.environ` variables, and never logs or leaks secrets.
+    - Authored unit test `backend/tests/test_config.py` verifying parsing, unquoting, override preservation, and `Settings` MySQL URL property formatting (2 passed).
+    - Verified `.env` and `backend/.env` remain strictly excluded from Git by `.gitignore`. Confirmed local `.env` does not yet exist.
+  - Live Firebase Auth Emulator Integration Test Pass:
+    - Started Firebase Auth Emulator daemon on port 9099 (`cmd.exe /c "npx --no-install firebase emulators:start --only auth --project demo-mednourish"`).
+    - Executed targeted live emulator integration test `pytest tests/test_profile.py -k "test_live_emulator_token_integration"`: PASSED (1 passed in 0.29s). Fictional user registration on emulator and real Bearer token verification confirmed functional end-to-end.
+    - Gracefully terminated emulator process. Verified via `Get-NetTCPConnection` and `Test-NetConnection` that port 9099 is no longer listening.
+  - MySQL Status & Database Investigation:
+    - Confirmed Windows `MySQL80` service is actively running on port 3306 (`TcpTestSucceeded: True`).
+    - Verified authentication check: Executing `check_mysql_health()` with fallback root user returns `{'status': 'unauthorized', 'message': 'Authentication required. Verify MYSQL_PASSWORD in .env'}` (Error 1045).
+    - Determined dedicated database `mednourish_dev` cannot be verified until user privately configures `.env` with `MYSQL_PASSWORD`. Zero database mutations or password guesses performed.
+  - Demo Readiness Documentation:
+    - Documented exact local startup commands for backend (`uvicorn app.main:app --port 8000 --reload`), frontend (`npm run dev` on port 5173), and Firebase Auth Emulator (`npx --no-install firebase emulators:start --only auth --project demo-mednourish` in `infra/`).
+- Verification & Test Summary:
+  - Pytest: 50 passed, 1 skipped across 10 test modules (including new `test_config.py`).
+  - Frontend Build: `tsc && vite build` built cleanly in 2.82s with 0 errors.
+  - Live MySQL: Server reachable; authentication blocked until `.env` password configured privately.
+- Next action: Checkpoint M1B.8 in local Git; advise user on safe private `.env` configuration.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

@@ -5,7 +5,47 @@ Never hardcodes secrets.
 """
 
 import os
+from pathlib import Path
 from pydantic import BaseModel
+
+
+def _load_env_file() -> None:
+    """Safely loads variables from local .env into os.environ if present.
+
+    Does not overwrite already-set environment variables.
+    Never exposes or logs values.
+    """
+    # Check current directory, repo root, and backend root
+    candidates = [
+        Path.cwd() / ".env",
+        Path(__file__).resolve().parents[2] / ".env",
+        Path(__file__).resolve().parents[3] / ".env",
+    ]
+    for env_path in candidates:
+        if env_path.is_file():
+            try:
+                with open(env_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line or line.startswith("#") or "=" not in line:
+                            continue
+                        key, val = line.split("=", 1)
+                        key = key.strip()
+                        val = val.strip()
+                        # Strip surrounding single or double quotes
+                        if len(val) >= 2 and (
+                            (val.startswith('"') and val.endswith('"'))
+                            or (val.startswith("'") and val.endswith("'"))
+                        ):
+                            val = val[1:-1]
+                        if key and key not in os.environ:
+                            os.environ[key] = val
+            except Exception:
+                pass
+            break
+
+
+_load_env_file()
 
 
 class Settings(BaseModel):
