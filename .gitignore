@@ -19,6 +19,7 @@ ml/*.tflite
 ml/*.h5
 ml/*.ubj
 ml/.venv/
+cv/.venv/
 *.mat
 *.parquet
 

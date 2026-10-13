@@ -681,6 +681,28 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
     - Frontend Build: Clean production build in 4.13s (`tsc && vite build`).
 - Next action: Checkpoint Phase 3.1 in local Git; stop and await owner direction before any computer-vision training or database alterations.
 
+### S-021 — 2026-10-13 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: Phase 3.2 OpenCV Image Pipeline & MobileNetV2 Preparation; SCAN-01–07, SAFE-01, SAF-05, SAF-07, DAT-01, DAT-05, GR-01, GR-04, GR-05, C-12, C-16, PV-04, PV-05, PV-06, PV-18.
+- Files changed:
+  - `.gitignore`: Added `cv/.venv/` to ignore list.
+  - `ml/cv_requirements.txt`: Created manifest for OpenCV image pipeline (`numpy==2.5.4`, `opencv-python==5.0.0.93`, `pillow==12.3.0`, `pytest==9.1.1`).
+  - `ml/image_pipeline.py`: Implemented robust image processing module: safe image loading/corrupt-file handling (`cv2.imdecode`), RGB normalization, aspect-ratio-preserving letterbox padding to 224x224x3 (`resize_with_pad`), MobileNetV2 input rescaling to [-1.0, 1.0], automated blur variance diagnostic (Laplacian threshold < 100), luminance diagnostic (30-225 range), and reproducible manifest generation with exclusion logging.
+  - `ml/mobilenet_workflow.py`: Created MobileNetV2 transfer learning architecture specification, audit analysis (`audit_corpus_labels`), two-stage transfer learning schedule harness, synthetic smoke-test data generator, and TFLite conversion parity verification checklist.
+  - `ml/tests/test_image_pipeline.py`: Authored 14 comprehensive unit tests verifying valid/corrupt loading, letterboxing, [-1.0, 1.0] rescaling, dimension/blur/luminance quality flags, manifest generation, label auditing, MobileNetV2 smoke test execution, and TFLite spec validity.
+  - `MEDNOURISH_AUDIT_PROGRESS.md`: Appended Phase 3.2 milestone row.
+  - `docs/Memory.md`: Appended session S-021 log.
+- What was verified:
+  - Corpus Audit (Read-only): Audited all 394,803 files across 7 anatomical roots (`dataset`: 26,012; `EYES`: 46,560; `HAIR`: 2,352; `LIPS`: 10,337; `NAILS`: 2,292; `SKIN`: 266,465; `TONGUE`: 40,745).
+  - Label & Provenance Verification: Verified that image corpus is composed of heterogeneous external datasets (DermNet, Kaggle fundus scans, TCM tongue YOLO sets, facial masks) lacking patient/session identifiers or verified clinical ground-truth deficiency annotations. Nutritional categories contain tiny uncurated sets (<25 images per class) while the vast majority represent unrelated ocular/dermatological diseases. Direct training of clinical deficiency classifiers on folder names is therefore prohibited by medical safety rules (GR-05, SAF-01, PV-04).
+  - Runtime Environment: Dedicated isolated virtual environment `cv/.venv` created on Python 3.14.8 with OpenCV 5.0.0, Pillow 12.3.0, and pytest 9.1.1. Kept isolated from `backend/.venv` and `ml/.venv`. Note: TensorFlow 2.22.0rc0 on Python 3.14 on Windows has upstream network/wheel download latency; portable preprocessing and smoke-test harnesses executed cleanly without heavy runtime bloat.
+  - Test Suite & Build Verification:
+    * CV Test Suite (`cv/.venv`): 14 passed in 0.48s.
+    * Tabular ML Test Suite (`ml/.venv`): 4 passed in 8.58s.
+    * Backend Pytest (`backend/.venv`): 50 passed, 1 skipped in 6.39s.
+    * Frontend Production Build (`frontend/`): Built cleanly in 4.15s (`tsc && vite build`).
+- Register changes: PV-04, PV-05, PV-06 updated with empirical findings; OD-16 closed with strict quality gate.
+- Next action: Checkpoint Phase 3.2 in local Git; stop and await owner direction before any TFLite deployment or database integration.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
