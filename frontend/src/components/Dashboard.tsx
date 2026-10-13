@@ -6,6 +6,7 @@ import {
   FileText,
   Clock,
   Sparkles,
+  HelpCircle,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 
@@ -67,6 +68,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
       description:
         'Secure timeline of saved reference match summaries with date stamps and matched tag histories.',
       icon: <FileText size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Phase 1B',
+      status: 'ready',
+      tag: 'Available Now',
+    },
+    {
+      id: 'nursebot',
+      title: 'App Help & FAQ (NurseBot)',
+      description:
+        'Scripted application guidance, FAQs, and medical safety boundary explanations. No generative AI.',
+      icon: <HelpCircle size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Phase 1B',
       status: 'ready',
       tag: 'Available Now',

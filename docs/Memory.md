@@ -552,6 +552,36 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
 - Next action: Checkpoint M1B.5 in local Git; stop and await owner direction before M1B.6 (NurseBot / Scripted App Help).
 
+### S-016 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.6 Scripted App Help / NurseBot; NURSE-01, NURSE-03, NURSE-04, SAF-14, C-04, C-15, C-23, SAFE-01, SAFE-03, SAFE-07.
+- Actions taken:
+  - Scripted Content & Services:
+    - `backend/app/schemas/nursebot.py`: Defined Pydantic models `HelpTopicSummary`, `HelpTopicDetail`, and `HelpMenuResponse`.
+    - `backend/app/services/nursebot_service.py`: Established centralized, immutable scripted knowledge base for app usage, privacy & consent, educational scope, and safety refusals.
+      * Strictly zero free-text input, zero LLM integrations, and zero database writes/transcripts (`C-15`, `C-23`, `SAF-14`).
+      * Explicit scripted refusal patterns for diagnosis inquiries, medication/supplement/dosage advice, and emergency redirections.
+  - Backend API Endpoints:
+    - `backend/app/api/v1/nursebot.py`: Implemented authenticated read-only endpoints:
+      * `GET /v1/nursebot/menu`: Returns categorized menu of scripted help topics.
+      * `GET /v1/nursebot/topics/{id}`: Returns full scripted detail for a topic (returns 404 for unknown topic IDs).
+    - `backend/app/main.py`: Registered `nursebot_router` under `/v1`.
+  - Frontend Implementation:
+    - `frontend/src/components/NurseBotView.tsx` & `.module.css`:
+      * Responsive split view featuring topic category filter tabs, selectable topic cards, and detailed scripted guidance.
+      * Visible safety boundary tags and refusal warning callouts.
+      * Integrated Web Speech API read-aloud ("Listen") button with graceful fallback.
+      * Suggested navigational shortcuts (opening MedBot, Explorer, CarePlan, Files & Reports, or Emergency Modal).
+    - `frontend/src/components/Dashboard.tsx`: Added "App Help & FAQ (NurseBot)" module tile in `ready` state ("Available Now").
+    - `frontend/src/App.tsx`: Wired view routing for `nursebot`.
+  - Automated Testing:
+    - `backend/tests/test_nursebot.py`: Added 6 tests verifying unauthenticated rejection (401), menu structure, safety refusal patterns, unknown topic 404 handling, verification that zero chat transcripts/database writes occur, and prohibited medical terms scan.
+- Verification & Test Summary:
+  - Pytest: 47 passed, 1 skipped in 6.43s (all careplan, health, explorer, knowledge, medbot, nursebot, profile, and reports tests passing in isolated SQLite test environment).
+  - Frontend Build: `tsc && vite build` built cleanly in 2.86s with zero errors.
+  - Medical Safety: Enforced explicit scripted refusals against medical diagnosis and prescription questions.
+  - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
+- Next action: Checkpoint M1B.6 in local Git; stop and await owner review before proceeding to M1B.7 (Hardening and Demo).
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

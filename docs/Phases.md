@@ -190,7 +190,7 @@ Acceptance criteria:
 - e. No starter text appears unless OD-21 is approved.
 - f. All writes go through the API.
 
-**M1B.6 Scripted app help (S).** Delivers: menu-based help and FAQ about using the app, safe refusal patterns and scripted fallbacks. No free text, no LLM, no stored transcripts, no nutrition Q&A. Requirement IDs: NURSE-01, NURSE-03, NURSE-04; SAF-14.
+**M1B.6 Scripted app help (S) — Complete.** Delivers: menu-based help and FAQ about using the app, safe refusal patterns and scripted fallbacks. No free text, no LLM, no stored transcripts, no nutrition Q&A. Requirement IDs: NURSE-01, NURSE-03, NURSE-04; SAF-14.
 Acceptance criteria:
 - a. All content is scripted and listed in one place.
 - b. There is no free-text field.
