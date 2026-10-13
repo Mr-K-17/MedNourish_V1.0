@@ -1,15 +1,14 @@
 """
-MedNourish — MobileNetV2 Architecture & Export Engine
-=====================================================
+MedNourish — MobileNetV2 Architecture Prototype & Export Proof of Concept
+========================================================================
 Module: ml.mobilenet_engine
 Spec: docs/CV_PIPELINE_SPEC.md
 
-Implements:
-- MobileNetV2 architecture specification and computation graph construction
-- Forward pass, backpropagation gradient calculations, and loss evaluation
-- Real ONNX model export and inference execution via ONNX Runtime
-- Parity evaluation harness comparing full-precision and quantized outputs
-- Explicit error handling for malformed input shapes and unsupported ops
+HONEST ARCHITECTURAL STATUS:
+- This module is a NumPy linear-head prototype (NOT full MobileNetV2).
+- The exported ONNX graph is a minimal toy graph simulating GlobalAveragePool -> Gemm -> Softmax.
+- Quantization checks here are simulated linear-dequantization benchmarks, not genuine hardware TFLite quantization.
+- Intended strictly as a preliminary scaffold and proof-of-concept for pipeline wiring.
 """
 
 from __future__ import annotations
