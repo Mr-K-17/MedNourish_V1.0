@@ -650,7 +650,36 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
     - Backend Pytest Suite: Executed `.\.venv\Scripts\python.exe -m pytest` inside project virtual environment: **50 passed, 1 skipped** in 6.18s across all 10 test modules.
     - Frontend Build: Clean and verified via `npm ci && npm run build`.
     - Live MySQL & Datasets: Preserved untouched; no database troubleshooting or mutations performed in this sprint.
-- Next action: Checkpoint Sprint 1 dependency manifest and session log in local Git; stop and await owner direction for live database integration.
+### S-020 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: Phase 3.1 ML Readiness & Tabular Model Pipeline; PV-01, PV-02, PV-04, PV-05, PV-17, C-06, C-12, GR-02, DAT-11, SCAN-07.
+- Actions taken:
+  - Repository & Datasets Protection:
+    - Confirmed working directory `C:\Users\USER\Desktop\MedNourish-Dev`, branch `dev`, HEAD `56ef9f7`.
+    - Preserved original datasets archive `C:\Users\USER\Desktop\MedNourish\datasets` completely read-only (SHA-256 invariant).
+    - Updated `.gitignore` to allow `ml/` code while strictly ignoring ML weights, caches, and artifacts (`ml/artifacts/`, `ml/models/`, `*.tflite`, `*.h5`, `ml/.venv/`).
+  - Dataset & Clinical Task Suitability Audit:
+    - Inspected `vitamin_deficiency_disease_dataset_20260123.csv` (4,000 rows × 34 columns, 0 missing, 0 duplicates, 5 target labels).
+    - Critical Audit Finding: The dataset features contain clinical lab parameters (`hemoglobin_g_dl`, `serum_vitamin_d_ng_ml`, etc.) and dietary RDA intake estimates (`vitamin_a_percent_rda`, etc.) that the web questionnaire does not collect. The target labels (`Healthy`, `Anemia`, `Rickets_Osteomalacia`, `Night_Blindness`, `Scurvy`) represent 5 systemic disease categories, distinct from the 116 condition classes in the reference tables. Models trained on these features cannot serve as general user symptom classifiers and must never be exposed as direct diagnostic advice (`SAF-01`, `GR-05`).
+  - Isolated ML Environment:
+    - Created dedicated virtual environment `ml/.venv` using Python 3.14.8 (`py -3.14 -m venv ml/.venv`). Kept completely isolated from `backend/.venv`.
+    - Pinned compatible packages in `ml/requirements.txt`: `numpy==2.5.4`, `scipy==1.18.1`, `scikit-learn==1.9.1`, `xgboost==3.4.1`, `lightgbm==4.7.0`, `joblib==1.6.0`, `pytest==9.1.1`. All installed and verified.
+  - Tabular Preprocessing & Model Benchmark:
+    - Implemented `ml/data_pipeline.py`: Leakage-resistant preprocessor fitting strictly on training split; handles categorical indexing, feature scaling, and target encoding.
+    - Implemented `ml/tabular_benchmark.py`: Fixed-seed stratified splitting (70% train / 15% val / 15% test).
+    - Benchmarked models on held-out test set (N=600):
+      * Dummy Baseline (most frequent): Accuracy 37.83%, Macro F1 0.1098, Log Loss 22.4071.
+      * XGBoost: Accuracy 99.83%, Macro F1 0.9938, Balanced Accuracy 0.9889, Log Loss 0.0098.
+      * LightGBM: Accuracy 99.33%, Macro F1 0.9750, Balanced Accuracy 0.9692, Log Loss 0.0195.
+    - Top predictive features: `has_fatigue` (17.7%), `vitamin_b12_percent_rda` (11.1%), `has_numbness_tingling` (10.4%), `vitamin_d_percent_rda` (8.0%), `has_night_blindness` (7.2%), `serum_vitamin_d_ng_ml` (6.9%).
+  - Computer Vision Roadmap:
+    - Authored comprehensive specification `docs/CV_PIPELINE_SPEC.md` covering OpenCV preprocessing (aspect-ratio preserved padding to 224x224x3), image quality gates, patient session grouping to prevent data leakage, MobileNetV2 two-stage transfer learning schedule, and TensorFlow Lite conversion parity gates.
+  - Storage & Integration Boundaries:
+    - Confirmed no live database modifications. Proposed clear data-ownership architecture: Firebase Auth (identity only), MySQL (user profile & transactional logs), MongoDB (knowledge documents), and CSVs (static curated reference packages).
+  - Test Suite & Build Verification:
+    - ML Test Suite: `ml/tests/test_data_pipeline.py` passed 4/4 in `ml/.venv`.
+    - Backend Pytest: Passed 50/50, 1 skipped in `backend/.venv`.
+    - Frontend Build: Clean production build in 4.13s (`tsc && vite build`).
+- Next action: Checkpoint Phase 3.1 in local Git; stop and await owner direction before any computer-vision training or database alterations.
 
 ---
 

@@ -13,8 +13,12 @@ datasets/**
 knowledge/*
 !knowledge/curated/
 !knowledge/CHANGELOG.md
-ml/
-ml/**
+ml/artifacts/
+ml/models/
+ml/*.tflite
+ml/*.h5
+ml/*.ubj
+ml/.venv/
 *.mat
 *.parquet
 
