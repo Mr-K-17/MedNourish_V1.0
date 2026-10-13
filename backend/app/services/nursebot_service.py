@@ -130,8 +130,9 @@ SCRIPTED_HELP_TOPICS: List[Dict] = [
         "is_safety_refusal": True,
         "content": (
             "If you or someone you are with is experiencing severe chest pain, sudden numbness, difficulty breathing, "
-            "excessive bleeding, or any life-threatening symptoms, stop using this application and contact your local "
-            "emergency services (such as 911, 112, or 999) immediately. Do not rely on educational software in an emergency."
+            "severe bleeding, or any acute life-threatening symptoms, stop using this application and contact your local "
+            "emergency services immediately. You can also tap the 'Need urgent help?' button at any time for crisis guidance. "
+            "Do not rely on educational software in an emergency."
         ),
         "related_actions": ["Emergency Help"],
     },

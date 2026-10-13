@@ -197,7 +197,7 @@ Acceptance criteria:
 - c. No transcript or message record is written (test).
 - d. Requests about diagnosis, medicines or doses lead to the scripted refusal.
 
-**M1B.7 Hardening and demo (M).** Delivers: security-rules and API test pass; accessibility audit (automated checks plus keyboard and screen-reader spot checks by the owner or AI tool); a scan of all text for forbidden claims; a demo script with fictional data; a final cross-document consistency check. **No testing with human participants** (C-24). Requirement IDs: A11Y-01 to A11Y-03, NFR-SEC-01, I18N-01, PRIV-02, COST-01.
+**M1B.7 Hardening and demo (M) — Complete.** Delivers: security-rules and API test pass; accessibility audit (automated checks plus keyboard and screen-reader spot checks by the owner or AI tool); a scan of all text for forbidden claims; a demo script with fictional data; a final cross-document consistency check. **No testing with human participants** (C-24). Requirement IDs: A11Y-01 to A11Y-03, NFR-SEC-01, I18N-01, PRIV-02, COST-01.
 Acceptance criteria:
 - a. The `Rules.md` section 6 definition of done holds for every milestone.
 - b. The forbidden-wording scan passes (no diagnosis, accuracy, prediction, risk-score, band or percentage claims).

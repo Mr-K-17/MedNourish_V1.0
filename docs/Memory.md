@@ -582,6 +582,34 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
   - Live MySQL: Unverified (cleanly separated; isolated in-memory SQLite used for tests).
 - Next action: Checkpoint M1B.6 in local Git; stop and await owner review before proceeding to M1B.7 (Hardening and Demo).
 
+### S-017 — 2026-10-13 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Task and requirement IDs: M1B.7 Application Hardening, Integration & Demo Readiness; A11Y-01–03, NFR-SEC-01, I18N-01, PRIV-02, COST-01, SAF-04, GR-05, PV-10, C-24.
+- Actions taken:
+  - Safety & Emergency Audit:
+    - `backend/app/services/nursebot_service.py`: Eliminated hardcoded regional emergency phone numbers (`911, 112, or 999`) in topic `refusal_emergency_urgent` per `SAF-04`, `GR-05`, and `PV-10`. Replaced with region-agnostic guidance directing to local emergency services and persistent "Need urgent help?" modal.
+  - End-to-End User Lifecycle & Hardening Suite:
+    - Authored `backend/tests/test_hardening.py` implementing comprehensive multi-step integration journey verifying 8 core flows in sequence:
+      1. Registration & mandatory adult confirmation (18+) gate, verifying zero DOB/age fields stored.
+      2. Symptom Explorer reference table matching, verifying deterministic results, review status tags, and educational disclaimers.
+      3. Saving Explorer reference match summary to Files & Reports history.
+      4. Guided MedBot questionnaire evaluation and persisting assessment to reports.
+      5. CarePlan wellness task creation, strict medication/supplement prohibition (422), completion toggling, and CARE-04 reminder disclosure notice.
+      6. NurseBot scripted help menu navigation and safety refusal inspection.
+      7. Multi-user isolation across all modules (UserProfile, SavedSummary, CarePlanItem), verifying User B cannot read, modify, or delete User A records.
+      8. Account deletion cascade purging UserProfile, UserConsentLog, SavedSummary, and CarePlanItem in development.
+  - Test Suite & Build Verification:
+    - Ran full backend pytest suite: 48 passed, 1 skipped in 5.90s.
+    - Ran frontend production build: `tsc && vite build` built cleanly in 2.77s with 0 errors and 0 warnings.
+  - Documentation Updates:
+    - Marked milestone `M1B.7 Hardening and demo (M) — Complete` in `docs/Phases.md`.
+    - Updated `MEDNOURISH_AUDIT_PROGRESS.md` with M1B.7 completion entry.
+- Verification & Test Summary:
+  - Pytest: 48 passed, 1 skipped across all 9 test modules (`test_health`, `test_profile`, `test_knowledge`, `test_explorer`, `test_reports`, `test_medbot`, `test_careplan`, `test_nursebot`, `test_hardening`).
+  - Frontend Build: `dist/` cleanly generated with 0 errors.
+  - Live MySQL: Remains unverified (offline SQLite in-memory static pool used for all automated tests).
+  - Phase 1B Status: Complete. All milestones M1B.1 through M1B.7 implemented and validated.
+- Next action: Checkpoint M1B.7 in local Git; stop and await owner direction before any future milestones.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
