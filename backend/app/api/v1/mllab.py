@@ -126,6 +126,8 @@ async def proxy_predict_keywords(
     """Proxies keyword ranking to ML Lab service."""
     if not payload.get("keywords") or not payload.get("body_region"):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="body_region and keywords are required")
+    if isinstance(payload.get("keywords"), list):
+        payload["keywords"] = ", ".join(payload["keywords"])
     return await forward_request("POST", "/predict/keywords", json_data=payload)
 
 

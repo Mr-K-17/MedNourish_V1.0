@@ -619,6 +619,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Updated VirtualWard with generic search queries, Coming-Later card, and check-up reminder connected to CarePlan.
 - Full backend suite grew to 62 passing tests; frontend production build cleanly transformed 1607 modules.
 
+### S-036 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F3 Algorithm verification completed with exact numbers documented in docs/FINAL_VERIFICATION.md.
+- Tabular models (800 test records) matched model cards exactly; 6 MobileNetV2 models achieved 100% Float32 TFLite top-1 parity (diff < 3.7e-6).
+- Live ML Lab proxy verification verified on port 8001; all endpoints validated with discrete label-only output and zero probabilities.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
