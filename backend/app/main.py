@@ -14,6 +14,7 @@ from app.api.v1.medbot import router as medbot_router
 from app.api.v1.careplan import router as careplan_router
 from app.api.v1.nursebot import router as nursebot_router
 from app.api.v1.mllab import router as mllab_router
+from app.api.v1.medscan import router as medscan_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -39,6 +40,7 @@ app.include_router(medbot_router, prefix=settings.API_V1_STR, tags=["MedBot"])
 app.include_router(careplan_router, prefix=settings.API_V1_STR, tags=["CarePlan"])
 app.include_router(nursebot_router, prefix=settings.API_V1_STR, tags=["NurseBot"])
 app.include_router(mllab_router, prefix=settings.API_V1_STR, tags=["MLLab"])
+app.include_router(medscan_router, prefix=settings.API_V1_STR, tags=["MedScan"])
 
 
 @app.get("/")

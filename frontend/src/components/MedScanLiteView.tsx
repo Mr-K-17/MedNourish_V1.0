@@ -11,18 +11,24 @@ import {
 import styles from './MedScanLiteView.module.css';
 
 interface MedScanLiteViewProps {
+  idToken?: string | null;
   onBackToDashboard: () => void;
   onOpenEmergencyModal: () => void;
+  onHandoffToExplorer?: () => void;
 }
 
 export const MedScanLiteView: React.FC<MedScanLiteViewProps> = ({
+  idToken,
   onBackToDashboard,
   onOpenEmergencyModal,
+  onHandoffToExplorer,
 }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>('eyes');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
   const [qualityResults, setQualityResults] = useState<{
     passed: boolean;
     dimensions: string;
@@ -38,8 +44,37 @@ export const MedScanLiteView: React.FC<MedScanLiteViewProps> = ({
 
     setSelectedFile(file);
     setQualityResults(null);
+    setSaveSuccess(null);
     const objectUrl = URL.createObjectURL(file);
     setPreviewUrl(objectUrl);
+  };
+
+  const handleSaveSession = async () => {
+    if (!selectedFile || !idToken) return;
+    setIsSaving(true);
+    setSaveSuccess(null);
+    try {
+      const formData = new FormData();
+      formData.append('body_region', selectedRegion);
+      formData.append('save_session', 'true');
+      formData.append('files', selectedFile);
+
+      const res = await fetch('http://127.0.0.1:8000/v1/medscan/sessions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: formData,
+      });
+
+      if (res.ok) {
+        setSaveSuccess('Quality audit session saved securely to your account.');
+      }
+    } catch {
+      // fallback
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handlePerformQualityAudit = () => {
@@ -231,6 +266,35 @@ export const MedScanLiteView: React.FC<MedScanLiteViewProps> = ({
               </div>
 
               <p className={styles.notesText}>{qualityResults.notes}</p>
+
+              <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={handleSaveSession}
+                  disabled={isSaving || !!saveSuccess}
+                  className={styles.analyzeBtn}
+                  style={{ background: '#0284c7' }}
+                >
+                  {isSaving ? 'Saving...' : saveSuccess ? 'Session Saved' : 'Save Quality Session'}
+                </button>
+
+                {onHandoffToExplorer && (
+                  <button
+                    type="button"
+                    onClick={onHandoffToExplorer}
+                    className={styles.analyzeBtn}
+                    style={{ background: 'var(--color-primary)' }}
+                  >
+                    Explore Symptoms for {selectedRegion} →
+                  </button>
+                )}
+              </div>
+
+              {saveSuccess && (
+                <div style={{ fontSize: '0.85rem', color: '#166534', fontWeight: 600 }}>
+                  {saveSuccess}
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -58,9 +58,48 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [timelineData, setTimelineData] = useState<any[]>([]);
+  const [isAddingRoutine, setIsAddingRoutine] = useState<boolean>(false);
+
+  const fetchTimeline = async () => {
+    try {
+      const res = await fetch('http://127.0.0.1:8000/v1/reports/timeline', {
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTimelineData(data.timeline || []);
+      }
+    } catch {
+      // fallback
+    }
+  };
+
+  const handleAddSuggestedRoutine = async (summaryId: string) => {
+    setIsAddingRoutine(true);
+    setErrorMessage(null);
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/v1/reports/summaries/${summaryId}/suggested-routine`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSuccessMessage(`Added to CarePlan: "${data.title}"`);
+        setTimeout(() => setSuccessMessage(null), 4000);
+      } else {
+        setErrorMessage('Unable to curate routine for this summary.');
+      }
+    } catch {
+      setErrorMessage('Failed to connect to CarePlan service.');
+    } finally {
+      setIsAddingRoutine(false);
+    }
+  };
 
   useEffect(() => {
     fetchSummaries();
+    fetchTimeline();
   }, [idToken]);
 
   const fetchSummaries = async () => {
@@ -174,6 +213,28 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
       {successMessage && (
         <div className={styles.successAlert} role="status">
           <span>{successMessage}</span>
+        </div>
+      )}
+
+      {/* Match Overview Timeline Banner (F2) */}
+      {timelineData.length > 0 && (
+        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '1rem' }}>
+          <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.95rem', color: '#1e293b' }}>
+            Match Overview Timeline (Monthly Check-ins)
+          </h4>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {timelineData.map((t) => (
+              <div key={t.month} style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0.5rem 0.75rem' }}>
+                <strong style={{ fontSize: '0.85rem', color: '#0f172a' }}>{t.month}</strong>
+                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                  Total: {t.total_sessions} session(s)
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#0284c7', marginTop: '0.2rem' }}>
+                  {Object.entries(t.regions).map(([r, c]) => `${r}: ${c}`).join(' · ')}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -317,7 +378,17 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
                     Saved on {new Date(selectedSummary.created_at).toLocaleString()}
                   </span>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleAddSuggestedRoutine(selectedSummary.id)}
+                    disabled={isAddingRoutine}
+                    className={styles.backButton}
+                    style={{ padding: '0.4rem 0.75rem', fontSize: '0.85rem', color: '#166534', borderColor: '#bbf7d0' }}
+                    title="Curate non-medication food/lifestyle routine for this region into CarePlan"
+                  >
+                    {isAddingRoutine ? 'Adding...' : '+ Add Suggested Routine'}
+                  </button>
                   <button
                     type="button"
                     onClick={() => window.print()}

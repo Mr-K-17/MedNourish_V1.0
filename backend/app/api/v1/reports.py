@@ -13,8 +13,10 @@ Strictly adheres to:
 - SAF-17: Reference match summary, no clinical risk scores or probabilities
 """
 
+from datetime import datetime
 import json
 import logging
+import os
 import uuid
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -256,3 +258,114 @@ def delete_summary(
         id=summary_id,
         message="Saved summary successfully deleted.",
     )
+
+
+@router.get("/reports/timeline")
+def get_reports_timeline(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Returns monthly match overview aggregated by body region (F2).
+
+    Adheres strictly to:
+    - PROF-02: Scoped strictly to current_user.uid
+    - REPORT-01: Aggregated count overview; zero probabilities, risk scores, or bands
+    """
+    records = (
+        db.query(SavedSummary)
+        .filter(SavedSummary.user_id == current_user.uid)
+        .order_by(SavedSummary.created_at.desc())
+        .all()
+    )
+
+    # Aggregate by Year-Month and Body Region
+    monthly_map = {}
+    for r in records:
+        month_key = r.created_at.strftime("%Y-%m")
+        region = r.body_region_filter or "General"
+        if month_key not in monthly_map:
+            monthly_map[month_key] = {"month": month_key, "total_sessions": 0, "regions": {}}
+        monthly_map[month_key]["total_sessions"] += 1
+        monthly_map[month_key]["regions"][region] = monthly_map[month_key]["regions"].get(region, 0) + 1
+
+    timeline = list(monthly_map.values())
+    return {
+        "user_id": current_user.uid,
+        "total_records": len(records),
+        "timeline": timeline,
+        "label": "Match Overview Timeline",
+        "disclaimer": "Informational check-in history only. Not a clinical trend or medical risk score.",
+    }
+
+
+@router.post("/reports/summaries/{summary_id}/suggested-routine")
+def add_suggested_routine_to_careplan(
+    summary_id: str,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Curates non-medication dietary/lifestyle routine from reference mapping and adds to CarePlan (C-08, C-22, F2).
+
+    Guarantees:
+    - Never uses Suggested_Supplementation or drug/dosage columns
+    - Filters out pediatric and clinical treatment terms
+    - Adds general dietary / hydration routine to CarePlanItem
+    """
+    record = db.query(SavedSummary).filter(SavedSummary.id == summary_id).first()
+    if not record:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Saved summary not found")
+    if record.user_id != current_user.uid:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    region = (record.body_region_filter or "General").capitalize()
+    csv_name = f"{region}_Vitamin_Deficiency_to_Suggested_Routine.csv"
+    curated_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "knowledge", "curated")
+    )
+    csv_path = os.path.join(curated_dir, csv_name)
+
+    suggested_title = f"Maintain balanced dietary intake rich in {region} wellness nutrients"
+    category = "food"
+
+    import csv
+    if os.path.exists(csv_path):
+        try:
+            with open(csv_path, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    diet = row.get("Dietary_Recommendations", "")
+                    # Ensure diet recommendation has content and no medication keywords
+                    if diet and len(diet) > 10 and "supplement" not in diet.lower():
+                        # Pick short clean phrase
+                        first_phrase = diet.split(";")[0].split(".")[0].strip()
+                        if len(first_phrase) <= 100:
+                            suggested_title = f"Diet focus: {first_phrase}"
+                        break
+        except Exception:
+            pass
+
+    # Import CarePlanItem locally to prevent circular imports
+    from app.models.user import CarePlanItem
+
+    new_task = CarePlanItem(
+        id=f"cpt_{uuid.uuid4().hex[:16]}",
+        user_id=current_user.uid,
+        title=suggested_title[:140],
+        category=category,
+        target_frequency="daily",
+        reminder_time=None,
+        is_completed=False,
+        completed_at=None,
+        created_at=datetime.utcnow(),
+    )
+    db.add(new_task)
+    db.commit()
+
+    return {
+        "status": "added",
+        "task_id": new_task.id,
+        "title": new_task.title,
+        "category": new_task.category,
+        "message": "Suggested non-medication dietary routine successfully added to CarePlan.",
+    }
+

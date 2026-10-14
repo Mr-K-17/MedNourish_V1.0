@@ -93,3 +93,26 @@ class CarePlanItem(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
+
+class MedScanSession(Base):
+    """Stores saved MedScan-lite quality check sessions (C-26).
+
+    Guarantees:
+    - PROF-02: Keyed to authenticated user_id
+    - SCAN-02: Records image quality metrics (resolution, illumination, blur status)
+    - SCAN-05: Ephemeral check by default; only saved when user explicitly requests
+    - AUTH-05: Cascading delete on user account deletion
+    - Zero image bytes or diagnostic claims logged/stored in relational database
+    """
+
+    __tablename__ = "medscan_sessions"
+
+    id = Column(String(64), primary_key=True, index=True)
+    user_id = Column(String(128), index=True, nullable=False)
+    body_region = Column(String(32), nullable=False)
+    image_count = Column(Integer, default=1, nullable=False)
+    quality_status = Column(String(32), nullable=False)  # 'PASSED', 'RETAKE_RECOMMENDED'
+    quality_metrics_json = Column(String(2048), nullable=False)
+    notes = Column(String(512), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import {
   Building2,
   ArrowLeft,
-  MapPin,
-  Phone,
   Navigation,
   AlertTriangle,
   Info,
@@ -16,63 +14,79 @@ interface Facility {
   id: string;
   name: string;
   type: 'General Hospital' | 'Community Health Center' | 'Emergency Care';
-  address: string;
-  city: string;
-  phone: string;
+  categoryDescription: string;
   mapsQuery: string;
-  distanceNote: string;
 }
 
 const LOCAL_FACILITIES: Facility[] = [
   {
     id: 'fac-1',
-    name: 'District General Hospital',
+    name: 'Nearby General Hospital',
     type: 'General Hospital',
-    address: 'Civil Lines Road, Near Medical College',
-    city: 'Local Healthcare Zone',
-    phone: '102 / Local Hospital Line',
+    categoryDescription: 'Comprehensive outpatient and inpatient medical services.',
     mapsQuery: 'General+Hospital+near+me',
-    distanceNote: 'Primary Public Hospital · 24/7 Casualty',
   },
   {
     id: 'fac-2',
-    name: 'City Community Health Center (CHC)',
+    name: 'Nearby Community Health Center (CHC)',
     type: 'Community Health Center',
-    address: 'Sector 4, Main Public Health Complex',
-    city: 'Local Healthcare Zone',
-    phone: 'Local Public Health Office',
+    categoryDescription: 'Public primary health clinics, nutrition counseling, and maternal care.',
     mapsQuery: 'Community+Health+Center+near+me',
-    distanceNote: 'Outpatient Consultations & Nutrition Counseling',
   },
   {
     id: 'fac-3',
-    name: 'Metropolitan Emergency Care & Trauma Unit',
+    name: 'Nearby Urgent Care / Emergency Trauma Unit',
     type: 'Emergency Care',
-    address: 'Ring Road Bypass',
-    city: 'Local Healthcare Zone',
-    phone: '112 / 108 Emergency Medical Services',
+    categoryDescription: '24/7 acute trauma and emergency medical interventions.',
     mapsQuery: 'Emergency+Hospital+near+me',
-    distanceNote: 'Dedicated Acute Emergency Service',
   },
 ];
 
 interface VirtualWardViewProps {
+  idToken?: string | null;
   onBackToDashboard: () => void;
   onOpenEmergencyModal: () => void;
 }
 
 export const VirtualWardView: React.FC<VirtualWardViewProps> = ({
+  idToken,
   onBackToDashboard,
   onOpenEmergencyModal,
 }) => {
   const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
   const [appointmentRequested, setAppointmentRequested] = useState<boolean>(false);
+  const [reminderCreated, setReminderCreated] = useState<boolean>(false);
   const [preferredDate, setPreferredDate] = useState<string>('');
   const [consultReason, setConsultReason] = useState<string>('General nutrition review');
 
   const handleOpenMaps = (query: string) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleAddCheckupReminder = async () => {
+    if (!idToken) return;
+    try {
+      const res = await fetch('http://127.0.0.1:8000/v1/careplan/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          title: 'Schedule routine clinical check-up with primary doctor',
+          category: 'general',
+          target_frequency: 'as needed',
+          reminder_time: '10:00',
+        }),
+      });
+      if (res.ok) {
+        setReminderCreated(true);
+        setTimeout(() => setReminderCreated(false), 4000);
+      }
+    } catch {
+      // fallback handling
+    }
   };
 
   const handleRequestAppointment = (e: React.FormEvent) => {
@@ -132,17 +146,11 @@ export const VirtualWardView: React.FC<VirtualWardViewProps> = ({
           <div key={fac.id} className={styles.facilityCard}>
             <div className={styles.facilityHeader}>
               <span className={styles.facilityBadge}>{fac.type}</span>
-              <span className={styles.distanceBadge}>{fac.distanceNote}</span>
             </div>
 
             <h3 className={styles.facilityName}>{fac.name}</h3>
             <p className={styles.facilityAddress}>
-              <MapPin size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-              {fac.address}, {fac.city}
-            </p>
-            <p className={styles.facilityPhone}>
-              <Phone size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-              Phone: {fac.phone}
+              {fac.categoryDescription}
             </p>
 
             <div className={styles.cardActions}>
@@ -150,9 +158,9 @@ export const VirtualWardView: React.FC<VirtualWardViewProps> = ({
                 type="button"
                 onClick={() => handleOpenMaps(fac.mapsQuery)}
                 className={styles.mapsBtn}
-                title="Open location search in Google Maps"
+                title="Search nearby facilities via Google Maps"
               >
-                <Navigation size={14} /> Open in Google Maps <ExternalLink size={12} />
+                <Navigation size={14} /> Find Near Me on Google Maps <ExternalLink size={12} />
               </button>
 
               <button
@@ -163,11 +171,35 @@ export const VirtualWardView: React.FC<VirtualWardViewProps> = ({
                 }}
                 className={styles.consultBtn}
               >
-                <Calendar size={14} /> Request Consultation
+                <Calendar size={14} /> Consultation Sheet
               </button>
             </div>
           </div>
         ))}
+
+        {/* Coming Later Card per C-27 */}
+        <div className={styles.facilityCard} style={{ background: '#f8fafc', borderStyle: 'dashed' }}>
+          <div className={styles.facilityHeader}>
+            <span className={styles.facilityBadge} style={{ background: '#e2e8f0', color: '#475569', borderColor: '#cbd5e1' }}>
+              Phase 4 Candidate
+            </span>
+          </div>
+          <h3 className={styles.facilityName}>Direct Telehealth & EMR Integration</h3>
+          <p className={styles.facilityAddress}>
+            Live doctor messaging, API hospital appointment scheduling, and electronic health record syncing are reserved for future evaluated phases under clinical partnership.
+          </p>
+          <div className={styles.cardActions}>
+            <button
+              type="button"
+              onClick={handleAddCheckupReminder}
+              disabled={reminderCreated}
+              className={styles.mapsBtn}
+              title="Add a routine clinical checkup task to your CarePlan"
+            >
+              <Calendar size={14} /> {reminderCreated ? 'Check-up Task Added!' : 'Add Check-up Task to CarePlan'}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Modal / Request Form for Selected Facility */}

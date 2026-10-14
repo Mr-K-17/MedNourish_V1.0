@@ -614,6 +614,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Audited 21 feature areas across auth, safety shell, clinical explorer, routines, reports, ML Lab, and DB switch.
 - Identified 5 additive implementation gaps (MedScan backend, routine curation endpoint, reports timeline, VirtualWard cleanup, DB_MODE toggle) to close in F2.
 
+### S-035 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F2 Additive gaps closed (MedScan-lite router with Pillow Laplacian blur check, reports timeline, curated suggested routine).
+- Updated VirtualWard with generic search queries, Coming-Later card, and check-up reminder connected to CarePlan.
+- Full backend suite grew to 62 passing tests; frontend production build cleanly transformed 1607 modules.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

@@ -258,11 +258,14 @@ export const App: React.FC = () => {
               />
             ) : activeView === 'medscan-lite' ? (
               <MedScanLiteView
+                idToken={idToken}
                 onBackToDashboard={() => setActiveView('dashboard')}
                 onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+                onHandoffToExplorer={() => setActiveView('symptom-explorer')}
               />
             ) : activeView === 'virtual-ward' ? (
               <VirtualWardView
+                idToken={idToken}
                 onBackToDashboard={() => setActiveView('dashboard')}
                 onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
               />
