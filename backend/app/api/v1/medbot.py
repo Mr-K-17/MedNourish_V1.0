@@ -33,6 +33,7 @@ from app.services.knowledge_service import (
     PACKAGE_VERSION,
 )
 from app.services.medbot_service import medbot_service
+from app.services.careplan_sync_service import sync_careplan_from_top_nutrients
 
 logger = logging.getLogger(__name__)
 
@@ -125,6 +126,23 @@ def save_medbot_assessment(
 
     matched_dicts = [entry.model_dump() for entry in payload.matched_entries]
 
+    scores_dict = {}
+    for entry in payload.matched_entries:
+        nut = entry.vitamin_deficiency_association or "General"
+        ref_pct = (
+            float(entry.row_match_percentage)
+            if entry.row_match_percentage is not None
+            else round(float(entry.match_count) / max(1, entry.total_condition_tags) * 100.0, 1)
+        )
+        scores_dict[nut] = {
+            "reference_pct": ref_pct,
+            "xgboost_pct": 0.0,
+            "lightgbm_pct": 0.0,
+            "image_pct": 0.0,
+            "final_pct": ref_pct,
+        }
+    snapshot_scores_json = json.dumps(scores_dict)
+
     record = SavedSummary(
         id=summary_id,
         user_id=current_user.uid,
@@ -133,6 +151,7 @@ def save_medbot_assessment(
         selected_tags_json=json.dumps(payload.selected_tags),
         matched_entries_json=json.dumps(matched_dicts),
         match_count_total=len(payload.matched_entries),
+        snapshot_scores_json=snapshot_scores_json,
         package_version=payload.package_version,
         matcher_version=payload.matcher_version,
         review_status="unreviewed draft",
@@ -150,6 +169,17 @@ def save_medbot_assessment(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Database service unavailable. Failed to save assessment summary.",
         )
+
+    # Trigger CarePlan auto-sync for top 2 nutrients with % >= 30
+    top_nutrients = [
+        {"nutrient": k, "final_pct": v["final_pct"]}
+        for k, v in sorted(scores_dict.items(), key=lambda item: item[1]["final_pct"], reverse=True)
+    ]
+    max_band = "High" if any(n["final_pct"] >= 60.0 for n in top_nutrients) else ("Moderate" if any(n["final_pct"] >= 30.0 for n in top_nutrients) else "Low")
+    try:
+        sync_careplan_from_top_nutrients(db, current_user.uid, record.id, top_nutrients, max_band)
+    except Exception as e:
+        logger.warning("CarePlan auto-sync failed non-fatally: %s", e)
 
     return SavedSummaryDetail(
         id=record.id,
