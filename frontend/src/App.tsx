@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Activity, ShieldAlert, CheckCircle2, User, LogOut, Trash2 } from 'lucide-react';
+import { Activity, ShieldAlert, CheckCircle2, User, LogOut, Trash2, Edit3 } from 'lucide-react';
 import { onAuthStateChanged, signOut, auth, User as FirebaseUser } from './services/firebase';
 import { DemoBanner } from './components/DemoBanner';
 import { EmergencyHelpModal } from './components/EmergencyHelpModal';
@@ -57,6 +57,7 @@ export const App: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfileData | null>(null);
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
   const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot' | 'mllab' | 'medscan-lite' | 'virtual-ward'>('dashboard');
 
@@ -309,31 +310,67 @@ export const App: React.FC = () => {
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleDeleteAccount}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 0.75rem',
-                    background: '#fff1f2',
-                    border: '1px solid #fda4af',
-                    color: '#e11d48',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  <Trash2 size={16} /> Delete Account & Data
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditProfileOpen(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      padding: '0.5rem 0.75rem',
+                      background: 'var(--color-bg-surface)',
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-text-primary)',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    <Edit3 size={15} /> Edit Profile
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDeleteAccount}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.5rem 0.75rem',
+                      background: '#fff1f2',
+                      border: '1px solid #fda4af',
+                      color: '#e11d48',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    <Trash2 size={16} /> Delete Account & Data
+                  </button>
+                </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '0.5rem' }}>
                 <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Adult Confirmation</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 600, color: 'var(--color-accent)' }}>18+ Confirmed (SAF-10)</p>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Consent & Status</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 600, color: 'var(--color-accent)' }}>
+                    {userProfile.is_adult_confirmed ? 'Adult Confirmed (18+)' : 'Demo Consent (Under-18)'}
+                  </p>
+                </div>
+
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Age</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>
+                    {userProfile.age ? `${userProfile.age} years` : 'Not specified'}
+                    {userProfile.age && userProfile.age < 18 ? ' (Demo Only)' : ''}
+                  </p>
+                </div>
+
+                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Blood Type</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.blood_type || 'Not specified'}</p>
                 </div>
 
                 <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
@@ -350,11 +387,52 @@ export const App: React.FC = () => {
                   <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Weight</span>
                   <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.weight_kg ? `${userProfile.weight_kg} kg` : 'Not specified'}</p>
                 </div>
+
+                <div style={{ gridColumn: '1 / -1', padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Health Conditions</span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>
+                    {userProfile.conditions && userProfile.conditions.length > 0 ? userProfile.conditions.join(', ') : 'None specified'}
+                    {userProfile.other_condition ? ` (Other: ${userProfile.other_condition})` : ''}
+                  </p>
+                </div>
               </div>
             </section>
           </div>
         )}
       </main>
+
+      {/* Profile Edit Modal Dialog */}
+      {isEditProfileOpen && idToken && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '1rem',
+            overflowY: 'auto',
+          }}
+          onClick={() => setIsEditProfileOpen(false)}
+        >
+          <div
+            style={{ width: '100%', maxWidth: '640px', maxHeight: '90vh', overflowY: 'auto' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ConsentProfileModal
+              idToken={idToken}
+              existingProfile={userProfile}
+              onProfileCreated={() => {
+                fetchUserProfile(idToken);
+                setIsEditProfileOpen(false);
+              }}
+              onClose={() => setIsEditProfileOpen(false)}
+            />
+          </div>
+        </div>
+      )}
 
       <EmergencyHelpModal
         isOpen={isEmergencyModalOpen}

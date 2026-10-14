@@ -5,6 +5,17 @@ import styles from './ConsentProfileModal.module.css';
 interface ConsentProfileModalProps {
   idToken: string;
   onProfileCreated: () => void;
+  existingProfile?: {
+    display_name?: string;
+    gender?: string;
+    height_cm?: number;
+    weight_kg?: number;
+    age?: number;
+    blood_type?: string;
+    conditions?: string[];
+    other_condition?: string;
+  } | null;
+  onClose?: () => void;
 }
 
 const CANONICAL_CONDITIONS = [
@@ -34,16 +45,31 @@ const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'
 export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
   idToken,
   onProfileCreated,
+  existingProfile,
+  onClose,
 }) => {
-  const [consentAgreed, setConsentAgreed] = useState(false);
-  const [displayName, setDisplayName] = useState('');
-  const [gender, setGender] = useState('');
-  const [heightCm, setHeightCm] = useState('');
-  const [weightKg, setWeightKg] = useState('');
-  const [age, setAge] = useState('');
-  const [bloodType, setBloodType] = useState('');
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
-  const [otherCondition, setOtherCondition] = useState('');
+  const isEditMode = !!existingProfile;
+  const [consentAgreed, setConsentAgreed] = useState(isEditMode);
+  const [displayName, setDisplayName] = useState(existingProfile?.display_name || '');
+  const [gender, setGender] = useState(existingProfile?.gender || '');
+  const [heightCm, setHeightCm] = useState(
+    existingProfile?.height_cm ? String(existingProfile.height_cm) : ''
+  );
+  const [weightKg, setWeightKg] = useState(
+    existingProfile?.weight_kg ? String(existingProfile.weight_kg) : ''
+  );
+  const [age, setAge] = useState(
+    existingProfile?.age !== undefined && existingProfile?.age !== null
+      ? String(existingProfile.age)
+      : ''
+  );
+  const [bloodType, setBloodType] = useState(existingProfile?.blood_type || '');
+  const [selectedConditions, setSelectedConditions] = useState<string[]>(
+    existingProfile?.conditions || []
+  );
+  const [otherCondition, setOtherCondition] = useState(
+    existingProfile?.other_condition || ''
+  );
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -65,7 +91,7 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consentAgreed) {
+    if (!consentAgreed && !isEditMode) {
       setErrorMsg('You must review and agree to the educational prototype demo terms.');
       return;
     }
@@ -79,38 +105,65 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
     setSubmitting(true);
 
     try {
-      const payload = {
-        demo_consent_confirmed: true,
-        is_adult_confirmed: parsedAge !== null ? parsedAge >= 18 : true,
-        terms_consent_version: 'v1.0',
-        display_name: displayName.trim() || undefined,
-        gender: gender || undefined,
-        height_cm: heightCm ? parseFloat(heightCm) : undefined,
-        weight_kg: weightKg ? parseFloat(weightKg) : undefined,
-        age: parsedAge !== null && !isNaN(parsedAge) ? parsedAge : undefined,
-        blood_type: bloodType || undefined,
-        conditions: selectedConditions.length > 0 ? selectedConditions : undefined,
-        other_condition: otherCondition.trim() || undefined,
-      };
+      if (isEditMode) {
+        const payload = {
+          display_name: displayName.trim() || undefined,
+          gender: gender || undefined,
+          height_cm: heightCm ? parseFloat(heightCm) : undefined,
+          weight_kg: weightKg ? parseFloat(weightKg) : undefined,
+          age: parsedAge !== null && !isNaN(parsedAge) ? parsedAge : undefined,
+          blood_type: bloodType || undefined,
+          conditions: selectedConditions.length > 0 ? selectedConditions : undefined,
+          other_condition: otherCondition.trim() || undefined,
+        };
 
-      const res = await fetch('http://127.0.0.1:8000/v1/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(payload),
-      });
+        const res = await fetch('http://127.0.0.1:8000/v1/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify(payload),
+        });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.detail || 'Failed to save profile and consent.');
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.detail || 'Failed to update profile.');
+        }
+      } else {
+        const payload = {
+          demo_consent_confirmed: true,
+          is_adult_confirmed: parsedAge !== null ? parsedAge >= 18 : true,
+          terms_consent_version: 'v1.0',
+          display_name: displayName.trim() || undefined,
+          gender: gender || undefined,
+          height_cm: heightCm ? parseFloat(heightCm) : undefined,
+          weight_kg: weightKg ? parseFloat(weightKg) : undefined,
+          age: parsedAge !== null && !isNaN(parsedAge) ? parsedAge : undefined,
+          blood_type: bloodType || undefined,
+          conditions: selectedConditions.length > 0 ? selectedConditions : undefined,
+          other_condition: otherCondition.trim() || undefined,
+        };
+
+        const res = await fetch('http://127.0.0.1:8000/v1/profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.detail || 'Failed to save profile and consent.');
+        }
       }
 
       onProfileCreated();
     } catch (err: unknown) {
       const error = err as Error;
-      setErrorMsg(error.message || 'Error recording consent.');
+      setErrorMsg(error.message || 'Error saving profile.');
     } finally {
       setSubmitting(false);
     }
@@ -120,12 +173,33 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <ShieldCheck size={28} className={styles.shieldIcon} />
-        <div>
-          <h2 className={styles.title}>Educational Consent & Health Profile</h2>
+        <div style={{ flex: 1 }}>
+          <h2 className={styles.title}>
+            {isEditMode ? 'Edit Health Profile' : 'Educational Consent & Health Profile'}
+          </h2>
           <p className={styles.subtitle}>
-            MedNourish is an educational prototype. We collect minimum profile data and never ask for or store Date of Birth.
+            {isEditMode
+              ? 'Update your demographic and health attributes for reference matching.'
+              : 'MedNourish is an educational prototype. We collect minimum profile data and never ask for or store Date of Birth.'}
           </p>
         </div>
+        {isEditMode && onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '1.25rem',
+              color: 'var(--color-text-secondary)',
+              padding: '0.25rem',
+            }}
+            aria-label="Close edit profile modal"
+          >
+            ✕
+          </button>
+        )}
       </div>
 
       {errorMsg && (
@@ -136,30 +210,34 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
       )}
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.termsBox}>
-          <h3 className={styles.termsHeading}>Educational Prototype Terms (v1.0)</h3>
-          <p className={styles.termsText}>
-            MEDNOURISH is an academic educational prototype. Outputs are reference-table matches and
-            general health information — <strong>not medical diagnoses, predictions, or prescriptions</strong>.
-            This service does not replace consultation with a qualified medical professional.
-          </p>
-        </div>
+        {!isEditMode && (
+          <>
+            <div className={styles.termsBox}>
+              <h3 className={styles.termsHeading}>Educational Prototype Terms (v1.0)</h3>
+              <p className={styles.termsText}>
+                MEDNOURISH is an academic educational prototype. Outputs are reference-table matches and
+                general health information — <strong>not medical diagnoses, predictions, or prescriptions</strong>.
+                This service does not replace consultation with a qualified medical professional.
+              </p>
+            </div>
 
-        {/* Demo Consent Checkbox (C-33 replaces strict 18+ gate) */}
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={consentAgreed}
-            onChange={(e) => setConsentAgreed(e.target.checked)}
-            required
-            className={styles.checkbox}
-          />
-          <span>
-            <strong>I agree to the educational prototype demo terms and privacy policy.</strong> (Demo consent; date of birth is never collected).
-          </span>
-        </label>
+            {/* Demo Consent Checkbox (C-33 replaces strict 18+ gate) */}
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={consentAgreed}
+                onChange={(e) => setConsentAgreed(e.target.checked)}
+                required
+                className={styles.checkbox}
+              />
+              <span>
+                <strong>I agree to the educational prototype demo terms and privacy policy.</strong> (Demo consent; date of birth is never collected).
+              </span>
+            </label>
 
-        <hr className={styles.divider} />
+            <hr className={styles.divider} />
+          </>
+        )}
 
         <h3 className={styles.optionalHeading}>Profile Attributes (C-33)</h3>
         <p className={styles.optionalSub}>
@@ -308,14 +386,42 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={submitting || !consentAgreed}
-          className={styles.submitBtn}
-        >
-          <UserCheck size={18} />
-          {submitting ? 'Saving Profile...' : 'Confirm & Proceed to Dashboard'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+          {isEditMode && onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              style={{
+                flex: 1,
+                padding: '0.75rem',
+                border: '1px solid var(--color-border)',
+                background: 'var(--color-bg-app)',
+                color: 'var(--color-text-primary)',
+                borderRadius: 'var(--radius-md)',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+          )}
+          <button
+            type="submit"
+            disabled={submitting || (!consentAgreed && !isEditMode)}
+            className={styles.submitBtn}
+            style={{ flex: 2, marginTop: 0 }}
+          >
+            <UserCheck size={18} />
+            {submitting
+              ? isEditMode
+                ? 'Saving Changes...'
+                : 'Saving Profile...'
+              : isEditMode
+              ? 'Save Profile Changes'
+              : 'Confirm & Proceed to Dashboard'}
+          </button>
+        </div>
       </form>
     </div>
   );
