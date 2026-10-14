@@ -1,0 +1,16 @@
+# MedNourish — Class Map: Tongue
+model: tongue
+dataset_root: TONGUE
+cap_per_class: 600
+classes:
+  - name: Healthy
+    source_folders: ["Healthy"]
+  - name: Diabetes
+    source_folders: ["Diabetes"]
+  - name: OralCancer
+    source_folders: ["OralCancer"]
+  - name: Other_TCM_Tongue
+    source_folders: ["shezhen datasets"]
+excluded_folders:
+  - name: Pre Diabetes
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 24 images)"

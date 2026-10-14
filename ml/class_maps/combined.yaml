@@ -1,0 +1,28 @@
+# MedNourish — Class Map: Combined 11 Vitamin Folders
+model: combined
+dataset_root: dataset
+cap_per_class: 600
+classes:
+  - name: Vitamin_A_Deficiency
+    source_folders: ["Vitamin A deficiency"]
+  - name: Vitamin_B_Complex_Deficiency
+    source_folders: ["Vitamin B complex deficiency"]
+  - name: Vitamin_B12_Deficiency
+    source_folders: ["Vitamin B-12 deficiency"]
+  - name: Vitamin_B2_Deficiency
+    source_folders: ["Vitamin B2 deficiency"]
+  - name: Vitamin_B3_Deficiency
+    source_folders: ["Vitamin B3 deficieny"]
+  - name: Vitamin_B9_Deficiency
+    source_folders: ["Vitamin B9 deficiency"]
+  - name: Vitamin_C_Deficiency
+    source_folders: ["Vitamin C deficiency"]
+  - name: Vitamin_D_Deficiency
+    source_folders: ["Vitamin D deficiency"]
+  - name: Vitamin_E_Deficiency
+    source_folders: ["Vitamin E deficiency"]
+  - name: Vitamin_K_Deficiency
+    source_folders: ["Vitamin K deficiency"]
+  - name: Other_Nutrient_Deficiency
+    source_folders: ["zinc, iron, biotin, or protein deficiency"]
+excluded_folders: []

@@ -1,0 +1,22 @@
+# MedNourish — Class Map: Skin
+model: skin
+dataset_root: SKIN
+cap_per_class: 600
+classes:
+  - name: Normal
+    source_folders: ["NORMAL"]
+  - name: Vitamin_B3_Pellagra
+    source_folders: ["VITAMIN_B3"]
+  - name: Other_Non_Nutritional
+    source_folders: ["OTHER"]
+excluded_folders:
+  - name: ZINC
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 97 images)"
+  - name: VITAMIN_C
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 88 images)"
+  - name: VITAMIN_A
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 46 images)"
+  - name: BIOTIN
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 40 images)"
+  - name: PROTEIN_ENERGY_MALNUTRITION
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 35 images)"

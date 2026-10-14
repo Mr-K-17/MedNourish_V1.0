@@ -1,0 +1,12 @@
+# MedNourish — Class Map: Lips
+model: lips
+dataset_root: LIPS
+cap_per_class: 600
+classes:
+  - name: Normal
+    source_folders: ["NORMAL"]
+excluded_folders:
+  - name: NON_NUTRITIONAL
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 91 images)"
+  - name: NUTRITIONAL
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 90 images)"

@@ -569,6 +569,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Trained XGBoost & LightGBM on Main 4k dataset across with-labs (99.4%), no-labs (99.3%), and symptoms-only (79.9%, showing leakage gap); evaluated 116-row reference table learner with CV.
 - Generated model cards and exported artifacts to ml/artifacts/tabular/; 32 tests passed in ml/tests/.
 
+### S-026 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Stage 3 Image dataset analysis, perceptual-hash deduplication, and manifests complete across 7 models.
+- Generated docs/IMAGE_DATA_REPORT.md, class maps in ml/class_maps/*.yaml, and group-aware 70/15/15 split manifests.
+- Applied >=100 class gating (reporting drops for low-support categories); verified 35 tests passing in ml/tests/.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

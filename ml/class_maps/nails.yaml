@@ -1,0 +1,12 @@
+# MedNourish — Class Map: Nails
+model: nails
+dataset_root: NAILS
+cap_per_class: 600
+classes:
+  - name: Nutritional
+    source_folders: ["NUTRITIONAL"]
+  - name: Other_Non_Nutritional
+    source_folders: ["OTHER", "NON_NUTRITIONAL"]
+excluded_folders:
+  - name: NORMAL
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 60 images)"
