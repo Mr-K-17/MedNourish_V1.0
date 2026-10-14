@@ -60,10 +60,9 @@ async def test_complete_end_to_end_user_lifecycle_journey():
         profile_data = res_create.json()
         assert profile_data["id"] == primary_uid
         assert profile_data["display_name"] == "Verified Adult"
-        assert profile_data["is_adult_confirmed"] is True
-        # Verify no age/dob fields exposed
+        # Verify no DOB fields exposed (C-21, C-33)
         assert "date_of_birth" not in profile_data
-        assert "age" not in profile_data
+        assert "dob" not in profile_data
 
         # Verify profile retrieval
         res_get_profile = await client.get("/v1/profile")

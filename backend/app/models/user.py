@@ -21,13 +21,35 @@ class UserProfile(Base):
     height_cm = Column(Float, nullable=True)    # In cm
     weight_kg = Column(Float, nullable=True)    # In kg
 
-    # Verification and consent flags (SAF-10, C-21)
+    # Owner Amendment C-33 Profile Extensions
+    age = Column(Integer, nullable=True)        # 1-120
+    blood_type = Column(String(10), nullable=True)  # A+, A-, B+, B-, AB+, AB-, O+, O-, Unknown
+    conditions_json = Column(String(2048), nullable=True)  # JSON-encoded array of selected conditions
+    other_condition = Column(String(100), nullable=True)   # Optional free-text up to 100 chars
+
+    # Verification and consent flags (SAF-10, C-21, C-33 demo-consent)
     is_adult_confirmed = Column(Boolean, default=False, nullable=False)
     terms_consent_version = Column(String(20), nullable=False)
     consent_timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+    @property
+    def conditions(self) -> list[str]:
+        if not self.conditions_json:
+            return []
+        try:
+            import json
+            return json.loads(self.conditions_json)
+        except Exception:
+            return []
+
+    @property
+    def under_18_notice(self):
+        if self.age is not None and self.age < 18:
+            return "Reference content is written for adults; demo only."
+        return None
 
 
 class UserConsentLog(Base):

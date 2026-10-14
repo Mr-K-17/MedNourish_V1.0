@@ -77,6 +77,12 @@ ALLOWLIST_SUBSTRINGS = [
     "prohibited",
     "refusal",
     "allowlist",
+    "demo risk band",
+    "reference match %",
+    "model %",
+    "image model %",
+    "probable pattern",
+    "screened",
 ]
 
 

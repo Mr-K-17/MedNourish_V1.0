@@ -87,10 +87,9 @@ async def test_adult_confirmation_required():
         assert data["id"] == "test_user_adult_check"
         assert data["is_adult_confirmed"] is True
         assert data["terms_consent_version"] == "v1.0"
-        # Verify NO DOB or age fields exist in response
+        # Verify NO DOB or date_of_birth fields exist in response (C-21, C-33)
         assert "dob" not in data
         assert "date_of_birth" not in data
-        assert "age" not in data
 
 
 @pytest.mark.anyio
@@ -269,6 +268,89 @@ async def test_account_deletion_removes_consent_logs_in_dev():
 
         assert consent_count == 0
         assert profile_count == 0
+
+    app.dependency_overrides.pop(get_current_user, None)
+
+
+@pytest.mark.anyio
+async def test_v2_profile_extensions_c33():
+    """Test C-33 profile extensions: age (1-120), under-18 notice, blood_type, conditions, other_condition."""
+    app.dependency_overrides[get_current_user] = lambda: AuthenticatedUser(uid="user_c33_test")
+    transport = ASGITransport(app=app)
+
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        # 1. Invalid age (> 120)
+        res = await client.post(
+            "/v1/profile",
+            json={
+                "demo_consent_confirmed": True,
+                "terms_consent_version": "v1.0",
+                "age": 125,
+            },
+        )
+        assert res.status_code == 422
+
+        # 2. Invalid blood type
+        res = await client.post(
+            "/v1/profile",
+            json={
+                "demo_consent_confirmed": True,
+                "terms_consent_version": "v1.0",
+                "blood_type": "Z+",
+            },
+        )
+        assert res.status_code == 422
+
+        # 3. Invalid condition
+        res = await client.post(
+            "/v1/profile",
+            json={
+                "demo_consent_confirmed": True,
+                "terms_consent_version": "v1.0",
+                "conditions": ["NonexistentDisease123"],
+            },
+        )
+        assert res.status_code == 422
+
+        # 4. Valid under-18 user with demo consent
+        res = await client.post(
+            "/v1/profile",
+            json={
+                "demo_consent_confirmed": True,
+                "terms_consent_version": "v1.0",
+                "display_name": "Teen User",
+                "age": 16,
+                "blood_type": "B+",
+                "conditions": ["Anemia", "Asthma"],
+                "other_condition": "Seasonal rhinitis",
+            },
+        )
+        assert res.status_code == 201
+        data = res.json()
+        assert data["age"] == 16
+        assert data["blood_type"] == "B+"
+        assert set(data["conditions"]) == {"Anemia", "Asthma"}
+        assert data["other_condition"] == "Seasonal rhinitis"
+        assert data["under_18_notice"] == "Reference content is written for adults; demo only."
+        assert "dob" not in data
+        assert "date_of_birth" not in data
+
+        # 5. Update profile to age 25 -> under_18_notice becomes None
+        res_update = await client.put(
+            "/v1/profile",
+            json={
+                "age": 25,
+                "conditions": ["Anemia"],
+            },
+        )
+        assert res_update.status_code == 200
+        up_data = res_update.json()
+        assert up_data["age"] == 25
+        assert up_data["conditions"] == ["Anemia"]
+        assert up_data["under_18_notice"] is None
+
+        # Clean up
+        await client.delete("/v1/profile")
 
     app.dependency_overrides.pop(get_current_user, None)
 

@@ -126,7 +126,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 | AUTH-03 | Before any data collection: an explicit, not pre-ticked 18+ confirmation (self-declaration) and a versioned, explicit health-data consent. Declining blocks the app but leaves Urgent help reachable. | 1 (1A) | Confirmed (C-21) |
 | AUTH-04 | After sign-in: first-time users go to the 18+ confirmation, consent and profile setup; returning users go to the Dashboard. | 1 (1A) | Confirmed (workflow in brief) |
 | AUTH-05 | User can delete their account and all associated data. Whether a minimal consent record survives deletion, and for how long, must be decided before any real user data (OD-08); development deletes everything. | 1 (1A) | Proposed |
-| PROF-01 | Profile holds only the minimum: an optional display name, and optional gender, height and weight (each required only if a documented feature needs it; none does yet). **No date of birth and no age field**; the 18+ confirmation is the age control. Any additional field needs a documented feature and an owner decision. | 1 (1A) | Confirmed (C-21) |
+| PROF-01 | **Amended by C-33**: Onboarding collects age (integer 1-120, demo purposes), gender, height, weight, blood type (A+, A-, B+, B-, AB+, AB-, O+, O-, Unknown) and medical conditions (multi-select of 18 conditions + None and optional Other free text max 100 chars). The 18+ gate is replaced by a demo-consent checkbox. Under-18 users see: 'Reference content is written for adults; demo only.' | 1 (1A) / v2 | Amended (C-33) |
 | PROF-02 | Every record in MySQL (`user_profiles`, `user_consent_logs`, `assessments`) is keyed to the user's Firebase user ID (`firebase_uid`); no user can read or write another user's data. | 1 (1A) | Confirmed (brief: "like a primary key", OD-16) |
 | PROF-03 | Users can edit and clear their optional profile fields. | 1 (1A) | Proposed |
 
@@ -158,7 +158,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 |---|---|---|---|
 | SYMP-01 | Multi-select symptoms, grouped by body region, with search by tag. | 1 | Confirmed (brief) |
 | SYMP-02 | Tag vocabulary comes from the cleaned keywords knowledge base: typos fixed, human-readable labels, plain-language synonyms, icon and read-aloud text. | 1 | Proposed (OD-04) |
-| SYMP-03 | Results list possible associations from the selected tags as an ordered reference match summary with matched tags and count, not a probability, risk score, or band. Non-nutritional classes are excluded from user results in the MVP (C-18). | 1 | Confirmed (C-18) |
+| SYMP-03 | Results list possible associations from the selected tags as an ordered reference match summary. **Amended by C-34**: Percentages allowed, labelled 'Reference match %' with one-line explanation (never medical probability). Non-nutritional classes are excluded from user results in the MVP (C-18). | 1 / v2 | Amended (C-18, C-34) |
 | SYMP-04 | Selecting a result explains which tags matched and package version. Show general information and any severity/urgency content only after clinical review; no medicines or supplements (C-17). | 1 | Proposed; content gated by PV-17 |
 | SYMP-05 | Results can be saved to Files and Reports. | 1 | Proposed |
 | SYMP-06 | Optional XGBoost/LightGBM ranking experiment, only if an audited dataset supplies suitable independent examples, targets, and the same feature types the app collects. The Phase 1 rule-based matcher remains the user-facing fallback. Do not generate synthetic table-derived rows as evidence of predictive performance. | Later, gated | Pending (OD-17, PV-01, PV-02, PV-17) |
@@ -168,7 +168,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 
 | ID | Requirement | Phase | Status |
 |---|---|---|---|
-| REPORT-01 | **Nutritional match summary**: a transparent summary of the reference-table matches and their limitations. Do not present it as a clinical risk score, risk level, or probability until a reviewed specification, evidence, and thresholds exist (C-18). | 1 | Confirmed (C-18) |
+| REPORT-01 | **Nutritional match summary**: transparent summary of reference-table matches and limitations. **Amended by C-34 & C-35**: Percentages allowed by kind ('Reference match %', 'Model %', 'Image model %'); Demo risk bands (High/Moderate/Low) allowed, strictly labelled 'Demo risk band (heuristic, not clinical)'; reports say 'screened'/'probable pattern', never 'diagnosed'/'tested'. | 1 / v2 | Amended (C-18, C-34, C-35) |
 | REPORT-02 | **Health Progress Tracker**: timeline of check-ins across MedBot and Symptom Reference Explorer (MedScan from Phase 2). | 1 | Confirmed (brief) |
 | REPORT-03 | Report card in-app view for sharing with a clinician, including disclaimers and package version. PDF export is deferred beyond Phase 1. | 1 (view); export deferred | Proposed |
 | REPORT-04 | Every report records the knowledge-base version, rules version and matcher version it used. | 1 | Proposed |
@@ -178,7 +178,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 | ID | Requirement | Phase | Status |
 |---|---|---|---|
 | CARE-01 | Offer optional general wellness tasks (food, water, sleep, exercise) that the user accepts or edits. Suggestions must not be framed as treatment for a predicted deficiency. | 1 | Proposed |
-| CARE-02 | Custom tasks and alerts: water, food, exercise. No medication reminders and no medicine or supplement suggestions (C-22, C-08). | 1 | Confirmed (C-08, C-22) |
+| CARE-02 | Custom tasks and alerts: water, food, exercise. No medication reminders and no medicine or supplement suggestions (C-22, C-08). **Amended by C-38**: CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements/drugs). | 1 / v2 | Confirmed (C-08, C-22, C-38) |
 | CARE-03 | Mark tasks done; keep completion history. | 1 | Confirmed (brief) |
 | CARE-04 | Reminders while the app is open (MVP). Background push, Google Tasks and Google Calendar sync in Phase 3. | 1 / 3 | Proposed (PV-15, PV-16) |
 | CARE-05 | Automatic schedule from all modules, including VirtualWard and MedScan. | 3 | Confirmed (brief) |
@@ -189,7 +189,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 |---|---|---|---|
 | NURSE-01 | Answers questions about how to use the app, plus scripted FAQs. No free text, no LLM, no stored transcripts in Phase 1 (C-15, C-23). | 1 | Confirmed (brief, C-15, C-23) |
 | NURSE-02 | General nutrition education from a curated knowledge base: food alternatives, "what if" questions, long-term healthy-habit guidance. | Later (Phase 2+, gated by PV-11, PV-17) | Deferred; Confirmed (brief) |
-| NURSE-03 | Safety boundaries: no diagnosis, prescriptions or doses; refuses and redirects when out of scope. | 1 | Confirmed (C-04, C-08) |
+| NURSE-03 | Safety boundaries: no personal diagnosis, prescriptions or doses. **Amended by C-36**: NurseBot may show internet-sourced vitamin/medication information with a disclaimer from allowlisted sources (MedlinePlus/ODS); personal diagnosis/prescriptions remain strictly refused. | 1 / v2 | Amended (C-04, C-08, C-36) |
 | NURSE-04 | Scripted fallback responses when requests are out of scope. | 1 | Confirmed (C-04) |
 | NURSE-05 | LLM access through a provider-swappable layer, with a safety test set run before launch. | Later (Phase 2+, gated by PV-11, OD-06) | Deferred; Proposed (OD-06) |
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, UserCheck, AlertCircle } from 'lucide-react';
+import { ShieldCheck, UserCheck, AlertCircle, Info } from 'lucide-react';
 import styles from './ConsentProfileModal.module.css';
 
 interface ConsentProfileModalProps {
@@ -7,27 +7,71 @@ interface ConsentProfileModalProps {
   onProfileCreated: () => void;
 }
 
+const CANONICAL_CONDITIONS = [
+  'Type 2 diabetes',
+  'Type 1 diabetes',
+  'Hypertension',
+  'Anemia',
+  'Thyroid disorder',
+  'Asthma',
+  'Celiac disease',
+  "Crohn's/IBD",
+  'Irritable bowel syndrome',
+  'Chronic kidney disease',
+  'Liver disease',
+  'Heart disease',
+  'PCOS',
+  'Osteoporosis',
+  'Depression/anxiety',
+  'Migraine',
+  'Acid reflux/gastritis',
+  'Lactose intolerance/food allergy',
+  'None',
+];
+
+const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'];
+
 export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
   idToken,
   onProfileCreated,
 }) => {
-  const [isAdultConfirmed, setIsAdultConfirmed] = useState(false);
   const [consentAgreed, setConsentAgreed] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [gender, setGender] = useState('');
   const [heightCm, setHeightCm] = useState('');
   const [weightKg, setWeightKg] = useState('');
+  const [age, setAge] = useState('');
+  const [bloodType, setBloodType] = useState('');
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const [otherCondition, setOtherCondition] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isAdultConfirmed) {
-      setErrorMsg('You must explicitly confirm you are an adult aged 18 or above (SAF-10).');
+  const parsedAge = age ? parseInt(age, 10) : null;
+  const isUnder18 = parsedAge !== null && !isNaN(parsedAge) && parsedAge < 18;
+
+  const handleToggleCondition = (cond: string) => {
+    if (cond === 'None') {
+      setSelectedConditions(['None']);
       return;
     }
+    const filtered = selectedConditions.filter((c) => c !== 'None');
+    if (filtered.includes(cond)) {
+      setSelectedConditions(filtered.filter((c) => c !== cond));
+    } else {
+      setSelectedConditions([...filtered, cond]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!consentAgreed) {
-      setErrorMsg('You must review and agree to the educational prototype consent terms.');
+      setErrorMsg('You must review and agree to the educational prototype demo terms.');
+      return;
+    }
+
+    if (parsedAge !== null && (parsedAge < 1 || parsedAge > 120)) {
+      setErrorMsg('Age must be between 1 and 120 years.');
       return;
     }
 
@@ -36,12 +80,17 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
 
     try {
       const payload = {
-        is_adult_confirmed: isAdultConfirmed,
+        demo_consent_confirmed: true,
+        is_adult_confirmed: parsedAge !== null ? parsedAge >= 18 : true,
         terms_consent_version: 'v1.0',
         display_name: displayName.trim() || undefined,
         gender: gender || undefined,
         height_cm: heightCm ? parseFloat(heightCm) : undefined,
         weight_kg: weightKg ? parseFloat(weightKg) : undefined,
+        age: parsedAge !== null && !isNaN(parsedAge) ? parsedAge : undefined,
+        blood_type: bloodType || undefined,
+        conditions: selectedConditions.length > 0 ? selectedConditions : undefined,
+        other_condition: otherCondition.trim() || undefined,
       };
 
       const res = await fetch('http://127.0.0.1:8000/v1/profile', {
@@ -50,7 +99,7 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${idToken}`,
         },
-        body: json_payload(payload),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -67,18 +116,14 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
     }
   };
 
-  function json_payload(data: unknown): string {
-    return JSON.stringify(data);
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <ShieldCheck size={28} className={styles.shieldIcon} />
         <div>
-          <h2 className={styles.title}>18+ Confirmation & Educational Consent</h2>
+          <h2 className={styles.title}>Educational Consent & Health Profile</h2>
           <p className={styles.subtitle}>
-            Required before any feature use. We collect minimum data and never store date of birth.
+            MedNourish is an educational prototype. We collect minimum profile data and never ask for or store Date of Birth.
           </p>
         </div>
       </div>
@@ -100,22 +145,7 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
           </p>
         </div>
 
-        {/* Explicit, not pre-ticked 18+ adult confirmation per SAF-10, C-01 */}
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={isAdultConfirmed}
-            onChange={(e) => setIsAdultConfirmed(e.target.checked)}
-            required
-            className={styles.checkbox}
-          />
-          <span>
-            <strong>I explicitly confirm that I am an adult aged 18 or above.</strong> (MEDNOURISH is
-            strictly for adult use; date of birth is never collected).
-          </span>
-        </label>
-
-        {/* Explicit consent agreement */}
+        {/* Demo Consent Checkbox (C-33 replaces strict 18+ gate) */}
         <label className={styles.checkboxLabel}>
           <input
             type="checkbox"
@@ -125,15 +155,15 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
             className={styles.checkbox}
           />
           <span>
-            I understand and accept the educational prototype terms and privacy policy.
+            <strong>I agree to the educational prototype demo terms and privacy policy.</strong> (Demo consent; date of birth is never collected).
           </span>
         </label>
 
         <hr className={styles.divider} />
 
-        <h3 className={styles.optionalHeading}>Optional Profile Attributes (Minimal Data)</h3>
+        <h3 className={styles.optionalHeading}>Profile Attributes (C-33)</h3>
         <p className={styles.optionalSub}>
-          All demographic fields below are entirely optional (C-21). You can leave them blank.
+          Demographic and health attributes to enrich reference matching.
         </p>
 
         <div className={styles.fieldGrid}>
@@ -149,6 +179,47 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
               className={styles.input}
               placeholder="e.g. Alex"
             />
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="age-input" className={styles.fieldLabel}>
+              Age (Years: 1–120)
+            </label>
+            <input
+              id="age-input"
+              type="number"
+              min="1"
+              max="120"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className={styles.input}
+              placeholder="e.g. 28"
+            />
+            {isUnder18 && (
+              <div className={styles.under18Notice}>
+                <Info size={14} />
+                <span>Reference content is written for adults; demo only.</span>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="blood-type-select" className={styles.fieldLabel}>
+              Blood Type (Optional)
+            </label>
+            <select
+              id="blood-type-select"
+              value={bloodType}
+              onChange={(e) => setBloodType(e.target.value)}
+              className={styles.input}
+            >
+              <option value="">Select blood type...</option>
+              {BLOOD_TYPES.map((bt) => (
+                <option key={bt} value={bt}>
+                  {bt}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className={styles.field}>
@@ -202,9 +273,44 @@ export const ConsentProfileModal: React.FC<ConsentProfileModalProps> = ({
           </div>
         </div>
 
+        {/* Canonical Conditions Selection */}
+        <div className={styles.conditionsContainer}>
+          <label className={styles.fieldLabel}>
+            Existing Health Conditions (Select any that apply)
+          </label>
+          <div className={styles.conditionsGrid}>
+            {CANONICAL_CONDITIONS.map((cond) => (
+              <label key={cond} className={styles.conditionChip}>
+                <input
+                  type="checkbox"
+                  checked={selectedConditions.includes(cond)}
+                  onChange={() => handleToggleCondition(cond)}
+                  className={styles.checkbox}
+                />
+                <span>{cond}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="other-condition" className={styles.fieldLabel}>
+            Other Condition (Optional, max 100 characters)
+          </label>
+          <input
+            id="other-condition"
+            type="text"
+            maxLength={100}
+            value={otherCondition}
+            onChange={(e) => setOtherCondition(e.target.value)}
+            className={styles.input}
+            placeholder="e.g. Mild seasonal allergies"
+          />
+        </div>
+
         <button
           type="submit"
-          disabled={submitting || !isAdultConfirmed || !consentAgreed}
+          disabled={submitting || !consentAgreed}
           className={styles.submitBtn}
         >
           <UserCheck size={18} />

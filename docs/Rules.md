@@ -57,14 +57,14 @@ These implement confirmed decision C-08.
 | SAF-07 | Show a short disclaimer on every result screen and in every report view. |
 | SAF-08 | User-facing urgency tiers, severity and specific timeframes MUST come from clinically reviewed content (PV-17). While content is unreviewed, MUST NOT show any of them and MUST NOT infer urgency from a table match; use only the general prompt to consult a qualified clinician if concerned. |
 | SAF-09 | In the MVP, non-nutritional disease classes MUST NOT be displayed to users at all (C-18). They may stay in the cleaned data, flagged, and are never merged into nutritional results. Any later display needs a new owner decision and review. |
-| SAF-10 | Version 1 is for adults 18+, confirmed by an explicit, not pre-ticked confirmation before any data is saved (C-21). Date of birth is not collected. Content aimed at children or infants MUST NOT appear in adult results. If a user says they are under 18 or asking for a child, explain the limit and suggest a clinician. |
+| SAF-10 | Version 1 was adults 18+ only (C-21). **Amended by C-33**: Onboarding now collects age (integer 1-120, demo purposes), gender, height, weight, blood type, and medical conditions (multi-select of 18 + None/Other). The 18+ gate is replaced by a demo-consent checkbox. Under-18 users see: 'Reference content is written for adults; demo only.' |
 | SAF-11 | Phase 1 has no free-text health input that the app analyses, so there is no automated self-harm detection. The static emergency page carries supportive wording and points to local emergency and support services (C-20). Automated detection is required before any free-text health input is analysed (see SAF-15). |
 | SAF-12 | ML-derived output MUST be labelled "experimental" until gates G1–G6 (`Architecture.md`) are passed and recorded. |
 | SAF-13 | Medical content, any red-flag list, any future scoring specification and any urgency wording need clinical review before any public release (PV-17). Until then, label them "unreviewed draft" in internal tooling and in the demo banner. |
-| SAF-14 | NurseBot MUST refuse and redirect for: diagnosis requests, dose or medicine questions, interpreting lab results as a diagnosis, and anything outside its scripted content. In Phase 1 NurseBot is menu-based scripted app help with no free text, no LLM and no stored transcripts (C-15, C-23). |
+| SAF-14 | NurseBot safety boundaries (C-08, C-15, C-23). **Amended by C-36**: NurseBot may show internet-sourced vitamin/medication information from allowlisted NIH/MedlinePlus sources with a visible disclaimer; personal diagnosis/prescriptions remain strictly refused. CarePlan and reports still never contain medicines, supplements or doses. |
 | SAF-15 | Phase 1 MUST NOT include an automated emergency-triage or red-flag detection engine (C-20). Candidate red flags found in the CSV content are inputs to clinical review only. Such an engine is required, with a reviewed rule list, before any free-text health input is analysed. |
 | SAF-16 | MUST NOT display unreviewed treatment, supplement, drug, dose, timeframe, severity, urgency or advice content (C-17). Until a qualified reviewer is recorded, all existing nutritional mappings and routines are unreviewed drafts. |
-| SAF-17 | User-facing labels and wording: the MVP uses "Symptom Reference Explorer" and "reference match summary", with an educational-prototype disclaimer. Do not use unsubstantiated risk, prediction, probability, score or band wording (C-18, C-19). The academic title stays on academic documents. |
+| SAF-17 | User-facing labels and wording (C-18, C-19). **Amended by C-34 and C-35**: Percentages are allowed across features when clearly labelled by kind ('Reference match %', 'Model %', 'Image model %'; never medical probabilities). Demo risk bands (High/Moderate/Low) are allowed when labelled 'Demo risk band (heuristic, not clinical)'; reports say 'screened'/'probable pattern', never 'diagnosed'/'tested'. |
 
 **Phrasing examples.**
 - Acceptable: "Your answers have some patterns that are sometimes linked to low vitamin B12 intake. This is not a diagnosis. A clinician can tell you whether a blood test makes sense."
@@ -182,7 +182,7 @@ Do not implement the feature in the left column until the listed items are close
 | Any user-facing ML output on structured data (XGBoost, LightGBM), ML-assisted Symptom Reference Explorer or MedBot scoring | The row above plus G1 to G6 (`Architecture.md` 8.2) | Evaluation report, model card, owner approval | Later gated model work only |
 | MedScan and any image model | PV-04 image folders · PV-05 duplicates · PV-06 annotation files · PV-09 licences · PV-17 | Folder counts, formats, label provenance, duplicate checks, quality review | Phase 2 image work |
 | Reference package and Symptom Reference Explorer, MedBot content (M1B.1 onward) | PV-07 CSV provenance (may be recorded as Unknown) · OD-04 plan · OD-19 · PV-17 route | Record what is known about provenance and licence; create cleaned copies (DAT-04 tiers); exclude supplement, drug, timeframe, severity, urgency and treatment content; owner approves the matcher specification. Until reviewer sign-off, keep the build in educational-prototype mode with unreviewed-content status; no public advice release. | Phase 1B on local fictional data; public release remains gated |
-| Risk Score | **Closed: none in Version 1 (C-18).** Any later proposal needs a written, clinician-reviewed specification | New owner decision | Not before Phase 2 |
+| Risk Score | **Amended by C-35**: Demo risk band (High/Moderate/Low) allowed, strictly labelled 'Demo risk band (heuristic, not clinical)'; reports say 'screened'/'probable pattern', never 'diagnosed'/'tested'. | Owner amendment C-35 | Educational prototype |
 | Static emergency help page (M1A.3) | PV-15 offline behaviour per platform | Test offline on target browsers; region text only through configuration | M1A.3 |
 | Region-specific emergency information, red-flag rules | PV-10 target country · PV-17 · PV-12 | Region configuration filled and reviewed; any rule list approved | Region text; any automated red-flag detection |
 | NurseBot LLM Q&A and MedBot Detailed mode | **Not in Phase 1 (C-15).** Later: PV-11 · OD-06 · explicit owner approval including any payment | Re-check current pricing, retention, training-use terms and limits from official sources, with date and URL; run a safety test set | LLM features |
@@ -198,8 +198,20 @@ Do not implement the feature in the left column until the listed items are close
 
 - **Reference match summary:** an ordered list of reference-table entries whose listed symptom tags overlap the tags the user chose, showing the matched tags. It is a lookup result from an unreviewed table, not a diagnosis, a risk level or a probability.
 - **Educational prototype:** the status of the MVP: a learning and demonstration build on fictional data, not a medical tool.
-- **Retired terms:** "band" (Low/Moderate/High), "risk score", "risk indicator" and "prediction" are not used in user-facing wording in Version 1 (C-18, C-19).
+- **Retired terms (superseded by C-34/C-35):** "band" (Low/Moderate/High) is now permitted when explicitly labelled 'Demo risk band (heuristic, not clinical)'; percentages permitted when labelled by kind ('Reference match %', 'Model %', 'Image model %').
 - **Data leakage:** accidentally letting the model see test answers (for example, the same photo in training and testing), which makes results look better than they are.
 - **Baseline:** a very simple method a model must beat to be worth using.
 - **Calibration:** making a model's scores behave like honest probabilities.
 - **Shadow mode:** running a model quietly and comparing it with the rules without showing its output to users.
+
+## 11. Owner Amendments Register (C-33..C-38)
+
+| Amendment ID | Overrides / Amends | Specification |
+|---|---|---|
+| **C-33** | C-01, PROF-01 | Onboarding collects age (integer 1-120, demo purposes), gender, height, weight, blood type (A+, A-, B+, B-, AB+, AB-, O+, O-, Unknown) and medical conditions (multi-select of 18 + None/Other). 18+ gate replaced by demo-consent checkbox. Under-18 users see: 'Reference content is written for adults; demo only.' |
+| **C-34** | C-18, SAF-17, C-30 | Percentages allowed across features, always labelled by kind: 'Reference match %', 'Model %', 'Image model %'; never described as a medical probability. |
+| **C-35** | C-18, SAF-17 | Demo risk band High/Moderate/Low allowed, labelled 'Demo risk band (heuristic, not clinical)'; reports say 'screened'/'probable pattern', never 'diagnosed'/'tested'. |
+| **C-36** | C-08 (NurseBot only) | NurseBot may show internet-sourced vitamin/medication information with a disclaimer from allowlisted sources (MedlinePlus/ODS). CarePlan and reports still never contain medicines, supplements or doses. |
+| **C-37** | Architecture / MedScan | MedScan lists nutrient candidates with percentages (blended with region follow-up checklist). |
+| **C-38** | CARE-02 / Reports | CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements). |
+

@@ -79,6 +79,13 @@ def create_user_profile(
             detail="Profile already exists for this account.",
         )
 
+    # Determine is_adult_confirmed
+    is_adult = True
+    if payload.is_adult_confirmed is not None:
+        is_adult = payload.is_adult_confirmed
+    elif payload.age is not None:
+        is_adult = (payload.age >= 18)
+
     # 1. Create minimal profile
     profile = UserProfile(
         id=current_user.uid,
@@ -86,7 +93,11 @@ def create_user_profile(
         gender=payload.gender,
         height_cm=payload.height_cm,
         weight_kg=payload.weight_kg,
-        is_adult_confirmed=payload.is_adult_confirmed,
+        age=payload.age,
+        blood_type=payload.blood_type,
+        conditions_json=json.dumps(payload.conditions) if payload.conditions is not None else None,
+        other_condition=payload.other_condition,
+        is_adult_confirmed=is_adult,
         terms_consent_version=payload.terms_consent_version,
     )
     db.add(profile)
@@ -118,7 +129,7 @@ def update_user_profile(
     current_user: AuthenticatedUser = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """Updates optional demographic profile fields (display_name, gender, height, weight)."""
+    """Updates optional demographic profile fields (display_name, gender, height, weight, age, blood_type, conditions)."""
     try:
         profile = db.query(UserProfile).filter(UserProfile.id == current_user.uid).first()
     except Exception as exc:
@@ -142,6 +153,15 @@ def update_user_profile(
         profile.height_cm = payload.height_cm
     if payload.weight_kg is not None:
         profile.weight_kg = payload.weight_kg
+    if payload.age is not None:
+        profile.age = payload.age
+        profile.is_adult_confirmed = (payload.age >= 18)
+    if payload.blood_type is not None:
+        profile.blood_type = payload.blood_type
+    if payload.conditions is not None:
+        profile.conditions_json = json.dumps(payload.conditions)
+    if payload.other_condition is not None:
+        profile.other_condition = payload.other_condition
 
     try:
         db.commit()

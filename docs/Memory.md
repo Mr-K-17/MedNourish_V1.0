@@ -654,6 +654,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Verified full test suites: 67 backend tests (SQLite & MySQL), 40 ML tests (Python 3.12), 14/14 smoke tests, and clean frontend build.
 - Closed all audit milestones (Stages 0-9 and F0-F8); MedNourish is fully demo-ready with zero remaining gaps.
 
+### S-043 — 2026-10-14 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Phase 1 Owner Amendments (C-33..C-38) recorded in Memory.md, PRD.md, and Rules.md; C-33 profile extensions implemented (age 1-120, blood_type, conditions_json, other_condition, demo consent).
+- Verified idempotent migration on SQLite, MySQL mednourish_dev, and MySQL mednourish_test; updated ConsentProfileModal UI, seed_demo.py, and scan_safety_claims allowlist.
+- Backend suite passed (67 passed, 1 skipped), frontend built cleanly with zero errors; no regressions.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

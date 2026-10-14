@@ -43,6 +43,11 @@ interface UserProfileData {
   weight_kg?: number;
   is_adult_confirmed: boolean;
   terms_consent_version: string;
+  age?: number;
+  blood_type?: string;
+  conditions?: string[];
+  other_condition?: string;
+  under_18_notice?: string;
 }
 
 export const App: React.FC = () => {
