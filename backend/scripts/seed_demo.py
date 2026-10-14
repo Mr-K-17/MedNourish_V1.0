@@ -31,19 +31,20 @@ backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if backend_dir not in sys.path:
     sys.path.insert(0, backend_dir)
 
+from app.core.config import settings
 from app.db.session import Base
-from app.models.user import UserProfile, UserConsentLog, SavedSummary, CarePlanItem
+from app.models.user import UserProfile, UserConsentLog, SavedSummary, CarePlanItem, MedScanSession
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger("seed_demo")
 
 DEMO_USER_ID = "demo-user-academic-001"
-SQLITE_DB_PATH = os.path.join(backend_dir, "mednourish_dev.db")
-DATABASE_URL = f"sqlite:///{SQLITE_DB_PATH}"
 
 
-def seed_database(db_url: str = DATABASE_URL) -> None:
-    logger.info("Initializing database connection at: %s", db_url)
+def seed_database(db_url: str = None) -> None:
+    if db_url is None:
+        db_url = settings.database_url
+    logger.info("Initializing database connection (mode=%s)...", settings.DB_MODE)
     engine = create_engine(db_url, connect_args={"check_same_thread": False} if "sqlite" in db_url else {})
     Base.metadata.create_all(bind=engine)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -51,6 +52,7 @@ def seed_database(db_url: str = DATABASE_URL) -> None:
 
     try:
         # 1. Clean existing demo user records
+        db.query(MedScanSession).filter(MedScanSession.user_id == DEMO_USER_ID).delete()
         db.query(CarePlanItem).filter(CarePlanItem.user_id == DEMO_USER_ID).delete()
         db.query(SavedSummary).filter(SavedSummary.user_id == DEMO_USER_ID).delete()
         db.query(UserConsentLog).filter(UserConsentLog.user_id == DEMO_USER_ID).delete()

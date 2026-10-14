@@ -60,6 +60,9 @@ class Settings(BaseModel):
     FIREBASE_AUTH_EMULATOR_HOST: str = os.getenv("FIREBASE_AUTH_EMULATOR_HOST", "127.0.0.1:9099")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "demo-mednourish")
 
+    # Database Mode Toggle: 'sqlite' (default fallback) or 'mysql'
+    DB_MODE: str = os.getenv("DB_MODE", "sqlite").lower()
+
     # MySQL Configuration (Primary structured relational storage)
     MYSQL_HOST: str = os.getenv("MYSQL_HOST", "127.0.0.1")
     MYSQL_PORT: int = int(os.getenv("MYSQL_PORT", "3306"))
@@ -79,10 +82,28 @@ class Settings(BaseModel):
     )
 
     @property
+    def sqlite_file_path(self) -> Path:
+        """Returns the local SQLite database path."""
+        return Path(__file__).resolve().parents[2] / "mednourish_dev.db"
+
+    @property
     def mysql_connection_url(self) -> str:
         """Constructs safe MySQL connection URL for SQLAlchemy."""
         pwd = f":{self.MYSQL_PASSWORD}" if self.MYSQL_PASSWORD else ""
         return f"mysql+pymysql://{self.MYSQL_USER}{pwd}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DATABASE}"
+
+    @property
+    def mysql_test_connection_url(self) -> str:
+        """Constructs safe MySQL connection URL for isolated test execution on mednourish_test."""
+        pwd = f":{self.MYSQL_PASSWORD}" if self.MYSQL_PASSWORD else ""
+        return f"mysql+pymysql://{self.MYSQL_USER}{pwd}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/mednourish_test"
+
+    @property
+    def database_url(self) -> str:
+        """Returns active database connection URL based on DB_MODE."""
+        if self.DB_MODE == "mysql":
+            return self.mysql_connection_url
+        return f"sqlite:///{self.sqlite_file_path.as_posix()}"
 
 
 settings = Settings()

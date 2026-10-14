@@ -68,6 +68,12 @@ def test_settings_defaults_and_url_property():
         MYSQL_HOST="127.0.0.1",
         MYSQL_PORT=3306,
         MYSQL_DATABASE="test_db",
+        DB_MODE="mysql",
     )
     assert s.mysql_connection_url == "mysql+pymysql://test_user@127.0.0.1:3306/test_db"
-    assert "test_db" in s.mysql_connection_url
+    assert s.database_url == "mysql+pymysql://test_user@127.0.0.1:3306/test_db"
+    assert s.mysql_test_connection_url.endswith("/mednourish_test")
+
+    s_sqlite = Settings(DB_MODE="sqlite")
+    assert s_sqlite.database_url.startswith("sqlite:///")
+    assert "mednourish_dev.db" in s_sqlite.database_url

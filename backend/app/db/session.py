@@ -15,17 +15,23 @@ logger = logging.getLogger(__name__)
 # SQLAlchemy Base for MySQL models
 Base = declarative_base()
 
-# MySQL Engine and Session Factory
+# Database Engine and Session Factory
 try:
-    engine = create_engine(
-        settings.mysql_connection_url,
-        pool_pre_ping=True,
-        pool_recycle=3600,
-        connect_args={"connect_timeout": 3},
-    )
+    if settings.DB_MODE == "mysql":
+        engine = create_engine(
+            settings.database_url,
+            pool_pre_ping=True,
+            pool_recycle=3600,
+            connect_args={"connect_timeout": 3},
+        )
+    else:
+        engine = create_engine(
+            settings.database_url,
+            connect_args={"check_same_thread": False},
+        )
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 except Exception as e:
-    logger.warning("MySQL engine initialization warning: %s", str(e))
+    logger.warning("Database engine initialization warning: %s", str(e))
     engine = None
     SessionLocal = None
 
@@ -42,14 +48,16 @@ def get_db():
 
 
 def check_mysql_health() -> Dict[str, Any]:
-    """Tests MySQL connectivity and returns status without leaking credentials."""
+    """Tests database connectivity and returns status without leaking credentials."""
     if engine is None:
         return {"status": "unconfigured", "error": "Engine not initialized"}
     try:
         with engine.connect() as conn:
             result = conn.execute(text("SELECT 1")).scalar()
             if result == 1:
-                return {"status": "healthy", "engine": "MySQL 8.0"}
+                if settings.DB_MODE == "mysql":
+                    return {"status": "healthy", "engine": "MySQL 8.0", "mode": "mysql"}
+                return {"status": "healthy", "engine": "SQLite 3", "mode": "sqlite"}
         return {"status": "unhealthy", "error": "Query returned unexpected result"}
     except Exception as exc:
         # Sanitize error message to avoid credential leaks

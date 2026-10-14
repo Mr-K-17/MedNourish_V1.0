@@ -25,4 +25,5 @@
 | **18. VirtualWard** | **Done** | `frontend/src/components/VirtualWardView.tsx` | Completed in F2. Generic facility categories, direct Google Maps queries, and Coming-Later card for telehealth/EMR. |
 | **19. ML Lab** | **Done** | `backend/app/api/v1/mllab.py`, `ml/service/app.py`, `frontend/src/components/MLLabView.tsx` | Isolated port 8001 microservice, backend proxy, 4 tabs (Tabular, Keywords, Vision Classes, Model Cards), labels only. |
 | **20. Seed Demo Data** | **Done** | `backend/scripts/seed_demo.py` | Idempotent SQLite seeding of adult profile, consent log, 4 wellness routines, and saved summary. |
-| **21. DB_MODE Switch** | **Partial** | `backend/app/core/config.py`, `backend/app/db/session.py` | Default uses MySQL credentials or SQLite fallback; needs explicit `DB_MODE` toggle (`sqlite` vs `mysql`). |
+| **21. DB_MODE Switch** | **Done** | `backend/app/core/config.py`, `backend/app/db/session.py`, `backend/tests/conftest.py` | Completed in F4. Explicit `DB_MODE` toggle (`sqlite` vs `mysql`); full test suite passes on both SQLite and `mednourish_test`; MySQL `mednourish_dev` seeded and verified. |
+

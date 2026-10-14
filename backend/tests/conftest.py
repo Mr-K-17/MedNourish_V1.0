@@ -11,16 +11,28 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from app.core.auth import get_current_user
+from app.core.config import settings
 from app.db.session import Base, get_db
 from app.main import app
 from app.models.user import UserProfile, UserConsentLog, SavedSummary, CarePlanItem, MedScanSession
 
-# Shared in-memory SQLite database strictly for offline isolated test execution
-test_engine = create_engine(
-    "sqlite:///:memory:",
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
+# Shared test database engine: SQLite in-memory or dedicated MySQL test database
+if settings.DB_MODE == "mysql":
+    test_engine = create_engine(
+        settings.mysql_test_connection_url,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+    )
+    assert test_engine.url.database.endswith("_test"), (
+        "Safety guard: MySQL test runner must only target a database ending with '_test'"
+    )
+else:
+    test_engine = create_engine(
+        "sqlite:///:memory:",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
 Base.metadata.create_all(bind=test_engine)
 

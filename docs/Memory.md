@@ -629,6 +629,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - True vision re-evaluation on test manifests matched model cards with zero diffs > 1 pt; class composition & shortcut badges added.
 - Toned down synthetic claims to provenance unknown / possibly synthetic; reconciled DATASET_INVENTORY_v2.md prose to 394,480 files.
 
+### S-038 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F4 Database setup complete (non-destructively created mednourish_dev and mednourish_test schemas on 127.0.0.1:3306).
+- Added explicit DB_MODE toggle (sqlite fallback / mysql) in config.py, session.py, and conftest.py; 67 backend tests passed on both engines.
+- Seeded mednourish_dev and verified persistence across restarts; documented MongoDB as optional/unused in user flows.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
