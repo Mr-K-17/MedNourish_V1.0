@@ -133,8 +133,8 @@ def seed_database(db_url: str = None) -> None:
         for t in tasks:
             db.add(t)
 
-        # 5. Seed Fictional Reference Match Summaries
-        matched_sample_1 = [
+        # 5. Seed Fictional Multi-Region Reference Match Summaries
+        matched_sample_nails = [
             {
                 "class_label": "Koilonychia_Spoon_Nails",
                 "body_region": "Nails",
@@ -157,13 +157,13 @@ def seed_database(db_url: str = None) -> None:
             },
         ]
 
-        summary_1 = SavedSummary(
-            id="summary-demo-01",
+        summary_nails = SavedSummary(
+            id="summary-demo-nails-01",
             user_id=DEMO_USER_ID,
             session_type="Explorer",
             body_region_filter="Nails",
             selected_tags_json=json.dumps(["spoon_shaped_nails", "brittle_ridges"]),
-            matched_entries_json=json.dumps(matched_sample_1),
+            matched_entries_json=json.dumps(matched_sample_nails),
             match_count_total=2,
             package_version="kb-curated-v1.0",
             matcher_version="matcher-rule-v1.0",
@@ -171,11 +171,100 @@ def seed_database(db_url: str = None) -> None:
             disclaimer="Educational prototype reference summary only. Not a medical diagnosis or clinical prescription.",
             created_at=datetime.utcnow(),
         )
-        db.add(summary_1)
+        db.add(summary_nails)
+
+        matched_sample_eyes = [
+            {
+                "class_label": "Bitot_Spots",
+                "body_region": "Eyes",
+                "category": "Vitamin Reference Association",
+                "vitamin_deficiency_association": "Vitamin A (Informational Reference)",
+                "matched_tags": ["nightblindness", "eyedryness"],
+                "match_count": 2,
+                "total_condition_tags": 4,
+                "review_status": "unreviewed draft",
+            },
+            {
+                "class_label": "Conjunctival_Xerosis",
+                "body_region": "Eyes",
+                "category": "Vitamin Reference Association",
+                "vitamin_deficiency_association": "Vitamin A (Informational Reference)",
+                "matched_tags": ["eyedryness"],
+                "match_count": 1,
+                "total_condition_tags": 3,
+                "review_status": "unreviewed draft",
+            },
+        ]
+
+        summary_eyes = SavedSummary(
+            id="summary-demo-eyes-02",
+            user_id=DEMO_USER_ID,
+            session_type="MedBot",
+            body_region_filter="Eyes",
+            selected_tags_json=json.dumps(["nightblindness", "eyedryness"]),
+            matched_entries_json=json.dumps(matched_sample_eyes),
+            match_count_total=2,
+            package_version="kb-curated-v1.0",
+            matcher_version="matcher-rule-v1.0",
+            review_status="unreviewed draft",
+            disclaimer="Educational prototype reference summary only. Not a medical diagnosis or clinical prescription.",
+            created_at=datetime.utcnow(),
+        )
+        db.add(summary_eyes)
+
+        matched_sample_tongue = [
+            {
+                "class_label": "Atrophic_Glossitis",
+                "body_region": "Tongue",
+                "category": "B-Complex Reference Association",
+                "vitamin_deficiency_association": "Vitamin B12 / Folate (Informational Reference)",
+                "matched_tags": ["smooth_red_tongue", "burning_sensation"],
+                "match_count": 2,
+                "total_condition_tags": 3,
+                "review_status": "unreviewed draft",
+            }
+        ]
+
+        summary_tongue = SavedSummary(
+            id="summary-demo-tongue-03",
+            user_id=DEMO_USER_ID,
+            session_type="Explorer",
+            body_region_filter="Tongue",
+            selected_tags_json=json.dumps(["smooth_red_tongue", "burning_sensation"]),
+            matched_entries_json=json.dumps(matched_sample_tongue),
+            match_count_total=1,
+            package_version="kb-curated-v1.0",
+            matcher_version="matcher-rule-v1.0",
+            review_status="unreviewed draft",
+            disclaimer="Educational prototype reference summary only. Not a medical diagnosis or clinical prescription.",
+            created_at=datetime.utcnow(),
+        )
+        db.add(summary_tongue)
+
+        # 6. Seed Fictional MedScan-Lite Quality Check Session
+        medscan_metrics = {
+            "resolution": "1080x1080",
+            "laplacian_variance": 348.2,
+            "mean_luminance": 124.5,
+            "blur_check": "PASS",
+            "lighting_check": "PASS",
+            "file_size_bytes": 142050,
+        }
+        medscan_session = MedScanSession(
+            id="medscan-demo-01",
+            user_id=DEMO_USER_ID,
+            body_region="Tongue",
+            image_count=1,
+            quality_status="PASSED",
+            quality_metrics_json=json.dumps(medscan_metrics),
+            notes="Routine monthly reference lighting check (fictional demonstration).",
+            created_at=datetime.utcnow(),
+        )
+        db.add(medscan_session)
 
         db.commit()
         logger.info("Successfully seeded fictional demo records for user '%s'.", DEMO_USER_ID)
-        logger.info("Created: 1 profile, 1 consent log, 4 wellness tasks, 1 saved summary.")
+        logger.info("Created: 1 profile, 1 consent log, 4 wellness tasks, 3 saved summaries, 1 MedScan session.")
 
     except Exception as e:
         db.rollback()

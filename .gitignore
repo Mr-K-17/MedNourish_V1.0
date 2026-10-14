@@ -108,3 +108,6 @@ $RECYCLE.BIN/
 *.swo
 *~
 .history/
+scripts/.pids.json
+scripts/logs/
+.pids.json

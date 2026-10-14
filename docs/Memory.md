@@ -634,6 +634,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Added explicit DB_MODE toggle (sqlite fallback / mysql) in config.py, session.py, and conftest.py; 67 backend tests passed on both engines.
 - Seeded mednourish_dev and verified persistence across restarts; documented MongoDB as optional/unused in user flows.
 
+### S-039 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F5 One-Command Demo & End-to-End Smoke Test complete.
+- Created scripts/start_all.ps1 and stop_all.ps1 with PID tracking and Windows .cmd wrappers; upgraded seed_demo.py to multi-region.
+- Authored scripts/smoke_e2e.py; verified 14/14 automated smoke tests passing cleanly and generated docs/SMOKE_RESULTS.md.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

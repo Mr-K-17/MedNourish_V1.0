@@ -43,6 +43,7 @@
 | **FINAL-F3** | Algorithm Verification & Live ML Microservice Proxy | **COMPLETE** | Re-evaluated 800 tabular test records (exact card reproducibility); Verified 6 vision models for TFLite parity; Validated port 8001 microservice live via backend proxy across all 6 endpoints with zero probability outputs; Authored `docs/FINAL_VERIFICATION.md`. |
 | **FINAL-F3b** | Review Gap Closure, Regression Tests & Class Semantics | **COMPLETE** | Verified matcher bounds on all 116 rows with regression test (`test_matcher_bounds_on_all_116_rows`); Re-evaluated all 6 vision models on test manifests (zero differences > 1 pt); Added class composition and shortcut badges to model cards and `MLLabView.tsx`; Reconciled `DATASET_INVENTORY_v2.md` prose; Backend tests grew to 67 passed. |
 | **FINAL-F4** | Database (Connect or Create) & Persistence Verification | **COMPLETE** | Non-destructively created `mednourish_dev` and `mednourish_test` schemas on local MySQL; implemented `DB_MODE` toggle (`sqlite` vs `mysql`); all 67 backend tests pass against `mednourish_test` and SQLite; verified `seed_demo.py` persistence on `mednourish_dev`. |
+| **FINAL-F5** | One-Command Demo & End-to-End Smoke Test | **COMPLETE** | Created `start_all` and `stop_all` scripts (with Windows `.cmd` wrappers & PID tracking); upgraded `seed_demo.py` to multi-region; automated smoke runner verified 14/14 tests in `docs/SMOKE_RESULTS.md`. |
 
 
 ---
