@@ -589,6 +589,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Verified zero medication enforcement, ephemeral image checks, and strict educational safety boundaries.
 - Targeted backend tests passed (11/11 in CarePlan/Reports) and frontend production build succeeded cleanly.
 
+### S-030 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Stage 7 Demo Seed & Safety Scan complete (backend/scripts/seed_demo.py and scan_safety_claims.py).
+- Created reproducible fictional demo seed for SQLite (adult profile, 4 non-medication wellness tasks, 1 saved summary).
+- Safety scan passed 100% across 40 source files with zero forbidden diagnostic or prescriptive claims.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
