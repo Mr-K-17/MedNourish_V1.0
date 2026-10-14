@@ -594,6 +594,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Created reproducible fictional demo seed for SQLite (adult profile, 4 non-medication wellness tasks, 1 saved summary).
 - Safety scan passed 100% across 40 source files with zero forbidden diagnostic or prescriptive claims.
 
+### S-031 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Stage 8 Full QA Suite & Root Documentation complete (57 backend tests, 40 ML tests, clean frontend build).
+- Authored comprehensive root README.md with system architecture, demo runbook, test guidelines, and honest ML limitations.
+- All 97 automated tests passing with zero failures across Python 3.14 (backend) and Python 3.12 (TensorFlow/ML) stacks.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
