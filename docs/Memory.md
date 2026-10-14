@@ -644,6 +644,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Extended backend/scripts/scan_safety_claims.py with allowlist context validation across 62 project files.
 - Verified 100% PASS with zero prohibited diagnostic, prescriptive, or certainty claims across frontend, backend, ML, and docs.
 
+### S-041 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F7 Documentation Finalization complete.
+- Authored docs/DEMO_SCRIPT.md detailing step-by-step 5-minute academic walkthrough across all 8 modules.
+- Updated root README.md with one-command launch runbook, dual DB modes (SQLite/MySQL), 67-test suite, and honest ML limitations.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

@@ -60,6 +60,10 @@ ALLOWLIST_SUBSTRINGS = [
     "never clinical risk",
     "not clinical treatments",
     "not a prescription",
+    "not a clinical",
+    "is not a clinical",
+    "not clinical",
+    "never a clinical",
     "zero medication",
     "zero-medication",
     "zero probability",
@@ -77,7 +81,8 @@ ALLOWLIST_SUBSTRINGS = [
 
 
 def is_line_exempt(line_lower: str) -> bool:
-    return any(allow in line_lower for allow in ALLOWLIST_SUBSTRINGS)
+    clean_line = line_lower.replace("*", "").replace("`", "").replace("_", "")
+    return any(allow in clean_line for allow in ALLOWLIST_SUBSTRINGS)
 
 
 def scan_repository():

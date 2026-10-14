@@ -45,6 +45,7 @@
 | **FINAL-F4** | Database (Connect or Create) & Persistence Verification | **COMPLETE** | Non-destructively created `mednourish_dev` and `mednourish_test` schemas on local MySQL; implemented `DB_MODE` toggle (`sqlite` vs `mysql`); all 67 backend tests pass against `mednourish_test` and SQLite; verified `seed_demo.py` persistence on `mednourish_dev`. |
 | **FINAL-F5** | One-Command Demo & End-to-End Smoke Test | **COMPLETE** | Created `start_all` and `stop_all` scripts (with Windows `.cmd` wrappers & PID tracking); upgraded `seed_demo.py` to multi-region; automated smoke runner verified 14/14 tests in `docs/SMOKE_RESULTS.md`. |
 | **FINAL-F6** | Comprehensive Safety Claims Sweep | **COMPLETE** | Extended `scan_safety_claims.py` across 62 files (frontend, backend, ML artifacts, documentation); verified 100% PASS with zero prohibited diagnostic, prescriptive, or certainty claims. |
+| **FINAL-F7** | Documentation Finalization & Demo Script | **COMPLETE** | Authored `docs/DEMO_SCRIPT.md` (step-by-step 5-minute walkthrough); updated root `README.md` with one-command launch, 67 test suite, DB modes, and honest academic limitations. |
 
 
 ---

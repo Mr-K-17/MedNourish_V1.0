@@ -45,62 +45,59 @@ MedNourish-Dev/
 
 ---
 
-## 3. Quickstart & Local Demo Runbook
+## 3. Quickstart & One-Command Demo
 
-### Prerequisites
-- Node.js 18+ and npm
-- Python 3.12+ (or 3.14 for backend, 3.12 for ML)
-- Local Firebase Emulator Suite (Authentication emulator on port 9099)
-- Local SQLite (default) or MySQL 8.0 instance
+MedNourish provides one-command startup and shutdown scripts for Windows that automatically clear target ports, launch background microservices with PID tracking, and verify reachability:
+
+### One-Command Startup
+```powershell
+# In PowerShell:
+powershell -ExecutionPolicy Bypass -File .\scripts\start_all.ps1
+
+# Or in Windows Command Prompt:
+.\scripts\start_all.cmd
+```
+
+**Services Started:**
+- **Frontend UI:** [http://localhost:5173](http://localhost:5173)
+- **Backend API:** [http://localhost:8000](http://localhost:8000)
+- **OpenAPI Documentation:** [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check:** [http://localhost:8000/v1/health](http://localhost:8000/v1/health)
+- **ML Lab Microservice:** [http://localhost:8001](http://localhost:8001)
+- **Firebase Auth Emulator:** `http://127.0.0.1:9099`
+
+### One-Command Shutdown
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\stop_all.ps1
+# Or: .\scripts\stop_all.cmd
+```
+
+For a complete step-by-step 5-minute walkthrough of the prototype presentation, see [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md).
 
 ---
 
-### Step 1: Backend Setup & Demo Seeding
+## 4. Database Modes (SQLite & MySQL)
+
+MedNourish supports dual database modes via `DB_MODE` in `.env`:
+- **SQLite (`DB_MODE=sqlite`)**: Zero-configuration local development. Uses `backend/mednourish_dev.db`.
+- **MySQL (`DB_MODE=mysql`)**: Dedicated relational instance on `127.0.0.1:3306`. Targets `mednourish_dev` for application runtime and `mednourish_test` for isolated automated testing.
+
+To seed the database with multi-region demo records (profile, consent, wellness tasks, saved summaries, MedScan session):
 ```powershell
 cd backend
-# Create / activate virtual environment
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-
-# Populate reproducible fictional demo data (1 profile, 4 wellness tasks, 1 summary)
-python scripts\seed_demo.py
-
-# Launch FastAPI backend on port 8000
-uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+.\.venv\Scripts\python.exe scripts/seed_demo.py
 ```
 
 ---
 
-### Step 2: Frontend Setup & Launch
-```powershell
-cd frontend
-npm install
-npm run build   # Verifies TypeScript types & generates production bundle
-npm run dev     # Starts local development server on http://localhost:5173
-```
-
----
-
-### Step 3: Experimental ML Lab Microservice (Optional)
-To test genuine XGBoost/LightGBM tabular consensus and MobileNetV2 edge models in the ML Lab tab:
-```powershell
-# Using the dedicated Python 3.12 ML environment:
-cd MedNourish-Dev
-.\tf\.venv\Scripts\python.exe ml\service\app.py
-# Runs on http://127.0.0.1:8001
-```
-
----
-
-## 4. Running Test Suites
+## 5. Running Verification & Test Suites
 
 MedNourish enforces 100% test pass gates across all application tiers:
 
-1. **Backend Integration & Safety Suite** (57 tests):
+1. **Backend Integration & Safety Suite** (67 tests passing on both SQLite and MySQL):
    ```powershell
    cd backend
-   .\.venv\Scripts\pytest.exe tests/ -v
+   .\.venv\Scripts\pytest.exe -v
    ```
 2. **Machine Learning Pipeline & TFLite Parity Suite** (40 tests):
    ```powershell
@@ -108,15 +105,20 @@ MedNourish enforces 100% test pass gates across all application tiers:
    $env:PYTHONPATH="."
    .\tf\.venv\Scripts\pytest.exe ml/tests/ -v
    ```
-3. **Frontend Production Build**:
+3. **Automated End-to-End Smoke Test** (14/14 tests passing, outputs `docs/SMOKE_RESULTS.md`):
+   ```powershell
+   cd MedNourish-Dev
+   .\backend\.venv\Scripts\python.exe scripts/smoke_e2e.py
+   ```
+4. **Safety Claims & Prohibited Wording Scanner** (100% PASS across 62 files):
+   ```powershell
+   cd MedNourish-Dev
+   .\backend\.venv\Scripts\python.exe backend/scripts/scan_safety_claims.py
+   ```
+5. **Frontend Production Build**:
    ```powershell
    cd frontend
    npm run build
-   ```
-4. **Safety Claims & Prohibited Wording Scanner**:
-   ```powershell
-   cd backend
-   .\.venv\Scripts\python.exe scripts/scan_safety_claims.py
    ```
 
 ---
