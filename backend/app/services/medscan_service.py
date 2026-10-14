@@ -187,19 +187,53 @@ def normalize_nutrient_key(name: str) -> str:
 
 class MedScanPipeline:
     def __init__(self):
+        self.yaml_map_file = Path("ml/class_maps/image_to_nutrient.yaml")
         self.class_map_file = Path("ml/class_maps/image_to_nutrient.json")
         self.mappings: Dict[str, Dict[str, Optional[str]]] = dict(DEFAULT_IMAGE_TO_NUTRIENT)
         self._load_mappings()
 
     def _load_mappings(self):
+        # 1. Prefer YAML mapping if present
+        if self.yaml_map_file.exists():
+            try:
+                parsed = self._parse_yaml_mappings(self.yaml_map_file)
+                if parsed:
+                    self.mappings = parsed
+                    logger.info("Loaded image_to_nutrient mappings from %s", self.yaml_map_file)
+                    return
+            except Exception as e:
+                logger.warning("Could not parse image_to_nutrient.yaml: %s", e)
+
+        # 2. Fall back to JSON mapping
         if self.class_map_file.exists():
             try:
                 with open(self.class_map_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     if "models" in data:
                         self.mappings = data["models"]
+                        logger.info("Loaded image_to_nutrient mappings from %s", self.class_map_file)
             except Exception as e:
                 logger.warning("Could not load image_to_nutrient.json: %s", e)
+
+    @staticmethod
+    def _parse_yaml_mappings(filepath: Path) -> Dict[str, Dict[str, Optional[str]]]:
+        mappings: Dict[str, Dict[str, Optional[str]]] = {}
+        cur_model = None
+        with open(filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                stripped = line.strip()
+                if not stripped or stripped.startswith("#") or stripped == "models:":
+                    continue
+                if line.startswith("  ") and not line.startswith("    "):
+                    cur_model = stripped.rstrip(":")
+                    mappings[cur_model] = {}
+                elif line.startswith("    ") and cur_model:
+                    parts = stripped.split(":", 1)
+                    if len(parts) == 2:
+                        k = parts[0].strip()
+                        val = parts[1].strip()
+                        mappings[cur_model][k] = None if val in ("null", "None", "") else val.strip("\"'")
+        return mappings
 
     def get_checklist_for_region(self, region: str) -> List[Dict[str, str]]:
         reg_clean = region.lower().strip()
