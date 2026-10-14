@@ -13,6 +13,7 @@ import {
   Moon,
   Sparkles,
   Bell,
+  Download,
 } from 'lucide-react';
 import styles from './CarePlanView.module.css';
 
@@ -192,6 +193,47 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
     }
   };
 
+  const handleExportICS = () => {
+    if (tasks.length === 0) return;
+    const now = new Date();
+    const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+    const timeStamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`;
+
+    let icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//MedNourish//CarePlan Wellness Schedule//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+    ];
+
+    tasks.forEach((t) => {
+      const createdDate = new Date(t.created_at);
+      const dtStart = `${createdDate.getUTCFullYear()}${pad(createdDate.getUTCMonth() + 1)}${pad(createdDate.getUTCDate())}T090000Z`;
+      icsContent.push('BEGIN:VEVENT');
+      icsContent.push(`UID:careplan-${t.id}@mednourish.local`);
+      icsContent.push(`DTSTAMP:${timeStamp}`);
+      icsContent.push(`DTSTART:${dtStart}`);
+      icsContent.push(`SUMMARY:MedNourish Routine: ${t.title}`);
+      icsContent.push(`DESCRIPTION:General wellness routine (${t.category}) via MedNourish. Not a medical prescription or clinical treatment.`);
+      icsContent.push('RRULE:FREQ=DAILY');
+      icsContent.push('STATUS:CONFIRMED');
+      icsContent.push('END:VEVENT');
+    });
+
+    icsContent.push('END:VCALENDAR');
+
+    const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `mednourish_careplan_${now.toISOString().slice(0, 10)}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'water':
@@ -236,6 +278,16 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
           <CalendarCheck size={22} color="var(--color-primary)" />
           <h2 className={styles.title}>CarePlan Wellness Routines</h2>
         </div>
+        <button
+          type="button"
+          onClick={handleExportICS}
+          disabled={tasks.length === 0}
+          className={styles.backButton}
+          title="Download calendar (.ics) file to import into Google Calendar or Apple Calendar"
+          style={{ marginLeft: 'auto' }}
+        >
+          <Download size={15} /> Export Schedule (.ics)
+        </button>
       </div>
 
       <div className={styles.noticeBanner}>

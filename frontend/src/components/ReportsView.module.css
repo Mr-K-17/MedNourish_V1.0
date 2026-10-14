@@ -473,3 +473,30 @@
   color: #64748b;
   line-height: 1.4;
 }
+
+@media print {
+  .headerBar,
+  .refreshBtn,
+  .deleteBtn,
+  .deleteDetailBtn,
+  .backButton,
+  .summaryListColumn {
+    display: none !important;
+  }
+
+  .mainLayout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .detailColumn {
+    position: static !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .reportsContainer {
+    font-size: 11pt;
+    color: #000 !important;
+  }
+}

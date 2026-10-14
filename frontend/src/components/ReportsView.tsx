@@ -9,6 +9,7 @@ import {
   BookOpen,
   ChevronRight,
   Info,
+  Printer,
 } from 'lucide-react';
 import styles from './ReportsView.module.css';
 
@@ -316,14 +317,25 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
                     Saved on {new Date(selectedSummary.created_at).toLocaleString()}
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={(e) => handleDeleteSummary(selectedSummary.id, e)}
-                  disabled={isDeleting === selectedSummary.id}
-                  className={styles.deleteDetailBtn}
-                >
-                  <Trash2 size={16} /> Delete Record
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className={styles.backButton}
+                    style={{ padding: '0.4rem 0.75rem', fontSize: '0.85rem' }}
+                    title="Print this report summary or save as PDF"
+                  >
+                    <Printer size={15} /> Print Report
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => handleDeleteSummary(selectedSummary.id, e)}
+                    disabled={isDeleting === selectedSummary.id}
+                    className={styles.deleteDetailBtn}
+                  >
+                    <Trash2 size={16} /> Delete Record
+                  </button>
+                </div>
               </div>
 
               {/* Queried Tags */}

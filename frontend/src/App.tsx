@@ -12,6 +12,8 @@ import { MedBotView } from './components/MedBotView';
 import { CarePlanView } from './components/CarePlanView';
 import { NurseBotView } from './components/NurseBotView';
 import { MLLabView } from './components/MLLabView';
+import { MedScanLiteView } from './components/MedScanLiteView';
+import { VirtualWardView } from './components/VirtualWardView';
 import styles from './App.module.css';
 
 interface ServiceStatus {
@@ -51,7 +53,7 @@ export const App: React.FC = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot' | 'mllab'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot' | 'mllab' | 'medscan-lite' | 'virtual-ward'>('dashboard');
 
   useEffect(() => {
     // Probe local backend health endpoint
@@ -254,6 +256,16 @@ export const App: React.FC = () => {
                 onBackToDashboard={() => setActiveView('dashboard')}
                 onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
               />
+            ) : activeView === 'medscan-lite' ? (
+              <MedScanLiteView
+                onBackToDashboard={() => setActiveView('dashboard')}
+                onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+              />
+            ) : activeView === 'virtual-ward' ? (
+              <VirtualWardView
+                onBackToDashboard={() => setActiveView('dashboard')}
+                onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+              />
             ) : (
               <Dashboard
                 displayName={userProfile.display_name}
@@ -271,6 +283,10 @@ export const App: React.FC = () => {
                     setActiveView('nursebot');
                   } else if (tileId === 'mllab') {
                     setActiveView('mllab');
+                  } else if (tileId === 'medscan-lite') {
+                    setActiveView('medscan-lite');
+                  } else if (tileId === 'virtual-ward') {
+                    setActiveView('virtual-ward');
                   }
                 }}
               />

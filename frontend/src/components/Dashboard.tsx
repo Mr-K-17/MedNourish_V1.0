@@ -7,6 +7,8 @@ import {
   Clock,
   Sparkles,
   HelpCircle,
+  Camera,
+  Building2,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 
@@ -81,6 +83,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
       phase: 'Phase 1B',
       status: 'ready',
       tag: 'Available Now',
+    },
+    {
+      id: 'medscan-lite',
+      title: 'MedScan-Lite Image Inspection',
+      description:
+        'Guided regional photo capture and ephemeral image quality audit (resolution, illumination, format).',
+      icon: <Camera size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Phase 2',
+      status: 'ready',
+      tag: 'Capture & Quality',
+    },
+    {
+      id: 'virtual-ward',
+      title: 'VirtualWard Facility Directory',
+      description:
+        'Locate nearby hospitals and community health centers with one-click Google Maps links and consultation requests.',
+      icon: <Building2 size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Phase 3',
+      status: 'ready',
+      tag: 'Facility Links',
     },
     {
       id: 'mllab',
