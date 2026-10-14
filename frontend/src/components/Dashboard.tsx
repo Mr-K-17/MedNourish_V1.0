@@ -82,6 +82,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
       status: 'ready',
       tag: 'Available Now',
     },
+    {
+      id: 'mllab',
+      title: 'Experimental ML Lab (not for health decisions)',
+      description:
+        'Algorithmic sandbox evaluating tabular models, reference keyword rankings, and MobileNetV2 edge models.',
+      icon: <Sparkles size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Phase 3.3',
+      status: 'ready',
+      tag: 'Experimental Demo',
+    },
   ];
 
   return (

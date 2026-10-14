@@ -11,6 +11,7 @@ import { ReportsView } from './components/ReportsView';
 import { MedBotView } from './components/MedBotView';
 import { CarePlanView } from './components/CarePlanView';
 import { NurseBotView } from './components/NurseBotView';
+import { MLLabView } from './components/MLLabView';
 import styles from './App.module.css';
 
 interface ServiceStatus {
@@ -50,7 +51,7 @@ export const App: React.FC = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot' | 'mllab'>('dashboard');
 
   useEffect(() => {
     // Probe local backend health endpoint
@@ -247,6 +248,12 @@ export const App: React.FC = () => {
                 onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
                 onNavigateToView={(view) => setActiveView(view)}
               />
+            ) : activeView === 'mllab' && idToken ? (
+              <MLLabView
+                idToken={idToken}
+                onBackToDashboard={() => setActiveView('dashboard')}
+                onOpenEmergencyModal={() => setIsEmergencyModalOpen(true)}
+              />
             ) : (
               <Dashboard
                 displayName={userProfile.display_name}
@@ -262,6 +269,8 @@ export const App: React.FC = () => {
                     setActiveView('careplan');
                   } else if (tileId === 'nursebot') {
                     setActiveView('nursebot');
+                  } else if (tileId === 'mllab') {
+                    setActiveView('mllab');
                   }
                 }}
               />
