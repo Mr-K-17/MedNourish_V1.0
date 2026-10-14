@@ -11,7 +11,7 @@
 | Task ID | Task Description | Status | Evidence / Artifact Location |
 |---|---|---|---|
 | **STAGE-A** | Repository Inspection & Pre-Audit Backups | **COMPLETE** | 6 pre-audit document backups preserved at `scratch/doc_backups_pre_audit/`. Git status verified. |
-| **STAGE-B** | Read-Only Audit of All Datasets (CSVs & Images) | **COMPLETE** | `docs/DATASET_AUDIT.md`. 34 CSVs, 372,536 images, 21,902 annotations inspected. SHA-256 hashes verified unmodified. |
+| **STAGE-B** | Read-Only Audit of All Datasets (CSVs & Images) | **COMPLETE** | `docs/DATASET_INVENTORY_v2.md`. 34 CSVs; 394,480 total files (364,292 images, 8,244 masks, 21,936 annotations). SHA-256 hashes verified unmodified. |
 | **STAGE-C** | Documentation Reconciliation & Master Registers | **COMPLETE** | `docs/Memory.md`, `docs/PRD.md`, `docs/Architecture.md`, `docs/Design.md`, `docs/Phases.md`, `docs/Rules.md` reconciled to Draft 1.3. |
 | **STAGE-D** | System Design Verification | **COMPLETE** | Documented in `docs/VALIDATION_REPORT.md` and `docs/Architecture.md`. |
 | **STAGE-E** | 19-Rule Cross-Document Consistency Audit | **COMPLETE** | 19/19 checks PASS in `docs/VALIDATION_REPORT.md`. |

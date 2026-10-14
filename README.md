@@ -125,7 +125,7 @@ MedNourish enforces 100% test pass gates across all application tiers:
 
 Detailed metrics, dataset inventories, and model cards are documented in:
 - `docs/CSV_USE_MATRIX.md`: Complete audit of all 34 tabular datasets.
-- `docs/DATASET_INVENTORY_v2.md`: Inventory of all 394,480 image files across 8 directories.
+- `docs/DATASET_INVENTORY_v2.md`: Single source of truth inventory reconciling all 394,480 files (364,292 images, 8,244 masks, 21,936 annotations) across 8 directories.
 - `docs/IMAGE_DATA_REPORT.md`: Perceptual hash deduplication, class gating (>=100 samples), and train/val/test splits.
 - `docs/ML_RESULTS.md`: Detailed performance metrics, baseline comparisons, Grad-CAM analysis, and TFLite parity gates.
 
