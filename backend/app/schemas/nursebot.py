@@ -36,3 +36,20 @@ class HelpMenuResponse(BaseModel):
         "MEDNOURISH NurseBot provides scripted help for using the app. It does not provide medical advice or diagnoses.",
         description="Menu-level prototype disclaimer",
     )
+
+
+class NurseBotAskRequest(BaseModel):
+    question: str = Field(..., min_length=1, max_length=500, description="User question")
+
+
+class NurseBotAskResponse(BaseModel):
+    reply: str = Field(..., description="NurseBot assistant reply")
+    intent: str = Field(..., description="Detected intent: emergency | refusal | app_help | web_reference | out_of_scope")
+    source_name: Optional[str] = Field(None, description="External reference name if applicable")
+    source_url: Optional[str] = Field(None, description="External reference URL if applicable")
+    is_web_answer: bool = Field(False, description="True if reply was fetched from an external web fact sheet")
+    disclaimer: str = Field(
+        "MEDNOURISH NurseBot is an educational tool. It does not provide medical diagnoses, treatment, or individualized prescriptions.",
+        description="Safety disclaimer",
+    )
+

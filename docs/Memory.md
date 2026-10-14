@@ -669,6 +669,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Created image-to-nutrient crosswalk (yaml/json) and MedScan blend pipeline with regional checklist, shortcut-penalty weighting, and report auto-save as SavedSummary.
 - Added MedScanLiteView checklist UI, result percent bars, and expandable why panels; all 13 MedScan tests passed and frontend built cleanly in 2.91s.
 
+### S-046 — 2026-10-14 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Phase 4 NurseBot WhatsApp-style chat UI and intent router implemented (POST /v1/nursebot/ask with rate limit 10/min, zero DB transcript storage).
+- Built WebAnswerService with strict NIH/MedlinePlus domain allowlist, 5s timeout, 24h cache, <= 600 char truncation, and offline fallback.
+- Added WhatsApp chat bubbles, quick chips, typing indicator, web answer disclaimer, and speech read-aloud; 14 NurseBot tests passed, full suite 90 passed.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
