@@ -489,9 +489,13 @@ export const MLLabView: React.FC<MLLabViewProps> = ({
       {activeTab === 'image' && (
         <div className={styles.card}>
           <h3 style={{ marginTop: 0, marginBottom: '0.5rem' }}>Edge Vision Classification (Float32 TFLite)</h3>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1rem' }}>
             Executes inference via genuine MobileNetV2 TensorFlow Lite Interpreter on local CPU. Returns top-3 ranked dataset class labels (no probability percentages).
           </p>
+
+          <div style={{ padding: '0.6rem 0.85rem', background: '#f1f5f9', borderLeft: '4px solid #64748b', borderRadius: '4px', marginBottom: '1.25rem', fontSize: '0.85rem', color: '#334155' }}>
+            <strong>Scope Caveat:</strong> Dataset-group classifier, not a deficiency detector.
+          </div>
 
           <form onSubmit={handleImageSubmit}>
             <div className={styles.formGrid}>
@@ -509,6 +513,20 @@ export const MLLabView: React.FC<MLLabViewProps> = ({
                   <option value="skin">Skin Deficiency Model</option>
                   <option value="tongue">Tongue Condition Model</option>
                 </select>
+                {(imageModel === 'eyes' || imageModel === 'skin') && (
+                  <div style={{ marginTop: '0.4rem', padding: '0.35rem 0.65rem', background: '#fef3c7', color: '#92400e', borderRadius: '4px', fontSize: '0.78rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <AlertTriangle size={13} /> Likely dataset-source shortcut (test acc ≥ 98%)
+                  </div>
+                )}
+                <div style={{ marginTop: '0.4rem', fontSize: '0.75rem', color: '#64748b', lineHeight: 1.4 }}>
+                  <strong>What the classes really mean:</strong>{' '}
+                  {imageModel === 'combined' && '7 vitamin categories (B2, C, E, K dropped due to < 100 images). Other_Nutrient_Deficiency represents heterogeneous skin/nail conditions (tinea, warts, cysts).'}
+                  {imageModel === 'eyes' && 'Normal (eyelids), Vitamin_A_Deficiency (Bitot), and Other_Non_Nutritional (fundus camera glaucoma images; source shortcut).'}
+                  {imageModel === 'hair' && 'Normal vs Other_Non_Nutritional (alopecia/scalp). Contains NO nutritional deficiency class.'}
+                  {imageModel === 'nails' && 'Nutritional (126 koilonychia images) vs Other_Non_Nutritional (600 fungal/dystrophy images).'}
+                  {imageModel === 'skin' && 'Normal vs Other_Non_Nutritional (600 web dermatology images). Contains NO nutritional deficiency class.'}
+                  {imageModel === 'tongue' && 'Healthy, Diabetes, OralCancer, and Other_TCM_Tongue (600 Traditional Chinese Medicine images from shezhen dataset).'}
+                </div>
               </div>
 
               <div className={styles.fieldGroup} style={{ gridColumn: 'span 2' }}>

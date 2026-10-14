@@ -161,3 +161,111 @@ async def test_medscan_and_routine_safety_terms():
         banned = ["autonomous diagnosis", "we prescribe", "cure your", "clinical decision"]
         for b in banned:
             assert b not in text_resp, f"Banned phrase '{b}' found in MedScan response"
+
+
+@pytest.mark.anyio
+async def test_unauthenticated_timeline_and_routine_rejected():
+    """Unauthenticated calls to timeline and suggested-routine must be rejected with 401."""
+    app.dependency_overrides.pop(get_current_user, None)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        r1 = await ac.get("/v1/reports/timeline")
+        assert r1.status_code == 401
+        r2 = await ac.post("/v1/reports/summaries/123/suggested-routine")
+        assert r2.status_code == 401
+
+
+@pytest.mark.anyio
+async def test_suggested_routine_cross_user_isolation():
+    """User B cannot create a suggested routine from User A's summary."""
+    user_a = AuthenticatedUser(uid="user-routine-a", email="a@example.com")
+    user_b = AuthenticatedUser(uid="user-routine-b", email="b@example.com")
+
+    # User A creates a summary
+    app.dependency_overrides[get_current_user] = lambda: user_a
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        summary_payload = {
+            "session_type": "Explorer",
+            "body_region_filter": "Eyes",
+            "selected_tags": ["nightblindness"],
+            "matched_entries": [
+                {
+                    "class_label": "Bitot_Spots",
+                    "body_region": "Eyes",
+                    "category": "Nutritional",
+                    "vitamin_deficiency_association": "Vitamin A",
+                    "matched_tags": ["nightblindness"],
+                    "match_count": 1,
+                    "total_condition_tags": 2,
+                    "review_status": "unreviewed draft",
+                }
+            ],
+            "package_version": "curated_v1.0",
+            "matcher_version": "matcher_spec_v1.0",
+        }
+        res_create = await ac.post("/v1/reports/summaries", json=summary_payload)
+        assert res_create.status_code == 201
+        summary_id = res_create.json()["id"]
+
+        # User B attempts to add suggested routine for User A's summary -> 403 or 404
+        app.dependency_overrides[get_current_user] = lambda: user_b
+        res_b = await ac.post(f"/v1/reports/summaries/{summary_id}/suggested-routine")
+        assert res_b.status_code in [403, 404]
+
+
+@pytest.mark.anyio
+async def test_account_deletion_cascades_medscan_sessions():
+    """Account deletion must cascade and completely delete MedScan sessions."""
+    cascade_user = AuthenticatedUser(uid="user-cascade-medscan", email="cascade@example.com")
+    app.dependency_overrides[get_current_user] = lambda: cascade_user
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Create consent and profile
+        await ac.post("/v1/profile/consent", json={"agreed_to_terms": True, "confirmed_adult_18": True})
+
+        # Create MedScan session
+        img_bytes = create_test_image_bytes(250, 250)
+        files = [("files", ("cascade.jpg", img_bytes, "image/jpeg"))]
+        res_scan = await ac.post("/v1/medscan/sessions", data={"body_region": "eyes", "save_session": "true"}, files=files)
+        assert res_scan.status_code == 201
+
+        # Confirm session listed
+        res_list = await ac.get("/v1/medscan/sessions")
+        assert res_list.status_code == 200
+        assert len(res_list.json()) >= 1
+
+        # Delete account
+        res_del = await ac.delete("/v1/profile")
+        assert res_del.status_code == 200
+        assert res_del.json()["status"] == "deleted"
+
+        # Re-check sessions for this user -> now empty
+        res_list_after = await ac.get("/v1/medscan/sessions")
+        assert res_list_after.status_code == 200
+        assert len(res_list_after.json()) == 0
+
+
+@pytest.mark.anyio
+async def test_checkup_reminder_and_forbidden_terms_scan():
+    """Check-up reminder in CarePlan and scan for forbidden clinical/dosing terms."""
+    user = AuthenticatedUser(uid="user-checkup-reminder", email="checkup@example.com")
+    app.dependency_overrides[get_current_user] = lambda: user
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        # Create check-up task in CarePlan
+        task_payload = {
+            "title": "General Health Check-up Consultation",
+            "category": "general",
+            "target_frequency": "once",
+            "reminder_time": "09:00",
+        }
+        res_task = await ac.post("/v1/careplan/tasks", json=task_payload)
+        assert res_task.status_code == 201
+        task_data = res_task.json()
+        assert task_data["title"] == "General Health Check-up Consultation"
+
+        # Scan task response for forbidden pharmaceutical and prescriptive terms
+        banned_terms = ["mg", "mcg", " iu ", "dose", "dosage", "prescription", "cure", "prescribe", "infant", "toddler"]
+        combined_text = f"{task_data['title']} {task_data.get('category', '')}".lower()
+        for term in banned_terms:
+            assert term not in combined_text, f"Forbidden term '{term}' found in checkup reminder task"
+

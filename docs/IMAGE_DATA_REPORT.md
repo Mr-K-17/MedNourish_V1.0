@@ -120,10 +120,48 @@ class threshold gating (>= 100 images), and group-aware 70/15/15 splits across a
 
 ---
 
-## 3. Known Methodological Risks & Clinical Disclaimers
+## 3. Class Semantics & True Composition (What the Classes Really Mean)
+
+> [!WARNING]
+> **Dataset-Group Classifiers, Not Deficiency Detectors**
+> The vision models classify heterogeneous dataset collections and source photography groups, NOT clinical pathology. 
+
+1. **EYES — `Other_Non_Nutritional` (600 images) [⚠️ Likely Dataset-Source Shortcut]:**
+   - Source: `datasets/EYES/Other_Ocular_Conditions/Glaucoma` (fundus photography / optic disc images).
+   - Normal: 600 close-up eyelid/cornea images.
+   - Vitamin_A_Deficiency: 600 Bitot spots / xerophthalmia images.
+   - **Shortcut Risk:** The 100% test accuracy is an artifact of the network separating retinal fundus camera captures from external eyelid photography.
+
+2. **SKIN — `Other_Non_Nutritional` (600 images) [⚠️ Likely Dataset-Source Shortcut]:**
+   - Source: `datasets/SKIN/OTHER/balanced_dataset` (web-scraped dermatology repository).
+   - **NO Nutritional Class:** All nutritional deficiency skin classes (`ZINC`: 97, `VITAMIN_C`: 88, `VITAMIN_A`: 46, `BIOTIN`: 40, `PEM`: 35, `Vitamin_B3_Pellagra`: 94) were dropped because each had fewer than 100 usable images.
+   - **Shortcut Risk:** Model accuracy (98.33%) reflects high-resolution web dermatology crops vs normal amateur skin shots.
+
+3. **HAIR — `Normal` vs `Other_Non_Nutritional` (109 test images):**
+   - **NO Nutritional Class:** All nutritional deficiency hair classes (`Alopecia`: 31, `Corkscrew_Hair`: 19, `Sparse_Hair`: 13) were dropped (< 100 images). This model simply separates generic scalp hair from non-nutritional scalp conditions.
+
+4. **LIPS — NO Trained Model:**
+   - Only `Normal` (600 images) passed the 100-image threshold. `NON_NUTRITIONAL` (91 images) and `NUTRITIONAL` (90 images) both failed the gate. Hence, zero lips models exist.
+
+5. **NAILS — `Nutritional` (126 images) vs `Other_Non_Nutritional` (600 images):**
+   - `Other_Non_Nutritional` pools 302 images from `NON_NUTRITIONAL` (onychomycosis, trauma) and 298 from `OTHER` (dystrophies).
+   - `Nutritional` contains 126 koilonychia / iron deficiency images.
+
+6. **TONGUE — `Other_TCM_Tongue` (600 images):**
+   - Source: `datasets/TONGUE/shezhen datasets/shezhenv3-coco` (Traditional Chinese Medicine tongue segmentation dataset).
+   - Accompanies `Healthy` (113), `Diabetes` (160), and `OralCancer` (104).
+   - Reflects systemic disease and TCM dataset cohorts rather than isolated micro-nutrient deficiency detection.
+
+7. **COMBINED — Dropped B2/C/E/K & `Other_Nutrient_Deficiency` (600 images):**
+   - Dropped: `Vitamin_B2_Deficiency` (34), `Vitamin_C_Deficiency` (82), `Vitamin_E_Deficiency` (51), `Vitamin_K_Deficiency` (61).
+   - `Other_Nutrient_Deficiency`: 600 images from `zinc, iron, biotin, or protein deficiency` containing miscellaneous clinical images (tinea, periungual warts, mucous cysts, fissures).
+
+---
+
+## 4. Known Methodological Risks & Clinical Disclaimers
 
 1. **Source-per-Class Shortcut Learning:**
-   - Pathological and normal image subsets often originate from distinct open-source clinical repositories 
+   - Pathological and normal image subsets originate from distinct open-source clinical repositories 
      with differing aspect ratios, lighting temperatures, background colors, and sensor characteristics.
    - Neural networks risk learning source sensor artifacts rather than physiological pathology.
 2. **Anatomical Overlap and Diagnostic Specificity:**
@@ -132,4 +170,5 @@ class threshold gating (>= 100 images), and group-aware 70/15/15 splits across a
 3. **Strict Academic Demo Scope:**
    - All vision models are educational prototypes demonstrating computer-vision engineering feasibility. 
    - Zero clinical or diagnostic authority is claimed or permitted under project guidelines.
+
 

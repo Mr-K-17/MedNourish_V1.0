@@ -71,13 +71,19 @@ wheels/
 .installed.cfg
 *.egg
 
-# --- 4. Firebase Emulator Data & Runtime State ---
+# --- 4. Firebase Emulator Data, Database & Runtime State ---
 .firebase/
 firebase-debug.log*
 firestore-debug.log*
 ui-debug.log*
 *.emulator.state*
 firestore_export/
+storage/
+backend/storage/
+*.db
+*.sqlite
+*.sqlite3
+
 
 # --- 5. Build Outputs, Caches & Generated Logs ---
 .vite/

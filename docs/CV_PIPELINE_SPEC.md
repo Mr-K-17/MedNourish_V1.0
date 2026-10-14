@@ -1,3 +1,7 @@
+> [!NOTE]
+> **HISTORICAL AUDIT SNAPSHOT — SUPERSEDED**
+> This document reflects a dated preliminary audit snapshot. For the canonical, byte-verified physical inventory and file reconciliation, refer exclusively to [docs/DATASET_INVENTORY_v2.md](file:///C:/Users/USER/Desktop/MedNourish-Dev/docs/DATASET_INVENTORY_v2.md).
+
 # MEDNOURISH — Computer Vision Pipeline Specification (Phase 3.2 Roadmap)
 
 **Document Date:** 2026-10-13  

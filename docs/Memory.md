@@ -624,6 +624,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Tabular models (800 test records) matched model cards exactly; 6 MobileNetV2 models achieved 100% Float32 TFLite top-1 parity (diff < 3.7e-6).
 - Live ML Lab proxy verification verified on port 8001; all endpoints validated with discrete label-only output and zero probabilities.
 
+### S-037 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- F3b Matcher bounds verified on all 116 rows with regression test; backend tests grew to 67 passed.
+- True vision re-evaluation on test manifests matched model cards with zero diffs > 1 pt; class composition & shortcut badges added.
+- Toned down synthetic claims to provenance unknown / possibly synthetic; reconciled DATASET_INVENTORY_v2.md prose to 394,480 files.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

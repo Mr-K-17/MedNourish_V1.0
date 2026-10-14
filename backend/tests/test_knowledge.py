@@ -93,3 +93,29 @@ def test_matcher_deterministic_intersection():
     # B ranks strictly higher than A
     ranked = sorted([condition_a, condition_b], key=lambda c: len(user_query.intersection(c["tags"])), reverse=True)
     assert ranked[0]["id"] == "B"
+
+
+def test_matcher_bounds_on_all_116_rows():
+    """Verifies that match_count <= len(user_tags) and match_count <= total_condition_tags for all entries."""
+    from app.services.knowledge_service import KnowledgeRepository
+    repo = KnowledgeRepository()
+    assert len(repo.entries) == 116
+
+    # Test query with ['nightblindness', 'eyedryness']
+    res_eyes = repo.match_symptoms(["nightblindness", "eyedryness"], "Eyes")
+    assert res_eyes["status"] == "MATCHES_FOUND"
+    top = res_eyes["matched_entries"][0]
+    assert top["class_label"] == "Bitot_Spots"
+    assert top["match_count"] == 2  # Exactly 2 tags matched, never 3
+    for m in res_eyes["matched_entries"]:
+        assert m["match_count"] <= 2
+        assert m["match_count"] <= m["total_condition_tags"]
+
+    # Test all eligible entries with their own keywords
+    for entry in repo.eligible_entries:
+        tags = list(entry.normalized_keywords)
+        res = repo.match_symptoms(tags, entry.body_region)
+        for m in res["matched_entries"]:
+            assert m["match_count"] <= len(tags)
+            assert m["match_count"] <= m["total_condition_tags"]
+
