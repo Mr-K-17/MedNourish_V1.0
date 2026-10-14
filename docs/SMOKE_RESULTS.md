@@ -1,6 +1,6 @@
 # MedNourish — Automated Real HTTP Smoke Test Results (v2-P6)
 
-**Execution Date:** 2026-10-14 11:36:15 UTC  
+**Execution Date:** 2026-10-14 13:44:59 UTC  
 **Execution Mode:** Real HTTP against live stack (ports 9099, 8001, 8000, 5173)  
 **Real Database Engine:** MySQL 8.0 (status: healthy)  
 **Summary:** 17/17 PASSED, 0 SKIPPED, 0 FAILED  

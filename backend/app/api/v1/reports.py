@@ -56,21 +56,18 @@ def save_summary(
     matched_entries_data = [item.model_dump() for item in payload.matched_entries]
     matched_entries_json = json.dumps(matched_entries_data)
 
-    # Build snapshot scores for multi-engine recency aggregation
+    from app.services.scoring_service import scoring_service
+    eval_match = scoring_service.evaluate_tags(payload.selected_tags)
     scores_dict = {}
-    for entry in payload.matched_entries:
-        nut = entry.vitamin_deficiency_association or "General"
-        ref_pct = (
-            float(entry.row_match_percentage)
-            if entry.row_match_percentage is not None
-            else round(float(entry.match_count) / max(1, entry.total_condition_tags) * 100.0, 1)
-        )
+    for ns in eval_match.get("nutrient_scores", []):
+        nut = ns["nutrient"]
+        pct = float(ns["percentage"])
         scores_dict[nut] = {
-            "reference_pct": ref_pct,
+            "reference_pct": pct,
             "xgboost_pct": 0.0,
             "lightgbm_pct": 0.0,
             "image_pct": 0.0,
-            "final_pct": ref_pct,
+            "final_pct": pct,
         }
     snapshot_scores_json = json.dumps(scores_dict)
 
