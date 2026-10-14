@@ -57,7 +57,8 @@ def match_reference_symptoms(
     Outputs ordered reference-match summaries or insufficient information state.
     """
     try:
-        result = knowledge_repo.match_symptoms(
+        from app.services.scoring_service import scoring_service
+        result = scoring_service.evaluate_tags(
             user_tags=request.selected_tags,
             region_filter=request.body_region_filter,
         )

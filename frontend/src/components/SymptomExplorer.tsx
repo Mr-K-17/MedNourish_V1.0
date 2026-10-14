@@ -35,10 +35,34 @@ interface MatchedEntry {
   review_status: string;
 }
 
+interface ContributingRow {
+  class_label: string;
+  body_region: string;
+  category?: string;
+  vitamin_deficiency?: string;
+  row_match_percentage: number;
+  matched_tags: string[];
+  match_count: number;
+  total_condition_tags: number;
+}
+
+interface NutrientScore {
+  nutrient: string;
+  percentage: number;
+  percentage_kind: string;
+  percentage_explanation: string;
+  risk_band: 'High' | 'Moderate' | 'Low' | string;
+  risk_band_label: string;
+  matched_tags: string[];
+  contributing_rows: ContributingRow[];
+  kind: string;
+}
+
 interface MatchResponse {
   status: 'MATCHES_FOUND' | 'INSUFFICIENT_INFORMATION';
   message: string;
   disclaimer: string;
+  nutrient_scores?: NutrientScore[];
   matched_entries: MatchedEntry[];
   unmatched_user_tags: string[];
   package_version: string;
@@ -410,43 +434,105 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
                 <p>{matchResult.message}</p>
               </div>
 
-              {matchResult.matched_entries.map((item, idx) => (
-                <div key={`${item.class_label}-${idx}`} className={styles.matchItem}>
-                  <div className={styles.matchItemHeader}>
-                    <div className={styles.matchTitleBlock}>
-                      <span className={styles.matchRegionBadge}>{item.body_region}</span>
-                      <h4 className={styles.matchClassName}>{item.class_label.replace(/_/g, ' ')}</h4>
+              {matchResult.nutrient_scores && matchResult.nutrient_scores.length > 0 ? (
+                matchResult.nutrient_scores.map((nut) => (
+                  <div key={nut.nutrient} className={styles.nutrientScoreCard}>
+                    <div className={styles.nutrientScoreHeader}>
+                      <h4 className={styles.nutrientName}>{nut.nutrient}</h4>
+                      <span
+                        className={`${styles.riskBandBadge} ${
+                          nut.risk_band === 'High'
+                            ? styles.riskBandHigh
+                            : nut.risk_band === 'Moderate'
+                            ? styles.riskBandModerate
+                            : styles.riskBandLow
+                        }`}
+                        title={nut.risk_band_label}
+                      >
+                        {nut.risk_band} Risk
+                      </span>
                     </div>
-                    <span className={styles.matchCountPill}>
-                      <strong>{item.match_count}</strong> of {item.total_condition_tags} tags matched
-                    </span>
+
+                    <div className={styles.percentBarWrapper}>
+                      <div className={styles.percentBarMeta}>
+                        <span className={styles.percentKind}>{nut.percentage_kind}</span>
+                        <span className={styles.percentValue}>{nut.percentage}%</span>
+                      </div>
+                      <div className={styles.percentBarTrack}>
+                        <div
+                          className={styles.percentBarFill}
+                          style={{ width: `${Math.min(100, Math.max(0, nut.percentage))}%` }}
+                        />
+                      </div>
+                      <p className={styles.percentExplanation}>{nut.percentage_explanation}</p>
+                    </div>
+
+                    <details className={styles.whyDetails}>
+                      <summary className={styles.whySummary}>
+                        Why: {nut.matched_tags.length} matched tag(s) across {nut.contributing_rows.length} reference condition(s)
+                      </summary>
+                      <div className={styles.whyContent}>
+                        <div className={styles.tagsRow}>
+                          <span className={styles.fieldLabel}>Matched Tags:</span>
+                          <div className={styles.matchedTagPills}>
+                            {nut.matched_tags.map((t) => (
+                              <span key={t} className={styles.matchedPill}>
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className={styles.contributingRowsList}>
+                          {nut.contributing_rows.map((row) => (
+                            <div key={row.class_label} className={styles.contributingRowItem}>
+                              <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
+                              <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </details>
                   </div>
-
-                  <div className={styles.matchBody}>
-                    <div className={styles.deficiencyRow}>
-                      <span className={styles.fieldLabel}>Nutrient Reference:</span>
-                      <span className={styles.fieldValue}>{item.vitamin_deficiency_association}</span>
+                ))
+              ) : (
+                matchResult.matched_entries.map((item, idx) => (
+                  <div key={`${item.class_label}-${idx}`} className={styles.matchItem}>
+                    <div className={styles.matchItemHeader}>
+                      <div className={styles.matchTitleBlock}>
+                        <span className={styles.matchRegionBadge}>{item.body_region}</span>
+                        <h4 className={styles.matchClassName}>{item.class_label.replace(/_/g, ' ')}</h4>
+                      </div>
+                      <span className={styles.matchCountPill}>
+                        <strong>{item.match_count}</strong> of {item.total_condition_tags} tags matched
+                      </span>
                     </div>
 
-                    <div className={styles.tagsRow}>
-                      <span className={styles.fieldLabel}>Matched Tags:</span>
-                      <div className={styles.matchedTagPills}>
-                        {item.matched_tags.map((t) => (
-                          <span key={t} className={styles.matchedPill}>
-                            {t}
-                          </span>
-                        ))}
+                    <div className={styles.matchBody}>
+                      <div className={styles.deficiencyRow}>
+                        <span className={styles.fieldLabel}>Nutrient Reference:</span>
+                        <span className={styles.fieldValue}>{item.vitamin_deficiency_association}</span>
+                      </div>
+
+                      <div className={styles.tagsRow}>
+                        <span className={styles.fieldLabel}>Matched Tags:</span>
+                        <div className={styles.matchedTagPills}>
+                          {item.matched_tags.map((t) => (
+                            <span key={t} className={styles.matchedPill}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className={styles.matchItemFooter}>
-                    <span className={styles.reviewStatusLabel}>
-                      Review Status: <em>{item.review_status}</em>
-                    </span>
+                    <div className={styles.matchItemFooter}>
+                      <span className={styles.reviewStatusLabel}>
+                        Review Status: <em>{item.review_status}</em>
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
 
               {matchResult.unmatched_user_tags.length > 0 && (
                 <div className={styles.unmatchedBox}>

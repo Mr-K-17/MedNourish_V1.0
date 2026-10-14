@@ -1,0 +1,259 @@
+version: '1.0'
+synonyms:
+  achy joints: jointpain
+  alopecia: hairloss
+  altered taste: tastechange
+  angular cheilitis: mouthcornersoreness
+  anxiety: anxiety
+  bad breath: badbreath
+  bald patches: smoothbaldpatches
+  beau lines: beaulines
+  beefy red tongue: beefyredtongue
+  bleeding gums: bleedinggums
+  bleeding lips: sorelips
+  bleeding spots on skin: folliclebleeding
+  bloodshot eyes: eyeredness
+  blurry vision: blurredvision
+  blurred vision: blurredvision
+  body aches: musclepain
+  bone aches: bonepain
+  bone pain: bonepain
+  brain fog: confusion
+  breaking nails: brittlenails
+  breathless: shortnessofbreath
+  brittle hair: brittlehair
+  brittle nails: brittlenails
+  broken hair: hairbreakage
+  bruising easily: easybruising
+  bumpy skin: smallraisedbumps
+  burning lips: lipdryness
+  burning mouth: burningmouth
+  burning pain: burningpain
+  burning scalp: scalpburning
+  burning tongue: burningtongue
+  butterfly rash: facialrash
+  canker sores: mouthsores
+  cannot see well at night: nightblindness
+  catch colds easily: frequentinfections
+  chapped lips: crackedlips
+  cloudy vision: cloudyvision
+  cold all the time: coldintolerance
+  concave nails: spoonshapednails
+  confusion: confusion
+  corkscrew hair: corkscrewhair
+  cracked corners of mouth: mouthcornersoreness
+  cracked heels: skin裂ing # will use skincracking
+  cracked lips: crackedlips
+  cracking nails: brittlenails
+  cracking skin: skincracking
+  cracks at corner of mouth: mouthcornersoreness
+  crumbling nails: nailcrumbling
+  curly hair shaft: curlyhairshaft
+  cuts at mouth corners: mouthcornersoreness
+  cuts heal slowly: slowwoundhealing
+  dandruff: dandruff
+  dark patches: darkskinpatches
+  dark skin patches: darkskinpatches
+  dark spots under nails: subungualhematoma
+  dented nails: nailpitting
+  depressed: lowmood
+  diarrhea: diarrhea
+  difficulty seeing at night: nightblindness
+  dim vision: dimvision
+  discolored nails: naildiscoloration
+  dizziness: dizziness
+  dry eyes: dryeyes
+  dry hair: dryhair
+  dry lips: lipdryness
+  dry skin: dryskin
+  dull hair: dullhair
+  easy bruising: easybruising
+  edema: edema
+  exhausted: fatigue
+  exhaustion: fatigue
+  eye dryness: eyedryness
+  eye irritation: eyeirritation
+  eye pain: eyepain
+  eye redness: eyeredness
+  eyes feel dry: eyedryness
+  face rash: facialrash
+  fatigued: fatigue
+  feeling anxious: anxiety
+  feeling cold: coldintolerance
+  feeling down: lowmood
+  feeling sluggish: lethargy
+  feeling weak: weakness
+  fever: fever
+  fissured tongue: tonguegrooves
+  flaky scalp: scalpflaking
+  flaky skin: flakyskin
+  floaters in vision: floaters
+  fluid retention: edema
+  foamy spots in eyes: foamywhitepatch
+  foot rash: footrash
+  forgetfulness: memoryproblems
+  fragile nails: brittlenails
+  fragile skin: skinfragility
+  frayed hair: frayedtips
+  frizzy hair: frizzyhair
+  getting sick often: frequentinfections
+  glossy tongue: smoothtongue
+  goosebump skin: goosebumptexture
+  gritty eyes: eyegrittiness
+  grooves on nails: nailridging
+  grooves on tongue: tonguegrooves
+  gums bleed: bleedinggums
+  gums bleeding when brushing: bleedinggums
+  hair breaking easily: hairbreakage
+  hair falling out: hairloss
+  hair loss: hairloss
+  hair shedding: diffusehairshedding
+  hair thinning: hairthinning
+  halitosis: badbreath
+  halos around lights: halosaroundlights
+  hand rash: handrash
+  hard to drive in dark: nightdrivingdifficulty
+  hard to see in the dark: nightblindness
+  hard to swallow: difficultyswallowing
+  hazy vision: cloudyvision
+  headache: headache
+  hyperpigmentation: darkskinpatches
+  irritability: irritability
+  irritable: irritability
+  irritated eyes: eyeirritation
+  itchy lips: lipitching
+  itchy scalp: itchyscalp
+  itchy skin: itching
+  joint aches: jointpain
+  joint pain: jointpain
+  koilonychia: spoonshapednails
+  lack of energy: fatigue
+  large bruises: largebruising
+  lethargic: lethargy
+  lethargy: lethargy
+  lifeless hair: dullhair
+  lifting nails: nailseparation
+  light sensitivity: lightsensitivity
+  lightheaded: dizziness
+  lips feel dry: lipdryness
+  loose stools: diarrhea
+  losing hair: hairloss
+  losing weight: weightloss
+  loss of color: paleskin
+  loss of taste: tastechange
+  low energy: fatigue
+  low immunity: lowimmunity
+  low mood: lowmood
+  memory problems: memoryproblems
+  mental fog: confusion
+  metallic taste: tastechange
+  migraine: headache
+  mouth sores: mouthsores
+  muscle ache: musclepain
+  muscle aches: musclepain
+  muscle pain: musclepain
+  muscle weakness: muscleweakness
+  nail peeling: nailseparation
+  nails falling off: nailloss
+  nausea: nausea
+  neck rash: neckrash
+  nerve pain: burningpain
+  nervous: anxiety
+  night blindness: nightblindness
+  no appetite: poorappetite
+  numb feet: feettingling
+  numb hands: handnumbness
+  numbness: numbness
+  numbness in fingers: handnumbness
+  oily flakes: oilyscaling
+  oral thrush: oralthrush
+  painful tongue: soretongue
+  pale conjunctiva: paleconjunctiva
+  pale inner eyelids: paleconjunctiva
+  pale lips: paledrylips
+  pale skin: paleskin
+  patchy baldness: patchyhairloss
+  peeling lips: lippeeling
+  peeling skin: skinpeeling
+  peripheral neuropathy: peripheralneuropathy
+  petechiae: tinyredspots
+  photophobia: photosensitivity
+  pins and needles: feettingling
+  pitted nails: nailpitting
+  poor appetite: poorappetite
+  poor memory: memoryissues
+  poor night vision: nightblindness
+  poor wound healing: poorwoundhealing
+  puffy lips: swollenlips
+  rash from sun: sunexposedrash
+  rash on feet: footrash
+  rash on hands: handrash
+  rash on neck: neckrash
+  receding hairline: recedinghairline
+  red eyes: eyeredness
+  red nail cuticle: nailfoldredness
+  red rash: skinrash
+  red scalp: scalpredness
+  red tongue: soreredtongue
+  ridges in nails: nailridging
+  rough nail surface: roughnailtexture
+  rough skin: roughskin
+  run down: fatigue
+  sand in eyes: eyegrittiness
+  sandpaper skin: roughskin
+  scalp itching: scalpitching
+  scalp tenderness: scalptenderness
+  seeing halos: halosaroundlights
+  seeing spots: floaters
+  sensitive to light: lightsensitivity
+  shortness of breath: shortnessofbreath
+  skin flaking: flakyskin
+  skin itching: itching
+  skin peeling: skinpeeling
+  skin rash: skinrash
+  sluggishness: lethargy
+  slow wound healing: slowwoundhealing
+  smooth tongue: smoothtongue
+  soft nails: softnails
+  sore corners of lips: mouthcornersoreness
+  sore eyes: eyepain
+  sore gums: bleedinggums
+  sore lips: sorelips
+  sore tongue: soretongue
+  split ends: frayedtips
+  splinter hemorrhages: nailbleedingspots
+  spoon nails: spoonshapednails
+  spoon shaped nails: spoonshapednails
+  strawberry tongue: soreredtongue
+  sun sensitive rash: sunexposedrash
+  swelling: edema
+  swollen ankles: edema
+  swollen lips: swollenlips
+  swollen nail folds: nailfoldswelling
+  swollen tongue: swollentongue
+  teary eyes: excessivetearing
+  thin nails: thinnails
+  thin skin: thinskin
+  thinning hair: hairthinning
+  tight lips: liptightness
+  tingling in feet: feettingling
+  tingling in hands: handnumbness
+  tired: fatigue
+  tiredness: fatigue
+  tongue feels on fire: burningtongue
+  tongue swelling: swollentongue
+  trouble driving at night: nightdrivingdifficulty
+  trouble eating: difficultyeating
+  trouble swallowing: difficultyswallowing
+  twisted hair: twistedhair
+  unexplained bruises: easybruising
+  upset stomach: nausea
+  watery eyes: excessivetearing
+  weak: weakness
+  weak muscles: muscleweakness
+  weak nails: brittlenails
+  weight loss: weightloss
+  white patches in mouth: oralthrush
+  white spots on eyes: whiteeyemark
+  yellow nails: yellownaildiscoloration
+  yellowish skin: paleskin

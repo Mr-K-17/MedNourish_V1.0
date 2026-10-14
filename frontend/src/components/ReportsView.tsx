@@ -21,6 +21,7 @@ interface MatchedEntry {
   matched_tags: string[];
   match_count: number;
   total_condition_tags: number;
+  row_match_percentage?: number;
   review_status: string;
 }
 
@@ -437,6 +438,11 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
                           </span>
                         </div>
                         <span className={styles.entryMatchPill}>
+                          {entry.row_match_percentage !== undefined && (
+                            <>
+                              <strong>{entry.row_match_percentage}%</strong> (Reference match %) &bull;{' '}
+                            </>
+                          )}
                           {entry.match_count} of {entry.total_condition_tags} tags matched
                         </span>
                       </div>

@@ -54,12 +54,42 @@ interface MatchedEntry {
   review_status: string;
 }
 
+interface ContributingRow {
+  class_label: string;
+  body_region: string;
+  category?: string;
+  vitamin_deficiency?: string;
+  row_match_percentage: number;
+  matched_tags: string[];
+  match_count: number;
+  total_condition_tags: number;
+}
+
+interface NutrientScore {
+  nutrient: string;
+  percentage: number;
+  percentage_kind: string;
+  percentage_explanation: string;
+  risk_band: 'High' | 'Moderate' | 'Low' | string;
+  risk_band_label: string;
+  matched_tags: string[];
+  contributing_rows: ContributingRow[];
+  kind: string;
+}
+
+interface SymptomChip {
+  tag: string;
+  source_phrase: string;
+  confidence: number;
+}
+
 interface EvaluateResponse {
   status: 'MATCHES_FOUND' | 'INSUFFICIENT_INFORMATION';
   message: string;
   disclaimer: string;
   collected_symptom_tags: string[];
   lifestyle_responses: Record<string, string[]>;
+  nutrient_scores?: NutrientScore[];
   matched_entries: MatchedEntry[];
   unmatched_user_tags: string[];
   package_version: string;
@@ -88,6 +118,51 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+
+  // Phase 2 (c) Free-text extraction state
+  const [freeText, setFreeText] = useState<string>('');
+  const [isExtracting, setIsExtracting] = useState<boolean>(false);
+  const [extractedChips, setExtractedChips] = useState<SymptomChip[]>([]);
+  const [extractMessage, setExtractMessage] = useState<string | null>(null);
+
+  const handleExtractSymptoms = async () => {
+    if (!freeText.trim()) return;
+    setIsExtracting(true);
+    setExtractMessage(null);
+    try {
+      const res = await fetch('http://127.0.0.1:8000/v1/medbot/extract', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ text: freeText }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status === 'SYMPTOMS_EXTRACTED') {
+          setExtractedChips((prev) => {
+            const existingTags = new Set(prev.map((c) => c.tag));
+            const newChips = data.chips.filter((c: SymptomChip) => !existingTags.has(c.tag));
+            return [...prev, ...newChips];
+          });
+          setExtractMessage(`Extracted ${data.chips.length} symptom tag(s). Review or remove below.`);
+        } else {
+          setExtractMessage(data.message || 'No recognized nutritional symptoms detected.');
+        }
+      } else {
+        setExtractMessage('Failed to extract symptoms from text.');
+      }
+    } catch {
+      setExtractMessage('Unable to reach symptom extraction service.');
+    } finally {
+      setIsExtracting(false);
+    }
+  };
+
+  const handleRemoveChip = (chipTag: string) => {
+    setExtractedChips((prev) => prev.filter((c) => c.tag !== chipTag));
+  };
 
   // Load questions when mode is selected
   useEffect(() => {
@@ -226,6 +301,7 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
         body: JSON.stringify({
           mode: selectedMode,
           answers: formattedAnswers,
+          confirmed_free_text_tags: extractedChips.map((c) => c.tag),
         }),
       });
 
@@ -424,32 +500,94 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
         ) : (
           <div className={styles.entriesList}>
             <h3 style={{ fontSize: '1.05rem', margin: '0 0 0.5rem 0', color: 'var(--color-text-primary)' }}>
-              Reference Associations ({evaluationResult.matched_entries.length} matches):
+              Nutrient Reference Match Patterns:
             </h3>
 
-            {evaluationResult.matched_entries.map((entry) => (
-              <div key={entry.class_label} className={styles.entryCard}>
-                <div className={styles.entryHeader}>
-                  <h4 className={styles.entryTitle}>{entry.class_label.replace(/_/g, ' ')}</h4>
-                  <span className={styles.matchBadge}>
-                    {entry.match_count} of {entry.total_condition_tags} tags matched
-                  </span>
-                </div>
-                <div className={styles.deficiencyAssociation}>
-                  <strong>Associated Deficiency:</strong> {entry.vitamin_deficiency_association} ({entry.body_region})
-                </div>
-                <div className={styles.entryTags}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
-                    Matched tags:
-                  </span>
-                  {entry.matched_tags.map((t) => (
-                    <span key={t} className={styles.matchedTagBadge}>
-                      ✓ {t}
+            {evaluationResult.nutrient_scores && evaluationResult.nutrient_scores.length > 0 ? (
+              evaluationResult.nutrient_scores.map((nut) => (
+                <div key={nut.nutrient} className={styles.nutrientScoreCard}>
+                  <div className={styles.nutrientScoreHeader}>
+                    <h4 className={styles.nutrientName}>{nut.nutrient}</h4>
+                    <span
+                      className={`${styles.riskBandBadge} ${
+                        nut.risk_band === 'High'
+                          ? styles.riskBandHigh
+                          : nut.risk_band === 'Moderate'
+                          ? styles.riskBandModerate
+                          : styles.riskBandLow
+                      }`}
+                      title={nut.risk_band_label}
+                    >
+                      {nut.risk_band} Risk
                     </span>
-                  ))}
+                  </div>
+
+                  <div className={styles.percentBarWrapper}>
+                    <div className={styles.percentBarMeta}>
+                      <span className={styles.percentKind}>{nut.percentage_kind}</span>
+                      <span className={styles.percentValue}>{nut.percentage}%</span>
+                    </div>
+                    <div className={styles.percentBarTrack}>
+                      <div
+                        className={styles.percentBarFill}
+                        style={{ width: `${Math.min(100, Math.max(0, nut.percentage))}%` }}
+                      />
+                    </div>
+                    <p className={styles.percentExplanation}>{nut.percentage_explanation}</p>
+                  </div>
+
+                  <details className={styles.whyDetails}>
+                    <summary className={styles.whySummary}>
+                      Why: {nut.matched_tags.length} matched tag(s) across {nut.contributing_rows.length} reference condition(s)
+                    </summary>
+                    <div className={styles.whyContent}>
+                      <div className={styles.entryTags}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+                          Matched tags:
+                        </span>
+                        {nut.matched_tags.map((t) => (
+                          <span key={t} className={styles.matchedTagBadge}>
+                            ✓ {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div className={styles.contributingRowsList}>
+                        {nut.contributing_rows.map((row) => (
+                          <div key={row.class_label} className={styles.contributingRowItem}>
+                            <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
+                            <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </details>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              evaluationResult.matched_entries.map((entry) => (
+                <div key={entry.class_label} className={styles.entryCard}>
+                  <div className={styles.entryHeader}>
+                    <h4 className={styles.entryTitle}>{entry.class_label.replace(/_/g, ' ')}</h4>
+                    <span className={styles.matchBadge}>
+                      {entry.match_count} of {entry.total_condition_tags} tags matched
+                    </span>
+                  </div>
+                  <div className={styles.deficiencyAssociation}>
+                    <strong>Associated Deficiency:</strong> {entry.vitamin_deficiency_association} ({entry.body_region})
+                  </div>
+                  <div className={styles.entryTags}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+                      Matched tags:
+                    </span>
+                    {entry.matched_tags.map((t) => (
+                      <span key={t} className={styles.matchedTagBadge}>
+                        ✓ {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
 
@@ -571,6 +709,58 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
             );
           })}
         </div>
+
+        {selectedMode === 'standard' && (
+          <div className={styles.freeTextContainer}>
+            <label htmlFor="medbot-free-text" className={styles.freeTextLabel}>
+              Describe how you feel (Optional)
+            </label>
+            <p className={styles.freeTextSubtext}>
+              Type your symptoms in everyday language (e.g. &quot;tired, cracked corners of mouth, but no fever&quot;).
+              Confirmed tags are combined with your choices; raw text is never stored.
+            </p>
+            <textarea
+              id="medbot-free-text"
+              className={styles.freeTextArea}
+              placeholder="e.g. I feel exhausted and have brittle nails and dry skin..."
+              value={freeText}
+              onChange={(e) => setFreeText(e.target.value)}
+            />
+            <div className={styles.freeTextActions}>
+              <button
+                type="button"
+                className={styles.extractButton}
+                disabled={isExtracting || !freeText.trim()}
+                onClick={handleExtractSymptoms}
+              >
+                {isExtracting ? 'Extracting...' : 'Extract Symptoms'}
+              </button>
+            </div>
+            {extractMessage && (
+              <div style={{ fontSize: '0.75rem', color: '#0369a1' }}>{extractMessage}</div>
+            )}
+            {extractedChips.length > 0 && (
+              <div className={styles.extractedChipsSection}>
+                <span className={styles.chipsLabel}>Confirmed Extracted Symptoms:</span>
+                <div className={styles.chipsList}>
+                  {extractedChips.map((chip) => (
+                    <span key={chip.tag} className={styles.chipItem}>
+                      <span>{chip.tag}</span>
+                      <button
+                        type="button"
+                        className={styles.chipRemoveBtn}
+                        onClick={() => handleRemoveChip(chip.tag)}
+                        title={`Remove tag (matched from "${chip.source_phrase}")`}
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className={styles.navBar}>
           <button

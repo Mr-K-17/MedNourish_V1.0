@@ -13,7 +13,24 @@ Adheres strictly to:
 
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from app.schemas.explorer import MatchedEntry
+from app.schemas.explorer import MatchedEntry, NutrientScore
+
+
+class SymptomChip(BaseModel):
+    tag: str = Field(..., description="Canonical symptom tag")
+    source_phrase: str = Field(..., description="Matched phrase from user input")
+    confidence: float = Field(..., description="Match confidence or similarity score")
+
+
+class MedBotExtractRequest(BaseModel):
+    text: str = Field(..., description="User free-text symptom description")
+
+
+class MedBotExtractResponse(BaseModel):
+    status: str = Field(..., description="'SYMPTOMS_EXTRACTED' or 'INSUFFICIENT_INFORMATION'")
+    message: str = Field(..., description="Status summary")
+    tags: List[str] = Field(default_factory=list, description="Unique canonical symptom tags extracted")
+    chips: List[SymptomChip] = Field(default_factory=list, description="Extracted chips with source phrases")
 
 
 class QuestionOption(BaseModel):
@@ -60,7 +77,10 @@ class AnswerSubmission(BaseModel):
 
 class MedBotEvaluateRequest(BaseModel):
     mode: str = Field(..., description="'simple' or 'standard'")
-    answers: List[AnswerSubmission] = Field(..., description="List of submitted answers across steps")
+    answers: List[AnswerSubmission] = Field(default_factory=list, description="List of submitted answers across steps")
+    confirmed_free_text_tags: Optional[List[str]] = Field(
+        default_factory=list, description="Confirmed symptom tags from free-text extraction (Phase 2)"
+    )
 
 
 class MedBotEvaluateResponse(BaseModel):
@@ -71,8 +91,11 @@ class MedBotEvaluateResponse(BaseModel):
     lifestyle_responses: dict[str, List[str]] = Field(
         default_factory=dict, description="Lifestyle answers recorded for context (verified non-influencing)"
     )
+    nutrient_scores: List[NutrientScore] = Field(
+        default_factory=list, description="Ranked nutrient groups with Reference match % and risk bands"
+    )
     matched_entries: List[MatchedEntry] = Field(
-        default_factory=list, description="Ordered reference-match summaries"
+        default_factory=list, description="Ordered reference-match summaries (retained for why details)"
     )
     unmatched_user_tags: List[str] = Field(
         default_factory=list, description="Symptom tags that found no condition match"

@@ -659,6 +659,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Verified idempotent migration on SQLite, MySQL mednourish_dev, and MySQL mednourish_test; updated ConsentProfileModal UI, seed_demo.py, and scan_safety_claims allowlist.
 - Backend suite passed (67 passed, 1 skipped), frontend built cleanly with zero errors; no regressions.
 
+### S-044 — 2026-10-14 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Phase 2 Scoring Spec, Reference Match %, and MedBot text extraction implemented (docs/SCORING_SPEC.md, scoring_service.py, extraction_service.py, synonyms.yaml).
+- Explorer and MedBot UI upgraded with deterministic Reference match % bars, demo risk bands (C-34/35), expandable why details, and free-text symptom chip extraction.
+- Verified test suites: 11/11 Phase 2 scoring and extraction tests, 78/78 full backend suite (0 regressions), and frontend built cleanly in 2.88s.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

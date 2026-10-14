@@ -23,6 +23,8 @@ from app.models.user import SavedSummary
 from app.schemas.medbot import (
     MedBotEvaluateRequest,
     MedBotEvaluateResponse,
+    MedBotExtractRequest,
+    MedBotExtractResponse,
     QuestionnaireConfigResponse,
 )
 from app.schemas.reports import SaveSummaryRequest, SavedSummaryDetail
@@ -56,6 +58,28 @@ def get_medbot_questions(
         )
 
 
+@router.post("/medbot/extract", response_model=MedBotExtractResponse)
+def extract_medbot_symptoms(
+    payload: MedBotExtractRequest,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+):
+    """Extracts confirmed canonical symptom tags from free-text using synonyms, negation, and fuzzy match.
+
+    Requires authenticated session.
+    Never persists raw text to database or server logs (C-23, PRIV-01).
+    """
+    try:
+        from app.services.extraction_service import symptom_extractor
+        result = symptom_extractor.extract_symptoms(text=payload.text)
+        return MedBotExtractResponse(**result)
+    except Exception as exc:
+        logger.error("Error extracting symptoms from free text: %s", type(exc).__name__)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error processing free-text symptom extraction.",
+        )
+
+
 @router.post("/medbot/evaluate", response_model=MedBotEvaluateResponse)
 def evaluate_medbot_questionnaire(
     payload: MedBotEvaluateRequest,
@@ -66,7 +90,11 @@ def evaluate_medbot_questionnaire(
     Requires authenticated session.
     """
     try:
-        return medbot_service.evaluate_answers(mode=payload.mode, answers=payload.answers)
+        return medbot_service.evaluate_answers(
+            mode=payload.mode,
+            answers=payload.answers,
+            confirmed_free_text_tags=payload.confirmed_free_text_tags,
+        )
     except Exception as exc:
         logger.error("Error evaluating MedBot answers: %s", type(exc).__name__)
         raise HTTPException(

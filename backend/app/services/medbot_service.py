@@ -224,7 +224,10 @@ class MedBotService:
         )
 
     def evaluate_answers(
-        self, mode: str, answers: List[AnswerSubmission]
+        self,
+        mode: str,
+        answers: List[AnswerSubmission],
+        confirmed_free_text_tags: Optional[List[str]] = None,
     ) -> MedBotEvaluateResponse:
         """Extracts symptom tags and performs deterministic matching.
 
@@ -233,9 +236,17 @@ class MedBotService:
         - MEDBOT-10: Lifestyle responses do NOT alter matches.
         - SAF-06: Empty or zero matches return INSUFFICIENT_INFORMATION.
         - Deterministic parity with Symptom Explorer (same tags = identical output).
+        - C-33 / Phase 2: Incorporates confirmed free-text extraction tags.
         """
         extracted_tags: Set[str] = set()
         lifestyle_data: Dict[str, List[str]] = {}
+
+        # 1. Include confirmed free text tags if present
+        if confirmed_free_text_tags:
+            for t in confirmed_free_text_tags:
+                norm_t = normalize_tag(t)
+                if norm_t:
+                    extracted_tags.add(norm_t)
 
         # Index question database by id
         q_map = {q["id"]: q for q in self._questions}
@@ -267,9 +278,10 @@ class MedBotService:
                         if norm_tag:
                             extracted_tags.add(norm_tag)
 
-        # Delegate matching directly to KnowledgeRepository to guarantee identical deterministic behavior
+        # Delegate matching directly to scoring_service for Reference match % and noisy-OR nutrient groups
+        from app.services.scoring_service import scoring_service
         sorted_user_tags = sorted(list(extracted_tags))
-        match_result = knowledge_repo.match_symptoms(user_tags=sorted_user_tags, region_filter=None)
+        match_result = scoring_service.evaluate_tags(user_tags=sorted_user_tags, region_filter=None)
 
         return MedBotEvaluateResponse(
             status=match_result["status"],
@@ -277,6 +289,7 @@ class MedBotService:
             disclaimer=match_result["disclaimer"],
             collected_symptom_tags=sorted_user_tags,
             lifestyle_responses=lifestyle_data,
+            nutrient_scores=match_result.get("nutrient_scores", []),
             matched_entries=match_result.get("matched_entries", []),
             unmatched_user_tags=match_result.get("unmatched_user_tags", []),
             package_version=PACKAGE_VERSION,
