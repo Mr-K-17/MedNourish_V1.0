@@ -37,7 +37,9 @@ from sqlalchemy.orm import Session
 
 from app.core.auth import AuthenticatedUser, get_current_user
 from app.db.session import get_db
-from app.models.user import MedScanSession
+from app.models.user import MedScanSession, SavedSummary
+from app.schemas.medscan import ChecklistResponse, MedScanBlendResponse
+from app.services.medscan_service import medscan_pipeline
 
 logger = logging.getLogger(__name__)
 
@@ -326,3 +328,150 @@ def delete_medscan_session(
     db.delete(item)
     db.commit()
     return {"status": "deleted", "id": session_id}
+
+
+@router.get("/medscan/checklist", response_model=ChecklistResponse)
+def get_medscan_checklist(
+    body_region: str,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+):
+    """Returns 6-8 discriminative symptoms for regional follow-up (SCAN-06)."""
+    items = medscan_pipeline.get_checklist_for_region(body_region)
+    return ChecklistResponse(body_region=body_region, items=items)
+
+
+@router.post("/medscan/analyze", response_model=MedScanBlendResponse)
+async def analyze_medscan(
+    body_region: str = Form(...),
+    file: UploadFile = File(...),
+    symptoms: Optional[str] = Form(""),
+    save_report: bool = Form(True),
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Executes the end-to-end MedScan blended inference pipeline:
+    1. Quality check (dimensions >= 224x224, blur, illumination, format).
+    2. Model inference via ml-service (if available) -> Image model %.
+    3. Crosswalk to nutrient evidence.
+    4. Blend with user's selected regional checklist symptoms.
+    5. Auto-saves to reports table as source 'medscan'.
+    6. Ephemeral cleanup: image file discarded immediately.
+    """
+    contents = await file.read()
+    if len(contents) > 5 * 1024 * 1024:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail="Image exceeds 5 MB size limit.",
+        )
+
+    # Magic bytes check
+    if not (contents.startswith(b"\xff\xd8\xff") or contents.startswith(b"\x89PNG") or contents.startswith(b"RIFF")):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid image format. Allowed formats: JPEG, PNG, WEBP.",
+        )
+
+    try:
+        pil_img = Image.open(io.BytesIO(contents))
+        pil_img = ImageOps.exif_transpose(pil_img)
+        w, h = pil_img.size
+        gray = pil_img.convert("L")
+        gray_arr = np.array(gray)
+        blur_val = compute_laplacian_variance(gray_arr)
+        mean_lum = float(np.mean(gray_arr))
+
+        resolution_ok = (w >= 224 and h >= 224)
+        blur_ok = (blur_val >= 50.0)
+        lum_ok = (20.0 <= mean_lum <= 235.0)
+        quality_passed = (resolution_ok and blur_ok and lum_ok)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Unable to process image: {e}",
+        )
+
+    # Parse ticked symptoms
+    ticked_tags: List[str] = []
+    if symptoms:
+        s_clean = symptoms.strip()
+        if s_clean.startswith("["):
+            try:
+                ticked_tags = json.loads(s_clean)
+            except Exception:
+                ticked_tags = [t.strip() for t in s_clean.split(",") if t.strip()]
+        else:
+            ticked_tags = [t.strip() for t in s_clean.split(",") if t.strip()]
+
+    # Map model name
+    reg_clean = body_region.lower().strip()
+    model_name = reg_clean if reg_clean in ["eyes", "hair", "lips", "nails", "skin", "tongue"] else "combined"
+
+    # Call ml-service
+    ml_res, ml_err = await medscan_pipeline.predict_image_via_ml_service(
+        model_name=model_name,
+        file_bytes=contents,
+        filename=file.filename or "upload.jpg",
+        content_type=file.content_type or "image/jpeg",
+    )
+
+    ml_service_down = (ml_res is None)
+    image_nutrients: Dict[str, float] = {}
+    shortcut_flag = False
+
+    if ml_res:
+        preds = ml_res.get("predictions", [])
+        shortcut_flag = bool(ml_res.get("shortcut_flag", False))
+        image_nutrients = medscan_pipeline.map_predictions_to_nutrients(model_name, preds)
+
+    # Blend evidence
+    blend_res = medscan_pipeline.blend_evidence(
+        image_nutrients=image_nutrients,
+        ticked_symptom_tags=ticked_tags,
+        region=reg_clean,
+        shortcut_flag=shortcut_flag,
+        ml_service_down=ml_service_down,
+    )
+
+    # Auto-save report if requested and nutrient scores exist
+    saved_report_id = None
+    if save_report and blend_res.get("nutrient_scores"):
+        formatted_report_entries = []
+        if blend_res.get("matched_entries"):
+            formatted_report_entries = blend_res["matched_entries"]
+        else:
+            for nut in blend_res.get("nutrient_scores", []):
+                formatted_report_entries.append({
+                    "class_label": f"MedScan Pattern ({nut['nutrient']})",
+                    "body_region": body_region.upper(),
+                    "category": "Nutritional",
+                    "vitamin_deficiency_association": nut["nutrient"],
+                    "matched_tags": nut.get("matched_tags", []),
+                    "match_count": len(nut.get("matched_tags", [])),
+                    "total_condition_tags": max(1, len(nut.get("matched_tags", []))),
+                    "row_match_percentage": nut.get("percentage", 0.0),
+                    "review_status": "unreviewed draft",
+                })
+
+        report_id = str(uuid.uuid4())
+        summary_record = SavedSummary(
+            id=report_id,
+            user_id=current_user.uid,
+            session_type="medscan",
+            body_region_filter=body_region,
+            selected_tags_json=json.dumps(ticked_tags),
+            matched_entries_json=json.dumps(formatted_report_entries),
+            match_count_total=len(formatted_report_entries),
+            package_version="medscan_blend_v2.0",
+            matcher_version="mobilenetv2_tflite_v2.0",
+            review_status="unreviewed draft",
+            disclaimer=blend_res["disclaimer"],
+            created_at=datetime.utcnow(),
+        )
+        db.add(summary_record)
+        db.commit()
+        saved_report_id = report_id
+
+    blend_res["saved_report_id"] = saved_report_id
+    blend_res["quality_passed"] = quality_passed
+    return blend_res
+

@@ -1,0 +1,46 @@
+# MedNourish — Image Model Class to Nutrient Evidence Mapping (Phase 3.b)
+# =======================================================================
+# Maps each vision model and its classes to corresponding nutrient evidence.
+# Normal, Non-Nutritional, and non-specific classes map to null.
+
+models:
+  combined:
+    Vitamin_A_Deficiency: "Vitamin A Deficiency"
+    Vitamin_B_Complex_Deficiency: "Vitamin B Complex Deficiency"
+    Vitamin_B12_Deficiency: "Vitamin B12 Deficiency"
+    Vitamin_B2_Deficiency: "Vitamin B2 Deficiency"
+    Vitamin_B3_Deficiency: "Vitamin B3 Deficiency"
+    Vitamin_B9_Deficiency: "Vitamin B9 Deficiency"
+    Vitamin_C_Deficiency: "Vitamin C Deficiency"
+    Vitamin_D_Deficiency: "Vitamin D Deficiency"
+    Vitamin_E_Deficiency: "Vitamin E Deficiency"
+    Vitamin_K_Deficiency: "Vitamin K Deficiency"
+    Other_Nutrient_Deficiency: "Iron Deficiency"
+  eyes:
+    Vitamin_A_Deficiency: "Vitamin A Deficiency"
+    Normal: null
+    Other_Non_Nutritional: null
+  hair:
+    Normal: null
+    Other_Non_Nutritional: null
+  lips:
+    NUTRITIONAL: "Vitamin B Complex Deficiency"
+    Normal: null
+    NON_NUTRITIONAL: null
+  nails:
+    Nutritional: "Iron Deficiency"
+    NORMAL: null
+    Other_Non_Nutritional: null
+  skin:
+    Vitamin_B3_Pellagra: "Vitamin B3 Deficiency"
+    VITAMIN_A: "Vitamin A Deficiency"
+    VITAMIN_C: "Vitamin C Deficiency"
+    ZINC: "Zinc Deficiency"
+    BIOTIN: "Biotin B7 Deficiency"
+    Normal: null
+    Other_Non_Nutritional: null
+  tongue:
+    Healthy: null
+    Diabetes: null
+    OralCancer: null
+    Other_TCM_Tongue: null

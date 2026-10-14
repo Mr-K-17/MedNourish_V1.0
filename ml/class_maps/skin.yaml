@@ -1,4 +1,4 @@
-# MedNourish — Class Map: Skin
+# MedNourish — Class Map: Skin (Phase 3 v2: min 40 support gate)
 model: skin
 dataset_root: SKIN
 cap_per_class: 600
@@ -7,16 +7,16 @@ classes:
     source_folders: ["NORMAL"]
   - name: Vitamin_B3_Pellagra
     source_folders: ["VITAMIN_B3"]
+  - name: ZINC
+    source_folders: ["ZINC"]
+  - name: VITAMIN_C
+    source_folders: ["VITAMIN_C"]
+  - name: VITAMIN_A
+    source_folders: ["VITAMIN_A"]
+  - name: BIOTIN
+    source_folders: ["BIOTIN"]
   - name: Other_Non_Nutritional
     source_folders: ["OTHER"]
 excluded_folders:
-  - name: ZINC
-    reason: "Dropped due to insufficient sample count (< 100 usable images: 97 images)"
-  - name: VITAMIN_C
-    reason: "Dropped due to insufficient sample count (< 100 usable images: 88 images)"
-  - name: VITAMIN_A
-    reason: "Dropped due to insufficient sample count (< 100 usable images: 46 images)"
-  - name: BIOTIN
-    reason: "Dropped due to insufficient sample count (< 100 usable images: 40 images)"
   - name: PROTEIN_ENERGY_MALNUTRITION
-    reason: "Dropped due to insufficient sample count (< 100 usable images: 35 images)"
+    reason: "Dropped due to insufficient sample count (< 40 usable images: 35 images)"

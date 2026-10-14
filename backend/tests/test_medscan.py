@@ -12,6 +12,7 @@ Covers:
 """
 
 import io
+import json
 import pytest
 from httpx import ASGITransport, AsyncClient
 from PIL import Image
@@ -268,4 +269,144 @@ async def test_checkup_reminder_and_forbidden_terms_scan():
         combined_text = f"{task_data['title']} {task_data.get('category', '')}".lower()
         for term in banned_terms:
             assert term not in combined_text, f"Forbidden term '{term}' found in checkup reminder task"
+
+
+@pytest.mark.anyio
+async def test_medscan_checklist_endpoint():
+    """Checklist endpoint must return 6-8 discriminative symptoms per region."""
+    user = AuthenticatedUser(uid="user-checklist-test", email="checklist@example.com")
+    app.dependency_overrides[get_current_user] = lambda: user
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.get("/v1/medscan/checklist?body_region=eyes")
+        assert res.status_code == 200
+        data = res.json()
+        assert data["body_region"] == "eyes"
+        assert 5 <= len(data["items"]) <= 8
+        tags = [i["tag"] for i in data["items"]]
+        assert "nightblindness" in tags or "eyedryness" in tags
+
+
+@pytest.mark.anyio
+async def test_medscan_analyze_and_blend_with_mocked_ml_service(monkeypatch):
+    """Verifies end-to-end MedScan blend, weighting, C-34/35 compliance, and auto-report save."""
+    from app.services.medscan_service import medscan_pipeline
+
+    # Mock ml-service response with simulated predictions
+    async def mock_predict(model_name, file_bytes, filename, content_type):
+        return {
+            "model_name": model_name,
+            "predictions": [
+                {"class_name": "Vitamin_A_Deficiency", "percentage": 84.0},
+                {"class_name": "Normal", "percentage": 16.0},
+            ],
+            "top_3_classes": ["Vitamin_A_Deficiency", "Normal"],
+            "shortcut_flag": True,
+            "warning": "Trained on unverified dataset labels; not a diagnosis.",
+        }, None
+
+    monkeypatch.setattr(medscan_pipeline, "predict_image_via_ml_service", mock_predict)
+
+    user = AuthenticatedUser(uid="user-medscan-blend", email="blend@example.com")
+    app.dependency_overrides[get_current_user] = lambda: user
+
+    img_bytes = create_test_image_bytes(300, 300)
+    files = {"file": ("eye_photo.jpg", img_bytes, "image/jpeg")}
+    data = {
+        "body_region": "eyes",
+        "symptoms": json.dumps(["nightblindness", "eyedryness"]),
+        "save_report": "true",
+    }
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.post("/v1/medscan/analyze", data=data, files=files)
+        assert res.status_code == 200
+        res_data = res.json()
+
+        assert res_data["status"] == "MATCHES_FOUND"
+        assert res_data["kind"] == "medscan_blend"
+        assert res_data["shortcut_flag"] is True
+        assert res_data["w_img"] == 0.25  # Shortcut flag applies 0.25 weight
+        assert res_data["saved_report_id"] is not None
+
+        # Check nutrient scores
+        vit_a = next((n for n in res_data["nutrient_scores"] if "Vitamin A" in n["nutrient"]), None)
+        assert vit_a is not None
+        assert vit_a["image_percentage"] == 84.0
+        assert vit_a["percentage_kind"] == "MedScan blend %"
+        assert vit_a["risk_band"] in ["High", "Moderate", "Low"]
+        assert vit_a["risk_band_label"] == "Demo risk band (heuristic, not clinical)"
+        assert "Blended evidence" in vit_a["percentage_explanation"]
+
+        # Check auto-saved report retrieval via /v1/reports/summaries
+        report_id = res_data["saved_report_id"]
+        res_report = await ac.get(f"/v1/reports/summaries/{report_id}")
+        assert res_report.status_code == 200
+        rep_data = res_report.json()
+        assert rep_data["session_type"] == "medscan"
+        assert rep_data["body_region_filter"] == "eyes"
+
+
+@pytest.mark.anyio
+async def test_medscan_image_only_capped_at_sixty(monkeypatch):
+    """When no symptoms are ticked, image-only candidate is capped at 60% and labelled."""
+    from app.services.medscan_service import medscan_pipeline
+
+    async def mock_predict(model_name, file_bytes, filename, content_type):
+        return {
+            "model_name": model_name,
+            "predictions": [
+                {"class_name": "Vitamin_A_Deficiency", "percentage": 90.0},
+            ],
+            "shortcut_flag": False,
+            "warning": "test",
+        }, None
+
+    monkeypatch.setattr(medscan_pipeline, "predict_image_via_ml_service", mock_predict)
+
+    user = AuthenticatedUser(uid="user-img-only", email="imgonly@example.com")
+    app.dependency_overrides[get_current_user] = lambda: user
+
+    img_bytes = create_test_image_bytes(300, 300)
+    files = {"file": ("test.jpg", img_bytes, "image/jpeg")}
+    data = {"body_region": "eyes", "symptoms": "", "save_report": "false"}
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.post("/v1/medscan/analyze", data=data, files=files)
+        assert res.status_code == 200
+        res_data = res.json()
+        vit_a = next((n for n in res_data["nutrient_scores"] if "Vitamin A" in n["nutrient"]), None)
+        assert vit_a is not None
+        assert vit_a["percentage"] <= 60.0
+        assert vit_a["percentage_explanation"] == "image only, low reliability"
+        assert vit_a["percentage_kind"] == "Image model %"
+
+
+@pytest.mark.anyio
+async def test_medscan_fallback_when_ml_service_down(monkeypatch):
+    """If ml-service is unavailable, MedScan gracefully falls back to symptom reference match."""
+    from app.services.medscan_service import medscan_pipeline
+
+    async def mock_predict_fail(model_name, file_bytes, filename, content_type):
+        return None, "ML Lab service is currently unavailable on port 8001. Running in fallback mode."
+
+    monkeypatch.setattr(medscan_pipeline, "predict_image_via_ml_service", mock_predict_fail)
+
+    user = AuthenticatedUser(uid="user-fallback", email="fallback@example.com")
+    app.dependency_overrides[get_current_user] = lambda: user
+
+    img_bytes = create_test_image_bytes(300, 300)
+    files = {"file": ("test.jpg", img_bytes, "image/jpeg")}
+    data = {"body_region": "eyes", "symptoms": json.dumps(["nightblindness"]), "save_report": "false"}
+
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        res = await ac.post("/v1/medscan/analyze", data=data, files=files)
+        assert res.status_code == 200
+        res_data = res.json()
+        assert "ML Lab service currently unavailable" in res_data["message"]
+        assert res_data["kind"] == "reference_match"
+        vit_a = next((n for n in res_data["nutrient_scores"] if "Vitamin A" in n["nutrient"]), None)
+        assert vit_a is not None
+        assert vit_a["percentage_kind"] == "Reference match %"
+
 

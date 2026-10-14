@@ -34,6 +34,20 @@ Demonstrating the realistic leakage gap between post-bloodwork laboratory models
 
 ## 3. Computer Vision MobileNetV2 Models & TFLite Parity
 
+### v2 Models (Support Gate >= 40 Usable Images, All 7 Anatomical & Combined Models)
+
+| Model | Classes | Test Samples | Test Accuracy (95% CI) | Test Macro-F1 | Shortcut Risk (Color Hist) | TFLite Float32 Max-Diff | TFLite Top-1 Agreement | TFLite Size |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **`combined`** | 10 | 662 | **41.54%** [37.76%, 45.32%] | **0.4153** | 25.53% (LOW) | 0.000012 | **100.00%** | 8.51 MB (2.41 MB DRQ) |
+| **`eyes`** | 3 | 270 | **98.89%** [97.41%, 100.0%] | **0.9889** | 95.19% (HIGH) | 0.000003 | **100.00%** | 8.47 MB (2.40 MB DRQ) |
+| **`hair`** | 2 | 115 | **93.04%** [88.70%, 97.39%] | **0.9056** | 94.78% (HIGH) | 0.000006 | **100.00%** | 8.47 MB (2.39 MB DRQ) |
+| **`lips`** | 3 | 114 | **90.35%** [84.21%, 94.74%] | **0.7432** | 83.33% (HIGH) | 0.000014 | **100.00%** | 8.47 MB (2.40 MB DRQ) |
+| **`nails`** | 3 | 118 | **73.73%** [65.25%, 81.36%] | **0.6480** | 73.73% (HIGH) | 0.000005 | **100.00%** | 8.47 MB (2.40 MB DRQ) |
+| **`skin`** | 6 | 227 | **81.06%** [76.21%, 85.90%] | **0.6290** | 72.25% (HIGH) | 0.000013 | **100.00%** | 8.48 MB (2.40 MB DRQ) |
+| **`tongue`** | 4 | 149 | **86.58%** [81.21%, 91.95%] | **0.7748** | 75.17% (HIGH) | 0.000007 | **100.00%** | 8.48 MB (2.40 MB DRQ) |
+
+### v1 Legacy Models (Gate >= 100 Usable Images, Lips Skipped)
+
 | Model | Classes | Test Samples | Test Accuracy | Test Macro-F1 | Shortcut Risk (Color Hist) | TFLite Float32 Max-Diff | TFLite Top-1 Agreement | DRQ TFLite Top-1 | TFLite Size |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **`combined`** | 7 | 568 | **50.00%** | **0.4881** | 30.1% (LOW) | 0.000012 | **100.00%** | **91.55%** | 8.49 MB (2.4 MB DRQ) |

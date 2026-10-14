@@ -664,6 +664,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Explorer and MedBot UI upgraded with deterministic Reference match % bars, demo risk bands (C-34/35), expandable why details, and free-text symptom chip extraction.
 - Verified test suites: 11/11 Phase 2 scoring and extraction tests, 78/78 full backend suite (0 regressions), and frontend built cleanly in 2.88s.
 
+### S-045 — 2026-10-14 — Antigravity (Implementation Engineer) — MedNourish-Dev (branch dev)
+- Phase 3 v2 vision models trained across all 7 regions with support gate >= 40 images (all passed TFLite Float32 parity at 100% agreement and max diff < 1.5e-5).
+- Created image-to-nutrient crosswalk (yaml/json) and MedScan blend pipeline with regional checklist, shortcut-penalty weighting, and report auto-save as SavedSummary.
+- Added MedScanLiteView checklist UI, result percent bars, and expandable why panels; all 13 MedScan tests passed and frontend built cleanly in 2.91s.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

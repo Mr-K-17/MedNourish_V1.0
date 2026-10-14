@@ -119,15 +119,17 @@ class ModelRegistry:
             self.keyword_classes = kw_card.get("target_nutrient_groups", [])
             self.model_cards["keyword_reference"] = kw_card
 
-        # 3. Vision Models (TFLite Interpreters)
-        vision_cards = list(VISION_ARTIFACTS_DIR.glob("model_card_*.json"))
+        # 3. Vision Models (TFLite Interpreters) - Prioritize v2 artifacts if present
+        v2_vision_dir = Path("ml/artifacts/v2/vision")
+        target_vision_dir = v2_vision_dir if (v2_vision_dir.exists() and any(v2_vision_dir.glob("model_card_*.json"))) else VISION_ARTIFACTS_DIR
+        vision_cards = list(target_vision_dir.glob("model_card_*.json"))
         for vc in vision_cards:
             with open(vc, "r", encoding="utf-8") as f:
                 v_data = json.load(f)
             m_id = vc.stem.replace("model_card_", "")
             self.model_cards[f"vision_{m_id}"] = v_data
 
-            tflite_file = VISION_ARTIFACTS_DIR / f"{m_id}_float32.tflite"
+            tflite_file = target_vision_dir / f"{m_id}_float32.tflite"
             if tflite_file.exists():
                 interp = tf.lite.Interpreter(model_path=str(tflite_file))
                 interp.allocate_tensors()
@@ -207,9 +209,15 @@ class KeywordPredictResponse(BaseModel):
     top_ranked_nutrient_groups: List[str]
     reference_warning: str
 
+class ClassPrediction(BaseModel):
+    class_name: str
+    percentage: float = Field(..., description="Image model %")
+
 class ImagePredictResponse(BaseModel):
     model_name: str
     top_3_classes: List[str]
+    predictions: Optional[List[ClassPrediction]] = None
+    shortcut_flag: bool = False
     warning: str
 
 # --------------------------------------------------------------------------
@@ -350,12 +358,32 @@ async def predict_image(
     output_data = interpreter.get_tensor(output_details[0]["index"])[0]
 
     classes = registry.tflite_classes.get(model_name, [])
-    top_indices = np.argsort(output_data)[::-1][:3]
-    top_classes = [classes[idx] if idx < len(classes) else f"Class_{idx}" for idx in top_indices]
+    top_indices = np.argsort(output_data)[::-1]
+    top_classes = [classes[idx] if idx < len(classes) else f"Class_{idx}" for idx in top_indices[:3]]
+
+    # Ensure normalized probabilities and calculate percentage per class
+    if np.all(output_data >= 0.0) and abs(float(np.sum(output_data)) - 1.0) < 0.05:
+        probs = output_data
+    else:
+        exp_d = np.exp(output_data - np.max(output_data))
+        probs = exp_d / (np.sum(exp_d) + 1e-7)
+
+    predictions = [
+        ClassPrediction(
+            class_name=classes[idx] if idx < len(classes) else f"Class_{idx}",
+            percentage=round(float(probs[idx]) * 100.0, 1),
+        )
+        for idx in top_indices
+    ]
+
+    card = registry.model_cards.get(f"vision_{model_name}", {})
+    shortcut_flag = bool(card.get("source_shortcut_check", {}).get("shortcut_flag", False))
 
     return ImagePredictResponse(
         model_name=model_name,
         top_3_classes=top_classes,
+        predictions=predictions,
+        shortcut_flag=shortcut_flag,
         warning="Trained on unverified dataset labels; not a diagnosis.",
     )
 
