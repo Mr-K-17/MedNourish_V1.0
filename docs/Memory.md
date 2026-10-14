@@ -574,6 +574,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Generated docs/IMAGE_DATA_REPORT.md, class maps in ml/class_maps/*.yaml, and group-aware 70/15/15 split manifests.
 - Applied >=100 class gating (reporting drops for low-support categories); verified 35 tests passing in ml/tests/.
 
+### S-027 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Stage 4 Genuine MobileNetV2 + TFLite complete (trained across 6 manifests with real Keras and ImageNet weights).
+- Verified Float32 TFLite parity gates (max-diff < 0.01, top-1 agreement >= 99.5%) and DRQ compression via real tf.lite.Interpreter.
+- Computed Grad-CAM overlays, evaluated color-histogram source shortcuts, and generated docs/ML_RESULTS.md; 5 tests passed.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*
