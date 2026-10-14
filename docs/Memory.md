@@ -564,6 +564,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - Corrected docstrings and audit progress; generated docs/DATASET_INVENTORY_v2.md reconciling all 394,480 files across 8 folders.
 - Side-by-side Python 3.12.10 installed; created tf/.venv with pinned TensorFlow 2.18.0; verified matmul op; 14 image pipeline tests passed.
 
+### S-025 — 2026-10-14 — Antigravity (ML Engineer) — MedNourish-Dev (branch dev)
+- Stage 2 Tabular ML on ALL CSVs complete (audited 34 CSVs in docs/CSV_USE_MATRIX.md).
+- Trained XGBoost & LightGBM on Main 4k dataset across with-labs (99.4%), no-labs (99.3%), and symptoms-only (79.9%, showing leakage gap); evaluated 116-row reference table learner with CV.
+- Generated model cards and exported artifacts to ml/artifacts/tabular/; 32 tests passed in ml/tests/.
+
 ---
 
 *End of Memory.md. Append new session-log entries above this line.*

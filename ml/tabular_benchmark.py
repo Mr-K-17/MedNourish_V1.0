@@ -6,7 +6,7 @@ XGBoost, and LightGBM comparison on held-out test data.
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import (
