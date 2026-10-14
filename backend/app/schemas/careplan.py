@@ -114,6 +114,9 @@ class CarePlanItemResponse(BaseModel):
     completed_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
+    is_auto: bool = Field(False, description="True if automatically generated from screening evidence")
+    nutrient: Optional[str] = Field(None, description="Associated nutrient deficiency")
+    is_stale: bool = Field(False, description="True if nutrient score fell below threshold")
     reminder_notice: str = Field(
         "Reminders only alert while this app is open in your browser.",
         description="Mandatory reminder limitation disclosure per CARE-04",

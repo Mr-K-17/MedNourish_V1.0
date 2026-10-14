@@ -197,7 +197,7 @@ export const App: React.FC = () => {
                 <strong>MySQL (Users/Consent):</strong> {health.services.mysql?.status || 'unknown'}
               </span>
               <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
-                <strong>MongoDB (Reference Knowledge):</strong> {health.services.mongodb?.status || 'unknown'}
+                <strong>Reference Knowledge:</strong> Curated CSVs (MongoDB optional: {health.services.mongodb?.status || 'not configured (optional)'})
               </span>
               <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
                 <strong>Firebase Auth Emulator:</strong> {health.services.firebase_auth_emulator?.host || '127.0.0.1:9099'}

@@ -52,9 +52,10 @@ from ml.data_pipeline import (
 )
 from ml.image_pipeline import resize_with_pad
 
-TABULAR_ARTIFACTS_DIR = Path("ml/artifacts/tabular")
-VISION_ARTIFACTS_DIR = Path("ml/artifacts/vision")
-CLASS_MAPS_DIR = Path("ml/class_maps")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+TABULAR_ARTIFACTS_DIR = REPO_ROOT / "ml" / "artifacts" / "tabular"
+VISION_ARTIFACTS_DIR = REPO_ROOT / "ml" / "artifacts" / "vision"
+CLASS_MAPS_DIR = REPO_ROOT / "ml" / "class_maps"
 
 app = FastAPI(
     title="MedNourish ML Lab Service",
@@ -146,7 +147,7 @@ class ModelRegistry:
             self.model_cards["keyword_reference"] = kw_card
 
         # 3. Vision Models (TFLite Interpreters) - Prioritize v2 artifacts if present
-        v2_vision_dir = Path("ml/artifacts/v2/vision")
+        v2_vision_dir = REPO_ROOT / "ml" / "artifacts" / "v2" / "vision"
         target_vision_dir = v2_vision_dir if (v2_vision_dir.exists() and any(v2_vision_dir.glob("model_card_*.json"))) else VISION_ARTIFACTS_DIR
         vision_cards = list(target_vision_dir.glob("model_card_*.json"))
         for vc in vision_cards:

@@ -94,23 +94,23 @@ cd backend
 
 MedNourish enforces 100% test pass gates across all application tiers:
 
-1. **Backend Integration & Safety Suite** (67 tests passing on both SQLite and MySQL):
+1. **Backend Integration & Safety Suite** (98 passed, 1 skipped on both SQLite and MySQL):
    ```powershell
    cd backend
    .\.venv\Scripts\pytest.exe -v
    ```
-2. **Machine Learning Pipeline & TFLite Parity Suite** (40 tests):
+2. **Machine Learning Pipeline & TFLite Parity Suite** (40 tests passing in Python 3.12 `tf/.venv`):
    ```powershell
    cd MedNourish-Dev
    $env:PYTHONPATH="."
    .\tf\.venv\Scripts\pytest.exe ml/tests/ -v
    ```
-3. **Automated End-to-End Smoke Test** (14/14 tests passing, outputs `docs/SMOKE_RESULTS.md`):
+3. **Automated Real HTTP End-to-End Smoke Test** (17/17 tests passing, outputs `docs/SMOKE_RESULTS.md`):
    ```powershell
    cd MedNourish-Dev
    .\backend\.venv\Scripts\python.exe scripts/smoke_e2e.py
    ```
-4. **Safety Claims & Prohibited Wording Scanner** (100% PASS across 62 files):
+4. **Safety Claims & Prohibited Wording Scanner** (100% PASS across 72 files):
    ```powershell
    cd MedNourish-Dev
    .\backend\.venv\Scripts\python.exe backend/scripts/scan_safety_claims.py
@@ -127,11 +127,19 @@ MedNourish enforces 100% test pass gates across all application tiers:
 
 Detailed metrics, dataset inventories, and model cards are documented in:
 - `docs/CSV_USE_MATRIX.md`: Complete audit of all 34 tabular datasets.
-- `docs/DATASET_INVENTORY_v2.md`: Single source of truth inventory reconciling all 394,480 files (364,292 images, 8,244 masks, 21,936 annotations) across 8 directories.
-- `docs/IMAGE_DATA_REPORT.md`: Perceptual hash deduplication, class gating (>=100 samples), and train/val/test splits.
+- `docs/DATASET_INVENTORY_v2.md`: Single source of truth inventory reconciling all 394,480 files across 8 directories.
+- `docs/IMAGE_DATA_REPORT.md`: Perceptual hash deduplication, class gating, and train/val/test splits.
 - `docs/ML_RESULTS.md`: Detailed performance metrics, baseline comparisons, Grad-CAM analysis, and TFLite parity gates.
+- `docs/SCORING_SPEC.md` & `docs/ML_FEATURE_MAP.md`: Metric definitions, mathematical formulation, and multi-engine crosswalk.
 
-### Summary of Honest Findings:
-1. **The Tabular Leakage Gap**: On the 4k-row synthetic dataset, models achieve 99.4% accuracy when fed laboratory biomarkers. However, when restricted to symptoms and lifestyle features (the actual user-facing app task), accuracy drops to **79.9% (Macro-F1 0.633)**, demonstrating significant feature dependency and real-world clinical invalidity.
-2. **Vision Shortcut Learning**: Grad-CAM overlays reveal that MobileNetV2 models trained on internet-scraped clinical photos frequently focus on **background lighting, hospital wall artifacts, and surgical draping** rather than actual biological pathology.
-3. **Strict Model Gating**: In compliance with `Rules.md`, models are confined to the **Experimental ML Lab** sandbox and are never used to drive user-facing triage or symptom explorer results.
+### Critical Academic Limitations:
+1. **Percentages Are Not Medical Probabilities**:
+   - **Reference Match %**: Represents deterministic IDF-weighted coverage of unreviewed literature reference tables, not diagnostic likelihood or probability of disease.
+   - **Model % (trained on unverified data)**: Derived from experimental synthetic multi-class tabular distributions; real-world clinical validity is zero.
+   - **MedScan Blend %**: Heuristic fusion of regional visual feature classifiers with user checklist signs; does not estimate clinical severity or pathological presence.
+2. **Image Models Are Dataset-Group Classifiers with Small Samples**:
+   - MobileNetV2 vision models classify internet-scraped image subsets. Grad-CAM visual audits confirm models frequently leverage non-clinical shortcuts (background lighting, clinic walls, skin tone). Sample sizes for rare deficiency signs remain clinically insufficient.
+3. **Web Answers Are Unreviewed General Knowledge**:
+   - NurseBot's MedlinePlus/NIH web integration queries public educational documents with strict domain allowlists; responses are unreviewed machine extractions and must never substitute for individualized medical evaluation.
+4. **Strict Educational Sandboxing**:
+   - In compliance with `Rules.md`, all algorithms and models serve strictly pedagogical purposes. Prescriptions, diagnoses, and medical claims are technically and procedurally blocked.

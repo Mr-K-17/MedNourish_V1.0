@@ -71,14 +71,22 @@ def check_mysql_health() -> Dict[str, Any]:
 
 
 def check_mongodb_health() -> Dict[str, Any]:
-    """Tests MongoDB connectivity and returns status without leaking credentials."""
+    """Tests MongoDB connectivity safely. Reference knowledge is served from CSVs; MongoDB is optional."""
+    mongo_uri = settings.MONGO_URL or settings.MONGODB_URI
+    if not mongo_uri:
+        return {
+            "status": "not configured (optional)",
+            "service": "MongoDB",
+            "message": "Reference knowledge is loaded from curated CSV files; MongoDB document store is optional",
+        }
     try:
-        client = MongoClient(settings.MONGODB_URI, serverSelectionTimeoutMS=2000)
+        client = MongoClient(mongo_uri, serverSelectionTimeoutMS=2000)
         # The ismaster/ping command is cheap and does not require auth on unauthenticated local instances
         client.admin.command("ping")
         return {"status": "healthy", "service": "MongoDB"}
     except Exception as exc:
-        err_msg = str(exc)
-        if "ServerSelectionTimeoutError" in err_msg:
-            return {"status": "offline", "message": "MongoDB server is not reachable on configured URI (Service stopped)"}
-        return {"status": "error", "error_type": type(exc).__name__}
+        return {
+            "status": "unavailable",
+            "service": "MongoDB",
+            "message": f"MongoDB server is unreachable on configured URL: {type(exc).__name__}",
+        }

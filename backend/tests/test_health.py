@@ -30,3 +30,24 @@ async def test_health_check_endpoint():
     assert "mysql" in data["services"]
     assert "mongodb" in data["services"]
     assert "firebase_auth_emulator" in data["services"]
+
+
+def test_check_mongodb_health_optional(monkeypatch):
+    from app.db.session import check_mongodb_health
+    from app.core.config import settings
+
+    monkeypatch.setattr(settings, "MONGO_URL", None)
+    monkeypatch.setattr(settings, "MONGODB_URI", None)
+    result = check_mongodb_health()
+    assert result["status"] == "not configured (optional)"
+    assert "optional" in result["message"].lower()
+
+
+def test_check_mongodb_health_unreachable(monkeypatch):
+    from app.db.session import check_mongodb_health
+    from app.core.config import settings
+
+    monkeypatch.setattr(settings, "MONGO_URL", "mongodb://127.0.0.1:99999")
+    monkeypatch.setattr(settings, "MONGODB_URI", "mongodb://127.0.0.1:99999")
+    result = check_mongodb_health()
+    assert result["status"] == "unavailable"

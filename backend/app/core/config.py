@@ -6,6 +6,7 @@ Never hardcodes secrets.
 
 import os
 from pathlib import Path
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -70,8 +71,9 @@ class Settings(BaseModel):
     MYSQL_PASSWORD: str = os.getenv("MYSQL_PASSWORD", "")
     MYSQL_DATABASE: str = os.getenv("MYSQL_DATABASE", "mednourish_dev")
 
-    # MongoDB Configuration (Versioned document reference content)
-    MONGODB_URI: str = os.getenv("MONGODB_URI", "mongodb://127.0.0.1:27017")
+    # MongoDB Configuration (Optional document store; reference knowledge is loaded from curated CSVs)
+    MONGO_URL: Optional[str] = os.getenv("MONGO_URL") or os.getenv("MONGODB_URI")
+    MONGODB_URI: Optional[str] = os.getenv("MONGO_URL") or os.getenv("MONGODB_URI")
     MONGODB_DATABASE: str = os.getenv("MONGODB_DATABASE", "mednourish_reference")
 
     # Safety Notice

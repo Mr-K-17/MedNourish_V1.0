@@ -67,6 +67,9 @@ def list_care_plan_tasks(
             completed_at=t.completed_at,
             created_at=t.created_at,
             updated_at=t.updated_at,
+            is_auto=bool(getattr(t, "is_auto", False)),
+            nutrient=getattr(t, "nutrient", None),
+            is_stale=bool(getattr(t, "is_stale", False)),
         )
         for t in tasks
     ]

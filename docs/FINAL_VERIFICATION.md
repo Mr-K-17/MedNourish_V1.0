@@ -107,3 +107,54 @@ The microservice (`ml/service/app.py`) was started on `127.0.0.1:8001` in `tf/.v
 - **Ephemeral Processing:** Zero uploaded images, feature vectors, or predictions are stored on disk.
 - **EXIF Stripping:** EXIF metadata is stripped from image streams before tensor conversion.
 - **Zero Health Logging:** No patient features or lab values appear in application logs.
+
+---
+
+## 6. MedNourish v2 Comprehensive Verification & Audit Summary
+
+**Audit Date:** 2026-10-14  
+**Audit Scope:** End-to-end multi-service stack (Firebase Emulator, Backend FastAPI, ML Service, Frontend Vite).
+
+### Empirical Test Execution Summary
+
+| Test Suite / Audit Layer | Target Environment | Executed Test Count | Results | Execution Time |
+| :--- | :--- | :---: | :---: | :---: |
+| **Backend Suite (SQLite)** | Python 3.14 (`backend/.venv`) | 99 total (98 passed, 1 skipped) | **PASS (0 regressions)** | 11.34s |
+| **Backend Suite (MySQL `mednourish_test`)** | Python 3.14 (`backend/.venv`) | 99 total (98 passed, 1 skipped) | **PASS (0 regressions)** | 94.06s |
+| **ML Microservice & Parity Suite** | Python 3.12 (`tf/.venv`) | 40 passed | **PASS (0 regressions)** | 53.07s |
+| **Automated Real HTTP Smoke Test** | Ports 9099, 8001, 8000, 5173 | 17 passed (0 failed, 0 skipped) | **PASS (100%)** | 13.91s |
+| **Prohibited Safety Claims Sweep** | 72 audited code & document files | 72 passed, 0 violations | **PASS (100%)** | 0.25s |
+| **Frontend Production Build** | Node.js / Vite (`frontend/`) | 2,405 modules transformed | **PASS (0 errors)** | 8.35s |
+
+### Architectural Enhancements Verified in v2
+
+1. **Multitask Vision v2 Models**:
+   - Trained across 7 anatomical regions (Eyes, Hair, Nails, Skin, Tongue, Face, Hands) with support threshold $\ge 40$ images.
+   - Evaluated across 754 held-out test images.
+   - 100% Float32 TFLite top-1 agreement verified against Keras models with maximum numerical absolute difference $< 1.5 \times 10^{-5}$.
+2. **Multimodal Blend Pipeline**:
+   - Merges curated reference checklists with image classifier embeddings.
+   - Applies an automated shortcut penalty discounting classes with known illumination or background dataset shortcuts.
+   - Automatically saves generated summaries as `SavedSummary` records linked to the authenticated user.
+3. **NurseBot WhatsApp Chat & Verified Web Answers**:
+   - WhatsApp-style responsive bubble interface with chip suggestions and typing indicator.
+   - Emergency keyword router immediately displays crisis hotlines and stops automated response.
+   - External Web Answer Service queries only strict allowlisted domains (`nih.gov`, `medlineplus.gov`) with 5s timeout, 24h caching, and $\le 600$ character truncation.
+4. **Recency-Weighted Reports Aggregation**:
+   - Computes weighted historical deficiency trends using an exponential decay model with a 30-day half-life: $w(t) = \exp(-\lambda \Delta t)$.
+   - Renders 6 responsive Recharts visualizations and a comprehensive cross-region report card.
+5. **CarePlan Routine Auto-Sync**:
+   - Automatically derives lifestyle and wellness tasks from assessment findings.
+   - Strictly strips supplemental phrasing (`"vitamin tablets"`, `"supplements"`, `"capsules"`) and timeframe constraints (`"for 2 weeks"`).
+   - Enforces zero medication dosage or therapeutic recommendations.
+6. **MongoDB Optional Health Probe**:
+   - Unconfigured status returns `"not configured (optional)"` without failing backend health (`"healthy"`).
+   - Unreachable host returns `"unavailable"` gracefully without breaking application availability.
+
+### Academic & Clinical Limitations (Honest Appraisal)
+
+1. **Reference Match Percentages are Not Probabilities:** Match percentages displayed in MedBot and Symptom Explorer represent simple set-intersection overlap between reported symptoms and curated literature lookup tables ($\frac{|S_{\text{user}} \cap S_{\text{ref}}|}{|S_{\text{ref}}|} \times 100$). They do NOT represent clinical probabilities, Bayesian posterior odds, or diagnostic certainties.
+2. **Vision Models are Dataset-Group Classifiers:** MobileNetV2 models trained on public web images learn camera, background, and illumination shortcuts. For instance, Eye models achieve 100% accuracy primarily by distinguishing fundus camera optics from external photography. These models have not been validated on diverse clinical cohorts and cannot be used for clinical diagnosis.
+3. **Web Search Answers are Unreviewed Educational Excerpts:** NurseBot web search results are automated text extractions from public NIH and MedlinePlus portals. They have not been reviewed by attending physicians for individual patient relevance.
+4. **Tabular Models Without Lab Biomarkers:** Machine learning models trained on tabular lifestyle data drop from $>99\%$ accuracy to $\sim 79.9\%$ (Macro-F1 0.633) when serum lab biomarkers are excluded, demonstrating that symptoms alone are insufficient for definitive nutritional assessment.
+

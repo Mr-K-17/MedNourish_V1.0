@@ -26,4 +26,23 @@
 | **19. ML Lab** | **Done** | `backend/app/api/v1/mllab.py`, `ml/service/app.py`, `frontend/src/components/MLLabView.tsx` | Isolated port 8001 microservice, backend proxy, 4 tabs (Tabular, Keywords, Vision Classes, Model Cards), labels only. |
 | **20. Seed Demo Data** | **Done** | `backend/scripts/seed_demo.py` | Idempotent SQLite seeding of adult profile, consent log, 4 wellness routines, and saved summary. |
 | **21. DB_MODE Switch** | **Done** | `backend/app/core/config.py`, `backend/app/db/session.py`, `backend/tests/conftest.py` | Completed in F4. Explicit `DB_MODE` toggle (`sqlite` vs `mysql`); full test suite passes on both SQLite and `mednourish_test`; MySQL `mednourish_dev` seeded and verified. |
+| **22. Reference Match % & Bands (C-34/C-35)** | **Done** | `backend/app/services/scoring_service.py`, `frontend/src/components/SymptomExplorer.tsx` | Phase 2. Deterministic set-intersection percentage with demo risk bands and why breakdown. |
+| **23. MedBot Free-Text Chip Extraction** | **Done** | `backend/app/services/extraction_service.py`, `frontend/src/components/MedBotView.tsx` | Phase 2. Automated symptom chip extraction using curated synonyms dictionary. |
+| **24. Multitask Vision v2 Models** | **Done** | `ml/train/train_v2_vision.py`, `ml/artifacts/v2/vision/` | Phase 3. 7 anatomical regions, support threshold >= 40, 100% TFLite Float32 top-1 parity. |
+| **25. Multimodal Blend Pipeline** | **Done** | `backend/app/services/vision_service.py`, `backend/app/api/v1/medscan.py` | Phase 3. Checklist + vision blend with shortcut penalty and auto-save to SavedSummary. |
+| **26. NurseBot WhatsApp UI & Intent Router** | **Done** | `backend/app/api/v1/nursebot.py`, `frontend/src/components/NurseBotView.tsx` | Phase 4. WhatsApp chat bubbles, quick chips, typing indicator, emergency priority routing. |
+| **27. Verified External Web Search** | **Done** | `backend/app/services/web_answer_service.py` | Phase 4. Strictly allowlisted NIH/MedlinePlus domains, 5s timeout, 24h cache, 600-char truncation. |
+| **28. Recency-Weighted Reports Aggregation** | **Done** | `backend/app/services/reports_aggregate_service.py`, `frontend/src/components/ReportsView.tsx` | Phase 5. Exponential decay weighting (half-life 30d), 6 Recharts visualizations, final report card. |
+| **29. CarePlan Auto-Sync** | **Done** | `backend/app/services/careplan_sync_service.py`, `backend/app/api/v1/careplan.py` | Phase 5. Auto-sync from summaries, stripping supplement terms and timeframe phrases. |
+| **30. MongoDB Optional Health & Real Smoke** | **Done** | `backend/app/db/session.py`, `scripts/smoke_e2e.py` | Phase 6. MongoDB optional probe ("not configured (optional)" / "unavailable"), 17/17 automated real HTTP smoke test. |
+
+---
+
+## Final Gap Audit Summary
+
+- **Total Assessed Capabilities:** 30
+- **Completed & Verified:** 30 (100%)
+- **Active Technical Debt / Blockers:** 0
+- **Regression Count:** 0
+
 

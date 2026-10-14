@@ -133,7 +133,7 @@ async def test_recency_weighted_aggregation_math():
     user = AuthenticatedUser(uid="user_math_tester", email="math@test.local")
     app.dependency_overrides[get_current_user] = lambda: user
 
-    db = TestingSessionLocal()
+    db = next(app.dependency_overrides[get_db]())
     # Clean previous records for this user
     db.query(SavedSummary).filter(SavedSummary.user_id == user.uid).delete()
     db.commit()

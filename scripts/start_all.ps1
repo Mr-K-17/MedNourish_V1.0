@@ -50,8 +50,8 @@ Write-Host "[2/5] Starting Firebase Auth Emulator (Port 9099)..." -ForegroundCol
 $infraDir = Join-Path $repoRoot "infra"
 $firebaseCmd = Join-Path $infraDir "node_modules\.bin\firebase.cmd"
 if (Test-Path $firebaseCmd) {
-    $authProc = Start-Process -FilePath "cmd.exe" `
-        -ArgumentList "/c", "`"$firebaseCmd`"", "emulators:start", "--only", "auth", "--project", "demo-mednourish" `
+    $authProc = Start-Process -FilePath $firebaseCmd `
+        -ArgumentList "emulators:start", "--only", "auth", "--project", "demo-mednourish" `
         -WorkingDirectory $infraDir `
         -RedirectStandardOutput (Join-Path $logDir "auth_emulator.log") `
         -RedirectStandardError (Join-Path $logDir "auth_emulator.err.log") `
@@ -111,8 +111,25 @@ Write-Host "  Frontend PID: $($frontendProc.Id)" -ForegroundColor Green
 # Save tracked PIDs
 $pidsDict | ConvertTo-Json | Set-Content -Path $pidFile -Encoding UTF8
 
-Write-Host "`nWaiting for services to become responsive (5 seconds)..." -ForegroundColor Gray
-Start-Sleep -Seconds 5
+Write-Host "`nWaiting for services to become responsive..." -ForegroundColor Gray
+$portsToCheck = @(9099, 8001, 8000, 5173)
+$maxWaitSec = 25
+$startTime = Get-Date
+foreach ($p in $portsToCheck) {
+    $ready = $false
+    while (((Get-Date) - $startTime).TotalSeconds -lt $maxWaitSec) {
+        try {
+            $conn = Get-NetTCPConnection -LocalPort $p -State Listen -ErrorAction SilentlyContinue
+            if ($conn) { $ready = $true; break }
+        } catch {}
+        Start-Sleep -Milliseconds 500
+    }
+    if ($ready) {
+        Write-Host "  Port $p is listening." -ForegroundColor Green
+    } else {
+        Write-Host "  Port $p not ready yet after $maxWaitSec s." -ForegroundColor Yellow
+    }
+}
 
 Write-Host "`n==========================================================" -ForegroundColor Green
 Write-Host "  MedNourish Stack Successfully Started!                 " -ForegroundColor Green
