@@ -452,6 +452,20 @@ async def analyze_medscan(
                     "review_status": "unreviewed draft",
                 })
 
+        # Build snapshot scores for multi-engine recency aggregation
+        snapshot_scores = {}
+        top_nutrients_list = []
+        for nut in blend_res.get("nutrient_scores", []):
+            p_val = float(nut.get("percentage", 0.0))
+            snapshot_scores[nut["nutrient"]] = {
+                "reference_pct": float(nut.get("reference_pct", 0.0)),
+                "xgboost_pct": 0.0,
+                "lightgbm_pct": 0.0,
+                "image_pct": float(nut.get("image_pct", 0.0)),
+                "final_pct": p_val,
+            }
+            top_nutrients_list.append({"nutrient": nut["nutrient"], "final_pct": p_val})
+
         report_id = str(uuid.uuid4())
         summary_record = SavedSummary(
             id=report_id,
@@ -461,6 +475,7 @@ async def analyze_medscan(
             selected_tags_json=json.dumps(ticked_tags),
             matched_entries_json=json.dumps(formatted_report_entries),
             match_count_total=len(formatted_report_entries),
+            snapshot_scores_json=json.dumps(snapshot_scores),
             package_version="medscan_blend_v2.0",
             matcher_version="mobilenetv2_tflite_v2.0",
             review_status="unreviewed draft",
@@ -470,6 +485,15 @@ async def analyze_medscan(
         db.add(summary_record)
         db.commit()
         saved_report_id = report_id
+
+        # Trigger CarePlan auto-sync for top 2 nutrients with % >= 30
+        from app.services.careplan_sync_service import sync_careplan_from_top_nutrients
+        top_nutrients_list.sort(key=lambda x: x["final_pct"], reverse=True)
+        max_b = "High" if any(n["final_pct"] >= 60.0 for n in top_nutrients_list) else ("Moderate" if any(n["final_pct"] >= 30.0 for n in top_nutrients_list) else "Low")
+        try:
+            sync_careplan_from_top_nutrients(db, current_user.uid, report_id, top_nutrients_list, max_b)
+        except Exception as e:
+            logger.warning("CarePlan auto-sync from medscan failed non-fatally: %s", e)
 
     blend_res["saved_report_id"] = saved_report_id
     blend_res["quality_passed"] = quality_passed

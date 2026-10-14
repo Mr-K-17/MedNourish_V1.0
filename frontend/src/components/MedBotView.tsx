@@ -308,6 +308,29 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
       if (res.ok) {
         const data: EvaluateResponse = await res.json();
         setEvaluationResult(data);
+
+        // Auto-save assessment to Files & Reports (Phase 5 requirement)
+        try {
+          fetch('http://127.0.0.1:8000/v1/medbot/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${idToken}`,
+            },
+            body: JSON.stringify({
+              session_type: 'MedBot',
+              body_region_filter: null,
+              selected_tags: data.collected_symptom_tags,
+              matched_entries: data.matched_entries,
+              package_version: data.package_version,
+              matcher_version: data.matcher_version,
+            }),
+          }).then((r) => {
+            if (r.ok) setSaveSuccess(true);
+          });
+        } catch {
+          // Non-fatal auto-save
+        }
       } else {
         setErrorMessage('Failed to evaluate questionnaire answers.');
       }

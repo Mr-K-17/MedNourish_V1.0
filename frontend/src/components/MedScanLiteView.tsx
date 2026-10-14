@@ -623,6 +623,15 @@ export const MedScanLiteView: React.FC<MedScanLiteViewProps> = ({
             })}
           </div>
 
+          {blendResults.saved_report_id && (
+            <div style={{ padding: '0.65rem 0.85rem', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: 'var(--radius-md)', fontSize: '0.825rem', color: '#065f46', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <CheckCircle size={16} />
+              <span>
+                Assessment auto-saved to <strong>Files & Reports</strong>. You can review longitudinal analytics or delete this snapshot anytime in Reports.
+              </span>
+            </div>
+          )}
+
           <div style={{ marginTop: '0.5rem', padding: '0.75rem', background: '#f8fafc', borderRadius: 'var(--radius-md)', fontSize: '0.75rem', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
             {blendResults.disclaimer}
           </div>

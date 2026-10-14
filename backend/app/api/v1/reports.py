@@ -27,11 +27,14 @@ from app.db.session import get_db
 from app.models.user import SavedSummary
 from app.schemas.reports import (
     DeleteSummaryResponse,
+    ReportsAggregateResponse,
     SaveSummaryRequest,
     SavedSummariesListResponse,
     SavedSummaryDetail,
     SavedSummaryItem,
 )
+from app.services.careplan_sync_service import sync_careplan_from_top_nutrients
+from app.services.reports_aggregate_service import reports_aggregate_service
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +56,24 @@ def save_summary(
     matched_entries_data = [item.model_dump() for item in payload.matched_entries]
     matched_entries_json = json.dumps(matched_entries_data)
 
+    # Build snapshot scores for multi-engine recency aggregation
+    scores_dict = {}
+    for entry in payload.matched_entries:
+        nut = entry.vitamin_deficiency_association or "General"
+        ref_pct = (
+            float(entry.row_match_percentage)
+            if entry.row_match_percentage is not None
+            else round(float(entry.match_count) / max(1, entry.total_condition_tags) * 100.0, 1)
+        )
+        scores_dict[nut] = {
+            "reference_pct": ref_pct,
+            "xgboost_pct": 0.0,
+            "lightgbm_pct": 0.0,
+            "image_pct": 0.0,
+            "final_pct": ref_pct,
+        }
+    snapshot_scores_json = json.dumps(scores_dict)
+
     disclaimer = (
         "MEDNOURISH is an educational prototype. Results are reference-table matches and general health education, "
         "never medical diagnoses, predictions, or risk assessments. Discuss any symptom concerns with a qualified clinician."
@@ -66,6 +87,7 @@ def save_summary(
         selected_tags_json=selected_tags_json,
         matched_entries_json=matched_entries_json,
         match_count_total=len(payload.matched_entries),
+        snapshot_scores_json=snapshot_scores_json,
         package_version=payload.package_version,
         matcher_version=payload.matcher_version,
         review_status="unreviewed draft",
@@ -84,6 +106,17 @@ def save_summary(
             detail="Database service unavailable. Failed to save summary.",
         )
 
+    # Trigger CarePlan auto-sync for top 2 nutrients with % >= 30
+    top_nutrients = [
+        {"nutrient": k, "final_pct": v["final_pct"]}
+        for k, v in sorted(scores_dict.items(), key=lambda item: item[1]["final_pct"], reverse=True)
+    ]
+    max_band = "High" if any(n["final_pct"] >= 60.0 for n in top_nutrients) else ("Moderate" if any(n["final_pct"] >= 30.0 for n in top_nutrients) else "Low")
+    try:
+        sync_careplan_from_top_nutrients(db, current_user.uid, db_item.id, top_nutrients, max_band)
+    except Exception as e:
+        logger.warning("CarePlan auto-sync failed non-fatally: %s", e)
+
     top_defs = list({item.vitamin_deficiency_association for item in payload.matched_entries})[:3]
 
     return SavedSummaryDetail(
@@ -100,6 +133,16 @@ def save_summary(
         matched_entries=payload.matched_entries,
         disclaimer=db_item.disclaimer,
     )
+
+
+@router.get("/reports/aggregate", response_model=ReportsAggregateResponse)
+def get_reports_aggregate(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Computes recency-weighted multi-engine aggregation and chart data across latest <= 5 snapshots."""
+    return reports_aggregate_service.compute_aggregate(db, current_user.uid)
+
 
 
 @router.get("/reports/summaries", response_model=SavedSummariesListResponse)

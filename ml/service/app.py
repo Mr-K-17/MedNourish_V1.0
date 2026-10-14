@@ -79,6 +79,16 @@ class ModelRegistry:
         self.xgb_main: Optional[xgb.XGBClassifier] = None
         self.lgb_main: Optional[lgb.Booster] = None
         self.tabular_preprocessor: Optional[TabularPreprocessor] = None
+        self.xgb_symptoms: Optional[xgb.XGBClassifier] = None
+        self.lgb_symptoms: Optional[lgb.Booster] = None
+        self.symptoms_preprocessor: Optional[TabularPreprocessor] = None
+        self.symptoms_classes: List[str] = [
+            "Anemia",
+            "Healthy",
+            "Night_Blindness",
+            "Rickets_Osteomalacia",
+            "Scurvy",
+        ]
         self.xgb_keyword: Optional[xgb.XGBClassifier] = None
         self.keyword_classes: List[str] = []
         self.tflite_interpreters: Dict[str, Any] = {}
@@ -86,6 +96,10 @@ class ModelRegistry:
         self.model_cards: Dict[str, Dict[str, Any]] = {}
 
     def load_all(self):
+        main_csv = Path(r"C:\Users\USER\Desktop\MedNourish\datasets\vitamin_deficiency_disease_dataset_20260123.csv")
+        if not main_csv.exists():
+            main_csv = Path(r"C:\Users\USER\Desktop\MedNourish-Dev\datasets\vitamin_deficiency_disease_dataset_20260123.csv")
+
         # 1. Main Tabular Models
         xgb_path = TABULAR_ARTIFACTS_DIR / "xgboost_main_with_labs.json"
         lgb_path = TABULAR_ARTIFACTS_DIR / "lightgbm_main_with_labs.txt"
@@ -99,14 +113,26 @@ class ModelRegistry:
                 card_data = json.load(f)
             self.model_cards["tabular_with_labs"] = card_data
 
-            # Fit preprocessor on dataset train split schema
-            main_csv = Path(r"C:\Users\USER\Desktop\MedNourish\datasets\vitamin_deficiency_disease_dataset_20260123.csv")
-            if not main_csv.exists():
-                main_csv = Path(r"C:\Users\USER\Desktop\MedNourish-Dev\datasets\vitamin_deficiency_disease_dataset_20260123.csv")
             if main_csv.exists():
                 fn, recs = load_raw_dataset(main_csv)
                 feats = [c for c in fn if c not in EXCLUDE_COLUMNS]
                 self.tabular_preprocessor = TabularPreprocessor(feature_names=feats).fit(recs)
+
+        # 1b. Symptom/Lifestyle-Only Tabular Models (Phase 5)
+        xgb_sym_path = TABULAR_ARTIFACTS_DIR / "xgboost_main_symptom_lifestyle_only.json"
+        lgb_sym_path = TABULAR_ARTIFACTS_DIR / "lightgbm_main_symptom_lifestyle_only.txt"
+        card_sym_path = TABULAR_ARTIFACTS_DIR / "model_card_main_symptom_lifestyle_only.json"
+        if xgb_sym_path.exists() and lgb_sym_path.exists():
+            self.xgb_symptoms = xgb.XGBClassifier()
+            self.xgb_symptoms.load_model(str(xgb_sym_path))
+            self.lgb_symptoms = lgb.Booster(model_file=str(lgb_sym_path))
+            if main_csv.exists():
+                fn, recs = load_raw_dataset(main_csv)
+                symptom_features = CATEGORICAL_FEATURES + DEMOGRAPHIC_FEATURES + SYMPTOM_INDICATORS
+                self.symptoms_preprocessor = TabularPreprocessor(feature_names=symptom_features).fit(recs)
+            if card_sym_path.exists():
+                with open(card_sym_path, "r", encoding="utf-8") as f:
+                    self.model_cards["tabular_symptom_lifestyle_only"] = json.load(f)
 
         # 2. Keyword Reference Model
         kw_xgb_path = TABULAR_ARTIFACTS_DIR / "keyword_nutrient_xgb.json"
@@ -213,6 +239,36 @@ class ClassPrediction(BaseModel):
     class_name: str
     percentage: float = Field(..., description="Image model %")
 
+class SyndromePrediction(BaseModel):
+    syndrome: str
+    xgboost_pct: float
+    lightgbm_pct: float
+    consensus_pct: float
+    label: str = "Model % (trained on unverified data)"
+    supporting_evidence: str
+
+class TabularProfilePredictRequest(BaseModel):
+    age: Optional[float] = None
+    gender: Optional[str] = None
+    bmi: Optional[float] = None
+    smoking_status: Optional[str] = None
+    alcohol_consumption: Optional[str] = None
+    exercise_level: Optional[str] = None
+    diet_type: Optional[str] = None
+    sun_exposure: Optional[str] = None
+    income_level: Optional[str] = None
+    latitude_region: Optional[str] = None
+    symptoms: List[str] = Field(default_factory=list)
+
+class TabularProfilePredictResponse(BaseModel):
+    predictions: List[SyndromePrediction]
+    estimated_features: List[str]
+    label: str = "Model % (trained on unverified data)"
+    warning: str = (
+        "ACADEMIC DEMO SCOPE ONLY: Evaluated on synthetic literature distributions. "
+        "Outputs are labeled 'Model % (trained on unverified data)' as supporting evidence only; NOT a clinical diagnosis."
+    )
+
 class ImagePredictResponse(BaseModel):
     model_name: str
     top_3_classes: List[str]
@@ -267,6 +323,157 @@ def predict_tabular(req: TabularPredictRequest):
             "Strictly for algorithmic comparison; NOT a medical diagnosis."
         ),
     )
+
+@app.post("/predict/tabular_profile", response_model=TabularProfilePredictResponse)
+def predict_tabular_profile(req: TabularProfilePredictRequest):
+    if registry.xgb_symptoms is None or registry.lgb_symptoms is None or registry.symptoms_preprocessor is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Symptom/lifestyle tabular models are not loaded in ML Lab service.",
+        )
+
+    estimated_features: List[str] = []
+
+    # Demographics (defaults if None)
+    if req.age is None:
+        age_val = 50.77
+        estimated_features.append("age")
+    else:
+        age_val = float(req.age)
+
+    if req.gender is None or not req.gender.strip():
+        gender_val = "Female"
+        estimated_features.append("gender")
+    else:
+        gender_val = req.gender.strip().capitalize()
+
+    if req.bmi is None:
+        bmi_val = 26.11
+        estimated_features.append("bmi")
+    else:
+        bmi_val = float(req.bmi)
+
+    # Lifestyle features
+    if req.smoking_status is None or not req.smoking_status.strip():
+        smoking_val = "Non-Smoker"
+        estimated_features.append("smoking_status")
+    else:
+        smoking_val = req.smoking_status.strip()
+
+    if req.alcohol_consumption is None or not req.alcohol_consumption.strip():
+        alcohol_val = "None"
+        estimated_features.append("alcohol_consumption")
+    else:
+        alcohol_val = req.alcohol_consumption.strip()
+
+    if req.exercise_level is None or not req.exercise_level.strip():
+        exercise_val = "Moderate"
+        estimated_features.append("exercise_level")
+    else:
+        exercise_val = req.exercise_level.strip()
+
+    if req.diet_type is None or not req.diet_type.strip():
+        diet_val = "Balanced"
+        estimated_features.append("diet_type")
+    else:
+        diet_val = req.diet_type.strip()
+
+    if req.sun_exposure is None or not req.sun_exposure.strip():
+        sun_val = "Moderate"
+        estimated_features.append("sun_exposure")
+    else:
+        sun_val = req.sun_exposure.strip()
+
+    if req.income_level is None or not req.income_level.strip():
+        income_val = "Middle"
+        estimated_features.append("income_level")
+    else:
+        income_val = req.income_level.strip()
+
+    if req.latitude_region is None or not req.latitude_region.strip():
+        latitude_val = "Temperate"
+        estimated_features.append("latitude_region")
+    else:
+        latitude_val = req.latitude_region.strip()
+
+    # Map symptoms list to the 8 binary symptom indicators
+    symptoms_text = " ".join([s.lower() for s in req.symptoms])
+    
+    def match_any(keywords: List[str]) -> int:
+        return 1 if any(kw in symptoms_text for kw in keywords) else 0
+
+    has_night_blindness = match_any(["night blindness", "dark adaptation", "bitot", "dry eyes", "xerophthalmia"])
+    has_fatigue = match_any(["fatigue", "tired", "letharg", "weakness", "exhaust"])
+    has_bleeding_gums = match_any(["bleed", "gum", "gingiv", "spongy gum"])
+    has_bone_pain = match_any(["bone pain", "joint pain", "aching bone", "skeletal"])
+    has_muscle_weakness = match_any(["muscle weak", "cramp", "myopathy", "weak muscle"])
+    has_numbness_tingling = match_any(["numb", "tingl", "paresthesia", "pins and needles", "neuropathy"])
+    has_memory_problems = match_any(["memory", "brain fog", "confus", "cognitive", "dementia"])
+    has_pale_skin = match_any(["pale skin", "pallor", "conjunctiva", "paleness"])
+
+    rec = {
+        "gender": gender_val,
+        "smoking_status": smoking_val,
+        "alcohol_consumption": alcohol_val,
+        "exercise_level": exercise_val,
+        "diet_type": diet_val,
+        "sun_exposure": sun_val,
+        "income_level": income_val,
+        "latitude_region": latitude_val,
+        "age": str(age_val),
+        "bmi": str(bmi_val),
+        "has_night_blindness": str(has_night_blindness),
+        "has_fatigue": str(has_fatigue),
+        "has_bleeding_gums": str(has_bleeding_gums),
+        "has_bone_pain": str(has_bone_pain),
+        "has_muscle_weakness": str(has_muscle_weakness),
+        "has_numbness_tingling": str(has_numbness_tingling),
+        "has_memory_problems": str(has_memory_problems),
+        "has_pale_skin": str(has_pale_skin),
+    }
+
+    X, _ = registry.symptoms_preprocessor.transform([rec])
+
+    # Run probabilities
+    probs_xgb = registry.xgb_symptoms.predict_proba(X)[0]
+    probs_lgb = registry.lgb_symptoms.predict(X)[0]
+
+    evidence_map = {
+        "Anemia": "supporting evidence: Anemia -> Iron, Vitamin B12, Folate",
+        "Rickets_Osteomalacia": "supporting evidence: Rickets -> Vitamin D",
+        "Night_Blindness": "supporting evidence: Night Blindness -> Vitamin A",
+        "Scurvy": "supporting evidence: Scurvy -> Vitamin C",
+        "Healthy": "supporting evidence: Healthy -> Baseline nutritional adequacy",
+    }
+
+    predictions: List[SyndromePrediction] = []
+    for idx, syndrome_name in enumerate(registry.symptoms_classes):
+        p_xgb = float(probs_xgb[idx]) if idx < len(probs_xgb) else 0.0
+        p_lgb = float(probs_lgb[idx]) if idx < len(probs_lgb) else 0.0
+        pct_xgb = round(p_xgb * 100.0, 1)
+        pct_lgb = round(p_lgb * 100.0, 1)
+        pct_consensus = round((pct_xgb + pct_lgb) / 2.0, 1)
+
+        predictions.append(
+            SyndromePrediction(
+                syndrome=syndrome_name,
+                xgboost_pct=pct_xgb,
+                lightgbm_pct=pct_lgb,
+                consensus_pct=pct_consensus,
+                label="Model % (trained on unverified data)",
+                supporting_evidence=evidence_map.get(syndrome_name, f"supporting evidence: {syndrome_name}"),
+            )
+        )
+
+    # Sort descending by consensus percentage
+    predictions.sort(key=lambda p: p.consensus_pct, reverse=True)
+
+    return TabularProfilePredictResponse(
+        predictions=predictions,
+        estimated_features=estimated_features,
+        label="Model % (trained on unverified data)",
+    )
+
 
 @app.post("/predict/keywords", response_model=KeywordPredictResponse)
 def predict_keywords(req: KeywordPredictRequest):

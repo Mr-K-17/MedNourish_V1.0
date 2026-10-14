@@ -84,6 +84,7 @@ class SavedSummary(Base):
     selected_tags_json = Column(String(2048), nullable=False)  # JSON-encoded array of selected tags
     matched_entries_json = Column(String(8192), nullable=False)  # JSON-encoded array of matched reference summaries
     match_count_total = Column(Integer, default=0, nullable=False)
+    snapshot_scores_json = Column(String(4096), nullable=True)  # JSON-encoded dictionary of nutrient scores across engines
     package_version = Column(String(32), nullable=False)
     matcher_version = Column(String(32), nullable=False)
     review_status = Column(String(32), default="unreviewed draft", nullable=False)
@@ -100,6 +101,7 @@ class CarePlanItem(Base):
     - CARE-03: Tracks completion state and completion timestamps.
     - PROF-02: Keyed to authenticated user_id; data isolation enforced.
     - AUTH-05: Cascading delete on user account deletion.
+    - Phase 5: Auto-sync from reports for top-2 nutrients (auto=True, dedupe, stale tracking).
     """
 
     __tablename__ = "care_plan_items"
@@ -112,8 +114,18 @@ class CarePlanItem(Base):
     reminder_time = Column(String(16), nullable=True)  # e.g., '08:00', '14:00'
     is_completed = Column(Boolean, default=False, nullable=False)
     completed_at = Column(DateTime, nullable=True)
+
+    # Phase 5 CarePlan Auto-Sync extensions
+    is_auto = Column(Boolean, default=False, nullable=False)
+    source_entry_id = Column(String(64), nullable=True)
+    nutrient = Column(String(64), nullable=True)
+    text_hash = Column(String(64), nullable=True)
+    is_stale = Column(Boolean, default=False, nullable=False)
+    is_user_edited = Column(Boolean, default=False, nullable=False)
+
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
 
 
 class MedScanSession(Base):

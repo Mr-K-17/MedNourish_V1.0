@@ -118,6 +118,28 @@ async def proxy_predict_tabular(
     return await forward_request("POST", "/predict/tabular", json_data=payload)
 
 
+@router.post("/mllab/predict/tabular_profile")
+async def proxy_predict_tabular_profile(
+    payload: Dict[str, Any],
+    current_user: AuthenticatedUser = Depends(get_current_user),
+):
+    """Proxies symptom/lifestyle-only tabular prediction to ML Lab service.
+
+    Returns syndrome class probabilities labeled 'Model % (trained on unverified data)'
+    mapping to supporting nutritional evidence.
+    """
+    age = payload.get("age")
+    if age is not None and (age < 1 or age > 120):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Age must be between 1 and 120")
+
+    bmi = payload.get("bmi")
+    if bmi is not None and (bmi < 10 or bmi > 65):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="BMI must be between 10 and 65")
+
+    return await forward_request("POST", "/predict/tabular_profile", json_data=payload)
+
+
+
 @router.post("/mllab/predict/keywords")
 async def proxy_predict_keywords(
     payload: Dict[str, Any],

@@ -76,3 +76,44 @@ class DeleteSummaryResponse(BaseModel):
     status: str = Field(..., description="'deleted'")
     id: str = Field(..., description="ID of deleted record")
     message: str = Field(..., description="Success message")
+
+
+class AggregatedNutrientItem(BaseModel):
+    nutrient: str
+    reference_pct: float
+    xgboost_pct: float
+    lightgbm_pct: float
+    image_pct: float
+    final_pct: float
+    demo_risk_band: str
+
+
+class FinalReportCard(BaseModel):
+    probable_deficiencies: str
+    demo_risk_band: str
+    supporting_sources: List[str]
+    suggested_measures: List[str]
+    disclaimer: str = "Educational prototype: not a medical diagnosis or clinical treatment plan."
+    emergency_link: str = "/emergency"
+
+
+class ChartDataPayload(BaseModel):
+    grouped_bar: List[dict]
+    ranked_horizontal: List[dict]
+    radar: List[dict]
+    donut_risk: List[dict]
+    timeline: List[dict]
+    heatmap: List[dict]
+
+
+class ReportsAggregateResponse(BaseModel):
+    entries_count: int
+    recency_weights: List[float]
+    aggregated_nutrients: List[AggregatedNutrientItem]
+    chart_data: ChartDataPayload
+    final_report_card: FinalReportCard
+    formula_note: str = (
+        "Recency-weighted aggregation over latest <= 5 snapshots with decay weights [0.35, 0.25, 0.20, 0.12, 0.08] "
+        "normalized by active snapshot sum."
+    )
+
