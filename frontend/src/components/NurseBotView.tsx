@@ -55,12 +55,14 @@ interface NurseBotViewProps {
 }
 
 const QUICK_QUESTIONS = [
+  'Hello! Who are you and how can you help?',
+  'How does the heart pump blood through the body?',
+  'Explain cellular respiration, ATP and the Krebs cycle',
+  'What is the difference between innate and adaptive immunity?',
+  'How do neurons and neurotransmitters work?',
+  'What does the liver do in the human body?',
   'How does MedBot work?',
-  'Can you diagnose me?',
-  'What is Vitamin C?',
-  'Where are my saved reports?',
-  'What foods have Zinc?',
-  'How does CarePlan work?',
+  'What foods have Vitamin B12 and Iron?',
 ];
 
 export const NurseBotView: React.FC<NurseBotViewProps> = ({
@@ -86,9 +88,9 @@ export const NurseBotView: React.FC<NurseBotViewProps> = ({
     {
       id: 'msg-0',
       sender: 'bot',
-      text: 'Hello! I am MedNourish NurseBot. I can answer questions about using this app and look up general nutrition and vitamin reference fact sheets from NIH / MedlinePlus. How can I help you today?',
+      text: 'Hello! I am MedNourish NurseBot, your AI conversational and medical sciences assistant. I am trained in human anatomy, organ physiology, cellular bioenergetics, immunology, and nutritional health. What medical topic or question would you like to explore today?',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      intent: 'app_help',
+      intent: 'ai_chat',
     },
   ]);
 
@@ -380,6 +382,8 @@ export const NurseBotView: React.FC<NurseBotViewProps> = ({
                         <span className={styles.senderLabel}>
                           NurseBot{' '}
                           {msg.intent === 'web_reference' && '(NIH / MedlinePlus)'}
+                          {msg.intent === 'medical_science' && '(Medical Sciences)'}
+                          {msg.intent === 'ai_chat' && '(AI Assistant)'}
                         </span>
                         <button
                           type="button"

@@ -150,6 +150,7 @@ from app.schemas.nursebot import (
     NurseBotAskResponse,
 )
 from app.services.web_answer_service import web_answer_service
+from app.services.nursebot_ai_service import nursebot_ai_service
 
 logger = logging.getLogger(__name__)
 
@@ -334,10 +335,21 @@ class NurseBotService:
                 is_web_answer=web_ans.get("is_web_answer", False),
             )
 
-        # 5. Out-of-Scope Fallback
+        # 5. NurseBot AI Conversational & Medical Sciences Knowledge Engine
+        ai_resp = await nursebot_ai_service.generate_response(question)
+        if ai_resp:
+            return NurseBotAskResponse(
+                reply=ai_resp["reply"],
+                intent=ai_resp.get("intent", "ai_chat"),
+                source_name=ai_resp.get("source_name"),
+                source_url=ai_resp.get("source_url"),
+                is_web_answer=ai_resp.get("is_web_answer", False),
+            )
+
+        # 6. Fallback
         return NurseBotAskResponse(
-            reply="I can help with questions about using MedNourish or look up general vitamin and nutrition reference facts. For personal health advice, please consult a qualified clinician.",
-            intent="out_of_scope",
+            reply="I am MedNourish NurseBot. I can answer questions about using MedNourish, explain medical sciences, or discuss human physiology and nutrition. What would you like to explore?",
+            intent="ai_chat",
             is_web_answer=False,
         )
 
