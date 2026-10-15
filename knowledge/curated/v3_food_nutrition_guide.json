@@ -1,0 +1,263 @@
+{
+  "Vitamin A Deficiency": {
+    "title": "Vitamin A & Beta-Carotene Optimization",
+    "regular_foods": [
+      "Carrots (steamed or cooked in healthy oils)",
+      "Sweet potatoes (baked or boiled)",
+      "Spinach and fenugreek leaves (palak / methi)",
+      "Egg yolks and boiled eggs",
+      "Full-fat dairy, yogurt, and paneer",
+      "Pumpkin and butternut squash curries or soups",
+      "Red and yellow bell peppers",
+      "Moringa / drumstick leaves"
+    ],
+    "fruits_to_consume": [
+      "Ripe sweet mangoes",
+      "Ripe papayas (excellent beta-carotene content)",
+      "Cantaloupe / muskmelon",
+      "Apricots (fresh or dried)",
+      "Watermelon",
+      "Pink grapefruits"
+    ],
+    "habits_to_improve": [
+      "Always consume fat-soluble carotenoids with healthy fats (ghee, olive oil, seeds) to boost absorption by up to 300%",
+      "Lightly steam or saute carrots and greens rather than eating purely raw to soften cell walls and release beta-carotene",
+      "Avoid boiling vegetables in excessive water where nutrients are discarded; consume cooking broths",
+      "Include a colorful orange or dark green vegetable with lunch and dinner daily"
+    ],
+    "what_to_eat": [
+      "Pair spinach or pumpkin with a teaspoon of extra virgin olive oil or ghee",
+      "Eat carrots with hummus, yogurt dip, or roasted nuts",
+      "Cook sweet potato wedges with avocado oil and herbs",
+      "Incorporate liver or fatty fish (salmon, mackerel) once or twice weekly if non-vegetarian"
+    ],
+    "what_to_avoid": [
+      "Excessive alcohol intake which depletes hepatic retinol reserves",
+      "Strict ultra-low-fat diets which prevent absorption of fat-soluble vitamins A, D, E, K",
+      "Prolonged overcooking of greens in open pans which oxidizes provitamin A",
+      "Relying solely on refined carbohydrates without vegetable garnishing"
+    ]
+  },
+  "Vitamin B12 Deficiency": {
+    "title": "Vitamin B12 (Cobalamin) Replenishment",
+    "regular_foods": [
+      "Eggs (especially whole pasture-raised eggs)",
+      "Plain whole-milk yogurt, curd, and kefir",
+      "Paneer, cottage cheese, and Swiss cheese",
+      "Fortified plant milks (soy, almond, oat milk with added B12)",
+      "Fortified whole grain breakfast cereals",
+      "Nutritional yeast flakes sprinkled on food",
+      "Fish (salmon, tuna, sardines) and poultry",
+      "Lean cuts of meat and bone broth"
+    ],
+    "fruits_to_consume": [
+      "Bananas (rich in vitamin B6 to support cobalamin co-enzyme activity)",
+      "Apples and berries (rich in pectin to support healthy gut microbiota)",
+      "Oranges and kiwis (vitamin C to support cellular iron and folate balance)",
+      "Avocados (healthy fats and co-factors)",
+      "Pomegranates (support erythrocyte production)"
+    ],
+    "habits_to_improve": [
+      "Strict vegetarians and vegans must routinely consume fortified nutritional yeast or fortified plant milk",
+      "Support stomach acid (avoid excessive antacids/PPIs unless prescribed, as intrinsic factor requires gastric acid)",
+      "Eat fermented dairy like kefir or curd between meals to enhance mucosal gut flora",
+      "Distribute B12 sources across morning and afternoon meals rather than one large dose"
+    ],
+    "what_to_eat": [
+      "Scrambled eggs with cheese and whole wheat sourdough toast",
+      "Greek yogurt or curd bowl with berries and seeds",
+      "Curried paneer with brown rice or chapati",
+      "Nutritional yeast stirred into dal, pasta, or roasted vegetables"
+    ],
+    "what_to_avoid": [
+      "Excessive chronic alcohol consumption which impairs ileal B12 uptake",
+      "High intake of raw tea or coffee immediately following a meal containing dairy or eggs",
+      "Smoking, which increases cyanide metabolites that deplete active methylcobalamin",
+      "Prolonged unmonitored use of acid suppressants (consult doctor if reflux is frequent)"
+    ]
+  },
+  "Vitamin C Deficiency": {
+    "title": "Vitamin C (Ascorbic Acid) & Collagen Synthesis",
+    "regular_foods": [
+      "Bell peppers (especially raw yellow and red capsicum)",
+      "Broccoli (lightly steamed)",
+      "Brussels sprouts and cabbage salads",
+      "Tomatoes and fresh tomato rasam/soup",
+      "Green chillies and coriander leaves",
+      "Cauliflower florets",
+      "Spinach and leafy mustard greens"
+    ],
+    "fruits_to_consume": [
+      "Indian gooseberry (Amla) - extremely high natural ascorbic acid",
+      "Guavas (contains up to 4x the vitamin C of an orange)",
+      "Oranges, sweet limes (mosambi), and lemons",
+      "Kiwis and strawberries",
+      "Papayas and pineapples",
+      "Grapefruits and blackcurrants"
+    ],
+    "habits_to_improve": [
+      "Add fresh lemon juice to warm dal, soups, and curries AFTER turning off the flame (heat destroys vitamin C)",
+      "Eat fruit whole and fresh rather than stored juices which lose ascorbic acid through air oxidation",
+      "Pair vitamin C rich foods with plant-based iron (lentils, beans) to boost iron absorption by 200%",
+      "Keep raw cut vegetable sticks (capsicum, cucumber) ready as everyday mid-morning snacks"
+    ],
+    "what_to_eat": [
+      "Amla juice or amla murabba in the morning",
+      "Fresh citrus salad with guava, pomegranate, and lime zest",
+      "Sprouted moong beans tossed with chopped tomatoes, coriander, and fresh lemon",
+      "Lightly steamed broccoli with olive oil and garlic"
+    ],
+    "what_to_avoid": [
+      "Boiling fruits and vegetables for extended periods",
+      "Storing cut fruits exposed to air for more than 30 minutes",
+      "High intake of processed, deep-fried snacks devoid of antioxidant vitamins",
+      "Excessive consumption of sodium-rich canned foods without fresh produce"
+    ]
+  },
+  "Vitamin D Deficiency": {
+    "title": "Vitamin D & Calcium Homeostasis",
+    "regular_foods": [
+      "Egg yolks from pasture-raised hens",
+      "Fortified milk, fortified curd, and fortified cheeses",
+      "Fatty fish (salmon, mackerel, sardines, tuna)",
+      "Mushrooms exposed to UV sunlight (e.g. UV-treated portobello or button mushrooms)",
+      "Fortified soy milk and almond milk",
+      "Fortified orange juices"
+    ],
+    "fruits_to_consume": [
+      "Fortified orange juice with added vitamin D and calcium",
+      "Figs (fresh or dried, high in calcium synergist)",
+      "Oranges and mandarins (support mineral balance)",
+      "Blackberries and raspberries (magnesium cofactors for vitamin D activation)",
+      "Papaya and kiwi"
+    ],
+    "habits_to_improve": [
+      "Spend 15 to 25 minutes in mid-morning sunlight (between 10 AM and 2 PM) with arms and legs exposed",
+      "Ensure adequate magnesium and zinc intake (seeds, nuts) required for enzymatic activation of vitamin D",
+      "Maintain active weight-bearing physical movement (walking, stairs) to stimulate osteoblast activity",
+      "Pair vitamin D rich meals with dietary fats to ensure micellar absorption"
+    ],
+    "what_to_eat": [
+      "Omelette made with whole eggs, spinach, and mushrooms",
+      "Grilled or baked salmon/mackerel with steamed greens",
+      "Warm fortified milk with a pinch of turmeric and crushed almonds",
+      "UV-treated mushrooms stir-fried with sesame seeds"
+    ],
+    "what_to_avoid": [
+      "Sedentary indoor lifestyle with zero sunlight exposure",
+      "Excessive sunscreen during initial short mid-morning safe sun exposure windows",
+      "High consumption of carbonated sodas which leach bone minerals",
+      "Crash dieting that eliminates healthy fats necessary for steroid hormone synthesis"
+    ]
+  },
+  "Folate (Vitamin B9) Deficiency": {
+    "title": "Folate (B9) Cellular Regeneration",
+    "regular_foods": [
+      "Lentils, chickpeas, kidney beans (rajma), and black beans",
+      "Spinach, fenugreek, kale, and collard greens",
+      "Asparagus and green peas",
+      "Beetroots and beetroot greens",
+      "Fortified whole wheat rotis, oats, and barley",
+      "Peanuts, sunflower seeds, and flaxseeds",
+      "Avocados and edamame"
+    ],
+    "fruits_to_consume": [
+      "Oranges, sweet limes, and clementines",
+      "Bananas (convenient morning folate source)",
+      "Papayas (generous natural folate)",
+      "Strawberries and raspberries",
+      "Pomegranates and cantaloupe"
+    ],
+    "habits_to_improve": [
+      "Sprout whole lentils (moong, chana) at home; sprouting multiplies bioavailable folate content",
+      "Lightly steam greens rather than deep boiling to protect heat-sensitive methylfolates",
+      "Eat a bowl of lentil dal or legume soup with every main meal",
+      "Snack on raw roasted sunflower seeds or walnuts in the afternoon"
+    ],
+    "what_to_eat": [
+      "Sprouted moong salad with diced cucumbers, tomatoes, and lime",
+      "Steamed asparagus or green peas tossed with olive oil",
+      "Chickpea (chole) or rajma curry served with brown rice",
+      "Avocado mash on multi-seed toast"
+    ],
+    "what_to_avoid": [
+      "Excessive alcohol intake which directly hinders intestinal folate absorption",
+      "Overcooking beans until dissolved without using the bean broth",
+      "Relying entirely on white bleached flour (maida) products lacking fortification",
+      "Smoking and high chronic mental stress without adequate dietary replenishments"
+    ]
+  },
+  "Iron Deficiency & Anemia": {
+    "title": "Iron & Hemoglobin Building Nutrition",
+    "regular_foods": [
+      "Lentils, red beans, chickpeas, and black grams",
+      "Spinach, moringa / drumstick leaves, and beet greens",
+      "Tofu and fermented tempeh",
+      "Pumpkin seeds, sesame seeds (til), and chia seeds",
+      "Jaggery (gur) used as an occasional sweetener with roasted grams",
+      "Lean meats, liver, and eggs (heme iron with high bioavailability)",
+      "Dates, dried figs (anjeer), and black raisins"
+    ],
+    "fruits_to_consume": [
+      "Fresh pomegranates (anar)",
+      "Guavas (high vitamin C to maximize non-heme iron absorption)",
+      "Amla (Indian gooseberry) eaten with meals",
+      "Watermelon and mulberries",
+      "Prunes and dried apricots"
+    ],
+    "habits_to_improve": [
+      "NEVER drink chai, tea, or coffee within 60 minutes of lunch or dinner (tannins block up to 70% of iron)",
+      "Cook curries, gravies, and tomato rasam in traditional cast iron pans to naturally enrich food with dietary iron",
+      "Always pair plant-based iron foods with a source of vitamin C (lemon squeeze, amla, tomato)",
+      "Soak beans, lentils, and seeds for 4 to 8 hours before cooking to degrade phytates"
+    ],
+    "what_to_eat": [
+      "Cast iron cooked dal with squeezed fresh lemon juice",
+      "Handful of roasted chana with dates or a small cube of jaggery",
+      "Moringa leaf stir fry with grated coconut",
+      "Soaked black raisins and dried figs first thing in the morning"
+    ],
+    "what_to_avoid": [
+      "Drinking black tea, green tea, or milk tea right after main meals",
+      "Consuming high-calcium supplements or antacids simultaneously with iron-rich foods",
+      "Unsoaked whole grains and raw wheat bran containing high phytic acid",
+      "Processed ultra-refined snacks that displace wholesome nutrient-dense meals"
+    ]
+  },
+  "General / Multiple Micronutrient Support": {
+    "title": "Holistic Micronutrient & Vitality Protocol",
+    "regular_foods": [
+      "Rainbow vegetable medley (greens, orange carrots, red tomatoes, purple cabbage)",
+      "Sprouted whole grains and whole pulses (moong, horsegram, chickpeas)",
+      "Cultured yogurts, homemade buttermilk (chaas), and kefir",
+      "Mixed raw nuts (almonds, walnuts) and seeds (pumpkin, sunflower, flax)",
+      "Cold-pressed oils (extra virgin olive oil, cold-pressed sesame or mustard oil)",
+      "Clean lean proteins and eggs"
+    ],
+    "fruits_to_consume": [
+      "Seasonal local berries and cherries",
+      "Guavas, amla, and citrus fruits",
+      "Bananas and papayas for prebiotic gut support",
+      "Apples with peel intact for quercetin and fiber",
+      "Fresh coconut water for natural electrolyte balance"
+    ],
+    "habits_to_improve": [
+      "Aim for at least 30 different plant foods per week (grains, legumes, veggies, nuts, seeds, fruits)",
+      "Chew food thoroughly to facilitate digestive enzyme release and optimal nutrient breakdown",
+      "Hydrate with 2.5 to 3 liters of pure water daily away from large heavy meals",
+      "Establish a consistent 7-8 hour sleep schedule to allow cellular repair and nutrient utilization"
+    ],
+    "what_to_eat": [
+      "Colorful grain bowl with quinoa/brown rice, roasted vegetables, and tahini dressing",
+      "Sprout and pomegranate chaat with fresh herbs and lemon juice",
+      "Homemade vegetable soup cooked in iron or earthenware with mixed seeds",
+      "Golden turmeric milk with black pepper and crushed almond flakes"
+    ],
+    "what_to_avoid": [
+      "Ultra-processed packaged foods high in trans-fats, refined corn syrup, and preservatives",
+      "Skipping meals followed by late-night bingeing on fast foods",
+      "Chronic sleep deprivation which disrupts gut nutrient absorption and increases cortisol",
+      "Sedentary posture for consecutive hours without light stretching breaks"
+    ]
+  }
+}

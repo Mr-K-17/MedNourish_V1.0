@@ -1,5 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Activity, ShieldAlert, CheckCircle2, User, LogOut, Trash2, Edit3 } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  Activity,
+  ShieldAlert,
+  CheckCircle2,
+  LogOut,
+  Trash2,
+  Edit3,
+  ChevronDown,
+  Sparkles,
+  HeartPulse,
+} from 'lucide-react';
 import { onAuthStateChanged, signOut, auth, User as FirebaseUser } from './services/firebase';
 import { DemoBanner } from './components/DemoBanner';
 import { EmergencyHelpModal } from './components/EmergencyHelpModal';
@@ -59,20 +69,29 @@ export const App: React.FC = () => {
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [appError, setAppError] = useState<string | null>(null);
-  const [activeView, setActiveView] = useState<'dashboard' | 'symptom-explorer' | 'reports' | 'medbot' | 'careplan' | 'nursebot' | 'mllab' | 'medscan-lite' | 'virtual-ward'>('dashboard');
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [activeView, setActiveView] = useState<
+    | 'dashboard'
+    | 'symptom-explorer'
+    | 'reports'
+    | 'medbot'
+    | 'careplan'
+    | 'nursebot'
+    | 'mllab'
+    | 'medscan-lite'
+    | 'virtual-ward'
+  >('dashboard');
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Probe local backend health endpoint
     fetch('http://127.0.0.1:8000/v1/health')
       .then((res) => res.json())
       .then((data: BackendHealth) => setHealth(data))
-      .catch(() => {
-        setHealth(null);
-      });
+      .catch(() => setHealth(null));
   }, []);
 
   useEffect(() => {
-    // Listen for auth state changes on emulator
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
@@ -87,6 +106,17 @@ export const App: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const fetchUserProfile = async (token: string) => {
     setProfileLoading(true);
     setAppError(null);
@@ -98,7 +128,6 @@ export const App: React.FC = () => {
         const data = await res.json();
         setUserProfile(data);
       } else if (res.status === 404) {
-        // Needs initial consent & profile setup
         setUserProfile(null);
       } else {
         setAppError('Unable to load user profile.');
@@ -111,6 +140,7 @@ export const App: React.FC = () => {
   };
 
   const handleSignOut = async () => {
+    setProfileDropdownOpen(false);
     await signOut(auth);
     setUserProfile(null);
     setIdToken(null);
@@ -118,18 +148,17 @@ export const App: React.FC = () => {
 
   const handleDeleteAccount = async () => {
     if (!idToken || !currentUser) return;
+    setProfileDropdownOpen(false);
     const confirmed = window.confirm(
       'Are you sure you want to permanently delete your account and profile data? This action cannot be undone.'
     );
     if (!confirmed) return;
 
     try {
-      // 1. Delete database profile & consent logs
       await fetch('http://127.0.0.1:8000/v1/profile', {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${idToken}` },
       });
-      // 2. Delete user on Auth Emulator
       await currentUser.delete();
       handleSignOut();
     } catch (err: unknown) {
@@ -137,87 +166,246 @@ export const App: React.FC = () => {
     }
   };
 
+  const getInitials = (name?: string, email?: string | null) => {
+    if (name && name.trim()) {
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return name.slice(0, 2).toUpperCase();
+    }
+    if (email) return email.slice(0, 2).toUpperCase();
+    return 'MN';
+  };
+
   return (
     <div className={styles.container}>
       <DemoBanner />
 
       <header className={styles.header}>
-        <div className={styles.titleArea}>
-          <Activity size={28} color="var(--color-primary)" />
-          <h1 className={styles.title}>MEDNOURISH</h1>
+        <div
+          className={styles.titleArea}
+          onClick={() => setActiveView('dashboard')}
+          title="Go to MedNourish Dashboard"
+        >
+          <div className={styles.logoBadge}>
+            <Activity size={24} color="#ffffff" />
+          </div>
+          <div>
+            <h1 className={styles.title}>MEDNOURISH</h1>
+            <p className={styles.titleSub}>Precision Nutrition & Clinical Reference</p>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          {currentUser && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem' }}>
-              <User size={16} />
-              <span>{userProfile?.display_name || currentUser.email}</span>
-              <button
-                type="button"
-                onClick={handleSignOut}
-                className={styles.signOutButton}
-                title="Sign Out"
-              >
-                <LogOut size={16} />
-                Sign Out
-              </button>
+        <div className={styles.headerActions}>
+          {health && (
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                fontSize: '0.78rem',
+                color: 'rgba(255, 255, 255, 0.9)',
+                background: 'rgba(255, 255, 255, 0.15)',
+                padding: '0.3rem 0.75rem',
+                borderRadius: '20px',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+              }}
+            >
+              <CheckCircle2 size={13} color="#a7f3d0" />
+              <span>System Online</span>
             </div>
           )}
 
-          {/* Emergency safety layer reachable from every screen per C-20 & SAF-03 */}
           <button
             type="button"
             onClick={() => setIsEmergencyModalOpen(true)}
             className={styles.urgentHelpButton}
           >
-            <ShieldAlert size={18} />
-            Need urgent help?
+            <ShieldAlert size={17} />
+            <span>Need Urgent Help?</span>
           </button>
+
+          {/* Profile on Top Right with Edit Features */}
+          {currentUser && (
+            <div style={{ position: 'relative' }} ref={dropdownRef}>
+              <button
+                type="button"
+                className={styles.profileBtn}
+                onClick={() => setProfileDropdownOpen((prev) => !prev)}
+                aria-expanded={profileDropdownOpen}
+                aria-label="Profile navigation menu"
+              >
+                <div className={styles.profileAvatar}>
+                  {getInitials(userProfile?.display_name, currentUser.email)}
+                </div>
+                <span
+                  style={{
+                    maxWidth: '120px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {userProfile?.display_name || currentUser.email?.split('@')[0]}
+                </span>
+                <ChevronDown size={14} style={{ opacity: 0.8 }} />
+              </button>
+
+              {profileDropdownOpen && (
+                <div className={styles.profileDropdown}>
+                  <div className={styles.dropdownHeader}>
+                    <p className={styles.dropdownName}>
+                      {userProfile?.display_name || 'Registered Member'}
+                    </p>
+                    <p className={styles.dropdownEmail}>{currentUser.email}</p>
+                    {userProfile && (
+                      <div
+                        style={{
+                          marginTop: '6px',
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '4px',
+                          fontSize: '0.74rem',
+                        }}
+                      >
+                        {userProfile.age && (
+                          <span
+                            style={{
+                              background: '#e0f2fe',
+                              color: '#0369a1',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontWeight: 600,
+                            }}
+                          >
+                            Age {userProfile.age}
+                          </span>
+                        )}
+                        {userProfile.blood_type && (
+                          <span
+                            style={{
+                              background: '#fef3c7',
+                              color: '#92400e',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontWeight: 600,
+                            }}
+                          >
+                            Blood {userProfile.blood_type}
+                          </span>
+                        )}
+                        <span
+                          style={{
+                            background: '#dcfce7',
+                            color: '#15803d',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {userProfile.is_adult_confirmed ? 'Adult 18+' : 'Consent Active'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {userProfile?.conditions && userProfile.conditions.length > 0 && (
+                    <div style={{ padding: '0.6rem 1rem', background: '#f8fafc' }}>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '0.72rem',
+                          color: 'var(--color-text-muted)',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        Active Health Profile
+                      </p>
+                      <p
+                        style={{
+                          margin: '3px 0 0 0',
+                          fontSize: '0.8rem',
+                          color: 'var(--color-text-secondary)',
+                        }}
+                      >
+                        {userProfile.conditions.join(', ')}
+                      </p>
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    className={styles.dropdownItem}
+                    onClick={() => {
+                      setIsEditProfileOpen(true);
+                      setProfileDropdownOpen(false);
+                    }}
+                  >
+                    <Edit3 size={15} color="var(--color-primary)" />
+                    <span>Edit Profile Details</span>
+                  </button>
+
+                  <hr className={styles.dropdownDivider} />
+
+                  <button
+                    type="button"
+                    className={styles.dropdownItem}
+                    onClick={handleSignOut}
+                  >
+                    <LogOut size={15} />
+                    <span>Sign Out</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}
+                    onClick={handleDeleteAccount}
+                  >
+                    <Trash2 size={15} />
+                    <span>Delete Account & Data</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
       <main className={styles.main}>
-        {/* System & Services Dashboard Card */}
-        <section className={styles.card} style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-            <h2 className={styles.cardTitle} style={{ margin: 0 }}>
-              Phase 1A Prototype Environment
-            </h2>
-            <div className={styles.statusIndicator}>
-              <CheckCircle2 size={18} />
-              <span>
-                Backend:{' '}
-                {health ? `${health.status} (${health.environment})` : 'Offline / Mock mode'}
-              </span>
-            </div>
-          </div>
-
-          {health?.services && (
-            <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
-                <strong>MySQL (Users/Consent):</strong> {health.services.mysql?.status || 'unknown'}
-              </span>
-              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
-                <strong>Reference Knowledge:</strong> Curated CSVs (MongoDB optional: {health.services.mongodb?.status || 'not configured (optional)'})
-              </span>
-              <span style={{ fontSize: '0.85rem', padding: '0.25rem 0.5rem', background: '#f1f5f9', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
-                <strong>Firebase Auth Emulator:</strong> {health.services.firebase_auth_emulator?.host || '127.0.0.1:9099'}
-              </span>
-            </div>
-          )}
-        </section>
-
         {appError && (
-          <div style={{ padding: '0.75rem 1rem', background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '8px', color: '#b91c1c', marginBottom: '1rem' }}>
+          <div
+            style={{
+              padding: '0.75rem 1rem',
+              background: '#fee2e2',
+              border: '1px solid #fca5a5',
+              borderRadius: '8px',
+              color: '#b91c1c',
+              marginBottom: '1rem',
+            }}
+          >
             {appError}
           </div>
         )}
 
-        {/* Auth / Profile Workflow State */}
         {!currentUser ? (
           <AuthForm onSuccess={() => {}} />
         ) : profileLoading ? (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--color-text-secondary)' }}>
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '4rem',
+              color: 'var(--color-text-secondary)',
+            }}
+          >
+            <HeartPulse
+              size={36}
+              style={{
+                color: 'var(--color-primary)',
+                animation: 'pulse 1.5s infinite',
+                margin: '0 auto 1rem auto',
+                display: 'block',
+              }}
+            />
             Loading user profile...
           </div>
         ) : !userProfile ? (
@@ -280,126 +468,59 @@ export const App: React.FC = () => {
                 displayName={userProfile.display_name}
                 consentVersion={userProfile.terms_consent_version}
                 onSelectTile={(tileId) => {
-                  if (tileId === 'symptom-explorer') {
-                    setActiveView('symptom-explorer');
-                  } else if (tileId === 'reports') {
-                    setActiveView('reports');
-                  } else if (tileId === 'medbot') {
-                    setActiveView('medbot');
-                  } else if (tileId === 'careplan') {
-                    setActiveView('careplan');
-                  } else if (tileId === 'nursebot') {
-                    setActiveView('nursebot');
-                  } else if (tileId === 'mllab') {
-                    setActiveView('mllab');
-                  } else if (tileId === 'medscan-lite') {
-                    setActiveView('medscan-lite');
-                  } else if (tileId === 'virtual-ward') {
-                    setActiveView('virtual-ward');
-                  }
+                  if (tileId === 'symptom-explorer') setActiveView('symptom-explorer');
+                  else if (tileId === 'reports') setActiveView('reports');
+                  else if (tileId === 'medbot') setActiveView('medbot');
+                  else if (tileId === 'careplan') setActiveView('careplan');
+                  else if (tileId === 'nursebot') setActiveView('nursebot');
+                  else if (tileId === 'mllab') setActiveView('mllab');
+                  else if (tileId === 'medscan-lite') setActiveView('medscan-lite');
+                  else if (tileId === 'virtual-ward') setActiveView('virtual-ward');
                 }}
               />
             )}
-
-            <section className={styles.card}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                <div>
-                  <h3 className={styles.cardTitle} style={{ margin: 0, fontSize: '1.1rem' }}>Account & Profile Summary</h3>
-                  <p style={{ margin: '0.25rem 0 1rem 0', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-                    User ID: {currentUser.uid} · Email: {currentUser.email}
-                  </p>
-                </div>
-
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditProfileOpen(true)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.5rem 0.75rem',
-                      background: 'var(--color-bg-surface)',
-                      border: '1px solid var(--color-border)',
-                      color: 'var(--color-text-primary)',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      fontWeight: 600,
-                    }}
-                  >
-                    <Edit3 size={15} /> Edit Profile
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleDeleteAccount}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.5rem 0.75rem',
-                      background: '#fff1f2',
-                      border: '1px solid #fda4af',
-                      color: '#e11d48',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      fontWeight: 600,
-                    }}
-                  >
-                    <Trash2 size={16} /> Delete Account & Data
-                  </button>
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginTop: '0.5rem' }}>
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Consent & Status</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 600, color: 'var(--color-accent)' }}>
-                    {userProfile.is_adult_confirmed ? 'Adult Confirmed (18+)' : 'Demo Consent (Under-18)'}
-                  </p>
-                </div>
-
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Age</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>
-                    {userProfile.age ? `${userProfile.age} years` : 'Not specified'}
-                    {userProfile.age && userProfile.age < 18 ? ' (Demo Only)' : ''}
-                  </p>
-                </div>
-
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Blood Type</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.blood_type || 'Not specified'}</p>
-                </div>
-
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Gender</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.gender || 'Not specified'}</p>
-                </div>
-
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Height</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.height_cm ? `${userProfile.height_cm} cm` : 'Not specified'}</p>
-                </div>
-
-                <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Weight</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>{userProfile.weight_kg ? `${userProfile.weight_kg} kg` : 'Not specified'}</p>
-                </div>
-
-                <div style={{ gridColumn: '1 / -1', padding: '0.75rem 1rem', background: 'var(--color-bg-app)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Health Conditions</span>
-                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 500 }}>
-                    {userProfile.conditions && userProfile.conditions.length > 0 ? userProfile.conditions.join(', ') : 'None specified'}
-                    {userProfile.other_condition ? ` (Other: ${userProfile.other_condition})` : ''}
-                  </p>
-                </div>
-              </div>
-            </section>
           </div>
         )}
       </main>
+
+      {/* Floating Corner Icon for Experimental ML Lab */}
+      {currentUser && userProfile && activeView !== 'mllab' && (
+        <button
+          type="button"
+          onClick={() => setActiveView('mllab')}
+          title="Experimental ML Lab (not for health decisions)"
+          style={{
+            position: 'fixed',
+            bottom: '1.75rem',
+            right: '1.75rem',
+            width: '54px',
+            height: '54px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #0d7377, #10b981)',
+            border: '2px solid rgba(255, 255, 255, 0.8)',
+            boxShadow: '0 8px 24px rgba(13, 115, 119, 0.45)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 90,
+            transition: 'all 0.25s ease',
+            color: '#ffffff',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1) translateY(-2px)';
+            (e.currentTarget as HTMLButtonElement).style.boxShadow =
+              '0 12px 28px rgba(13, 115, 119, 0.6)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+            (e.currentTarget as HTMLButtonElement).style.boxShadow =
+              '0 8px 24px rgba(13, 115, 119, 0.45)';
+          }}
+        >
+          <Sparkles size={24} />
+        </button>
+      )}
 
       {/* Profile Edit Modal Dialog */}
       {isEditProfileOpen && idToken && (
@@ -407,7 +528,8 @@ export const App: React.FC = () => {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.55)',
+            backdropFilter: 'blur(3px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -440,7 +562,7 @@ export const App: React.FC = () => {
       />
 
       <footer className={styles.footer}>
-        MEDNOURISH Phase 1A MVP Prototype · Strictly Local Development · Fictional Data Only
+        MEDNOURISH Precision Health · Educational Reference Prototype · Not for clinical diagnosis or emergency triage
       </footer>
     </div>
   );

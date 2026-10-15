@@ -10,7 +10,9 @@ import {
   ChevronUp,
   Sliders,
   Sparkles,
+  Activity,
 } from 'lucide-react';
+import { getDeficiencyClinicalInsight } from '../services/clinicalInsights';
 import styles from './MedScanLiteView.module.css';
 
 interface MedScanLiteViewProps {
@@ -584,40 +586,81 @@ export const MedScanLiteView: React.FC<MedScanLiteViewProps> = ({
                     )}
                   </button>
 
-                  {isExpanded && (
-                    <div className={styles.whyContent}>
-                      <div>
-                        <strong>Calculation:</strong> {n.percentage_explanation}
-                      </div>
-                      {n.image_percentage !== null && n.image_percentage !== undefined && (
+                  {isExpanded && (() => {
+                    const insight = getDeficiencyClinicalInsight(n.nutrient);
+                    return (
+                      <div className={styles.whyContent} style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                         <div>
-                          <strong>Image model %:</strong> {n.image_percentage.toFixed(1)}%
+                          <strong>Score Composition:</strong> {n.percentage_explanation}
                         </div>
-                      )}
-                      {n.reference_percentage !== null && n.reference_percentage !== undefined && (
-                        <div>
-                          <strong>Reference match %:</strong> {n.reference_percentage.toFixed(1)}%
+                        {n.image_percentage !== null && n.image_percentage !== undefined && (
+                          <div>
+                            <strong>Vision Model Confidence:</strong> {n.image_percentage.toFixed(1)}%
+                          </div>
+                        )}
+                        {n.reference_percentage !== null && n.reference_percentage !== undefined && (
+                          <div>
+                            <strong>Curated Reference Match:</strong> {n.reference_percentage.toFixed(1)}%
+                          </div>
+                        )}
+
+                        {/* Clinical Reasoning */}
+                        <div style={{ background: '#f0fdf4', padding: '0.6rem 0.75rem', borderRadius: '6px', border: '1px solid #bbf7d0', marginTop: '0.25rem' }}>
+                          <strong style={{ fontSize: '0.78rem', color: '#166534', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
+                            <Activity size={13} /> Pathophysiological Rationale:
+                          </strong>
+                          <p style={{ margin: 0, fontSize: '0.76rem', color: '#14532d', lineHeight: 1.45 }}>
+                            {insight.reasoning}
+                          </p>
                         </div>
-                      )}
-                      {n.matched_tags && n.matched_tags.length > 0 && (
-                        <div>
-                          <strong>Matched Regional Symptoms:</strong> {n.matched_tags.join(', ')}
-                        </div>
-                      )}
-                      {n.contributing_rows && n.contributing_rows.length > 0 && (
-                        <div>
-                          <strong>Contributing Reference Rows:</strong>
-                          <ul style={{ margin: '0.25rem 0 0 1rem', padding: 0 }}>
-                            {n.contributing_rows.map((row: any, idx: number) => (
-                              <li key={idx}>
-                                {row.class_label} ({row.body_region}) — {row.row_match_percentage?.toFixed(1) || row.match_count}%
-                              </li>
+
+                        {/* Clinical Causes */}
+                        <div style={{ background: '#f8fafc', padding: '0.6rem 0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                          <strong style={{ fontSize: '0.78rem', color: '#334155', display: 'block', marginBottom: '2px' }}>
+                            Major Causes & Predisposing Factors:
+                          </strong>
+                          <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.74rem', color: '#475569', lineHeight: 1.45 }}>
+                            {insight.majorCauses.map((c, idx) => (
+                              <li key={idx}>{c}</li>
                             ))}
                           </ul>
                         </div>
-                      )}
-                    </div>
-                  )}
+
+                        {/* Medication Reference */}
+                        <div style={{ background: '#fffbeb', padding: '0.6rem 0.75rem', borderRadius: '6px', border: '1px solid #fde68a' }}>
+                          <strong style={{ fontSize: '0.78rem', color: '#92400e', display: 'block', marginBottom: '2px' }}>
+                            Pharmacological Reference:
+                          </strong>
+                          <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.74rem', color: '#78350f', lineHeight: 1.45 }}>
+                            {insight.medications.map((m, idx) => (
+                              <li key={idx}>{m}</li>
+                            ))}
+                          </ul>
+                          <span style={{ fontSize: '0.68rem', color: '#b45309', display: 'block', marginTop: '4px', fontStyle: 'italic' }}>
+                            * Educational reference only — requires professional medical examination and prescription.
+                          </span>
+                        </div>
+
+                        {n.matched_tags && n.matched_tags.length > 0 && (
+                          <div style={{ marginTop: '0.25rem' }}>
+                            <strong>Matched Regional Signs:</strong> {n.matched_tags.join(', ')}
+                          </div>
+                        )}
+                        {n.contributing_rows && n.contributing_rows.length > 0 && (
+                          <div>
+                            <strong>Contributing Reference Rows:</strong>
+                            <ul style={{ margin: '0.25rem 0 0 1rem', padding: 0 }}>
+                              {n.contributing_rows.map((row: any, idx: number) => (
+                                <li key={idx}>
+                                  {row.class_label} ({row.body_region}) — {row.row_match_percentage?.toFixed(1) || row.match_count}%
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               );
             })}

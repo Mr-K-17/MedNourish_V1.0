@@ -14,6 +14,10 @@ import {
   Sparkles,
   Bell,
   Download,
+  Utensils,
+  CheckCircle2,
+  XCircle,
+  Flame,
 } from 'lucide-react';
 import styles from './CarePlanView.module.css';
 
@@ -36,6 +40,15 @@ interface CarePlanResponse {
   disclaimer: string;
 }
 
+interface NutritionCategoryData {
+  title: string;
+  regular_foods: string[];
+  fruits_to_consume: string[];
+  habits_to_improve: string[];
+  what_to_eat: string[];
+  what_to_avoid: string[];
+}
+
 interface CarePlanViewProps {
   idToken: string;
   onBackToDashboard: () => void;
@@ -56,14 +69,32 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Nutrition guide state
+  const [nutritionDb, setNutritionDb] = useState<Record<string, NutritionCategoryData>>({});
+  const [selectedDeficiency, setSelectedDeficiency] = useState<string>('Vitamin A Deficiency');
+  const [addedGoalMessage, setAddedGoalMessage] = useState<string | null>(null);
+
   // Form state
   const [newTitle, setNewTitle] = useState<string>('');
-  const [newCategory, setNewCategory] = useState<'water' | 'food' | 'exercise' | 'sleep' | 'general'>('water');
+  const [newCategory, setNewCategory] = useState<'water' | 'food' | 'exercise' | 'sleep' | 'general'>('food');
   const [newReminderTime, setNewReminderTime] = useState<string>('');
 
   useEffect(() => {
     fetchTasks();
+    fetchNutritionGuide();
   }, [idToken]);
+
+  const fetchNutritionGuide = async () => {
+    try {
+      const res = await fetch('/data/v3_food_nutrition_guide.json');
+      if (res.ok) {
+        const data = await res.json();
+        setNutritionDb(data);
+      }
+    } catch {
+      // Guide loads smoothly
+    }
+  };
 
   const fetchTasks = async () => {
     setIsLoading(true);
@@ -142,6 +173,31 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
     }
   };
 
+  const handleQuickAddFoodGoal = async (goalText: string) => {
+    try {
+      const res = await fetch('http://127.0.0.1:8000/v1/careplan/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          title: goalText.slice(0, 130),
+          category: 'food',
+          target_frequency: 'daily',
+          reminder_time: '12:30',
+        }),
+      });
+      if (res.ok) {
+        setAddedGoalMessage(`Added goal: "${goalText.slice(0, 50)}..."`);
+        setTimeout(() => setAddedGoalMessage(null), 3500);
+        fetchTasks();
+      }
+    } catch {
+      setErrorMessage('Could not add goal to CarePlan.');
+    }
+  };
+
   const handleToggleComplete = async (task: CarePlanTask) => {
     try {
       const res = await fetch(`http://127.0.0.1:8000/v1/careplan/tasks/${task.id}`, {
@@ -156,7 +212,6 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
       });
 
       if (res.ok) {
-        // Optimistic local update
         setTasks((prev) =>
           prev.map((t) =>
             t.id === task.id ? { ...t, is_completed: !t.is_completed } : t
@@ -264,6 +319,8 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
     }
   };
 
+  const currentGuide = nutritionDb[selectedDeficiency];
+
   return (
     <div className={styles.container}>
       <div className={styles.headerBar}>
@@ -275,8 +332,8 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
           <ArrowLeft size={16} /> Back to Dashboard
         </button>
         <div className={styles.titleArea}>
-          <CalendarCheck size={22} color="var(--color-primary)" />
-          <h2 className={styles.title}>CarePlan Wellness Routines</h2>
+          <CalendarCheck size={24} color="var(--color-primary)" />
+          <h2 className={styles.title}>CarePlan Wellness Routines & Dietary Guide</h2>
         </div>
         <button
           type="button"
@@ -290,20 +347,253 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
         </button>
       </div>
 
+      {/* Notice Banner */}
       <div className={styles.noticeBanner}>
         <Info size={20} style={{ flexShrink: 0, marginTop: '2px' }} />
         <div>
-          <strong>Educational Prototype Notice:</strong>{' '}
+          <strong>Educational Nutrition Guide:</strong>{' '}
           {disclaimer ||
-            'CarePlan tasks are self-directed general wellness routines (hydration, food, exercise, sleep), not clinical treatments or medical prescriptions.'}
+            'CarePlan provides whole-food nutritional suggestions, fruit categories, and lifestyle routines to support dietary wellness. Not a clinical prescription or medication schedule.'}
         </div>
       </div>
 
-      <div className={styles.reminderNotice}>
-        <Bell size={16} style={{ flexShrink: 0 }} />
-        <span>
-          <strong>Important Note (CARE-04):</strong> {reminderNotice}
-        </span>
+      {reminderNotice && (
+        <div className={styles.reminderNotice}>
+          <Bell size={16} style={{ flexShrink: 0 }} />
+          <span>
+            <strong>Reminder Notice:</strong> {reminderNotice}
+          </span>
+        </div>
+      )}
+
+      {addedGoalMessage && (
+        <div style={{ padding: '0.75rem 1rem', background: '#dcfce7', border: '1px solid #86efac', borderRadius: '8px', color: '#166534', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckCircle2 size={18} /> {addedGoalMessage}
+        </div>
+      )}
+
+      {/* V3 ENHANCED SECTION: RICH DIET & NUTRITION GUIDE */}
+      <div
+        style={{
+          background: 'var(--color-bg-surface)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1px solid var(--color-border)',
+          padding: '1.5rem',
+          boxShadow: 'var(--shadow-sm)',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary)' }}>
+              <Utensils size={22} />
+            </div>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--color-primary-dark)' }}>
+                Targeted Food & Diet Optimization Guide
+              </h3>
+              <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.825rem', color: 'var(--color-text-secondary)' }}>
+                Everyday foods, seasonal fruits, absorption habits, and what to eat vs avoid.
+              </p>
+            </div>
+          </div>
+
+          {/* Deficiency Selector */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <label htmlFor="deficiencySelect" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
+              Select Nutritional Focus:
+            </label>
+            <select
+              id="deficiencySelect"
+              value={selectedDeficiency}
+              onChange={(e) => setSelectedDeficiency(e.target.value)}
+              style={{
+                padding: '0.45rem 0.85rem',
+                borderRadius: '8px',
+                border: '1px solid var(--color-border-strong)',
+                background: '#ffffff',
+                fontWeight: 600,
+                color: 'var(--color-primary-dark)',
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+              }}
+            >
+              {Object.keys(nutritionDb).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {currentGuide ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+            {/* Card 1: Everyday Foods */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)',
+                border: '1px solid #bbf7d0',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <Apple size={18} color="#15803d" />
+                <h4 style={{ margin: 0, fontSize: '0.95rem', color: '#15803d', fontWeight: 700 }}>
+                  Everyday Foods People Regularly Eat
+                </h4>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.85rem', color: '#334155', lineHeight: 1.6, flex: 1 }}>
+                {currentGuide.regular_foods.map((food, i) => (
+                  <li key={i} style={{ marginBottom: '4px' }}>
+                    {food}
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                onClick={() => handleQuickAddFoodGoal(`Eat ${currentGuide.regular_foods[0]}`)}
+                style={{
+                  marginTop: '0.85rem',
+                  padding: '0.35rem 0.65rem',
+                  background: '#dcfce7',
+                  border: '1px solid #86efac',
+                  color: '#15803d',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                }}
+              >
+                <Plus size={13} /> Add top food to CarePlan checklist
+              </button>
+            </div>
+
+            {/* Card 2: Fruits to Consume */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)',
+                border: '1px solid #fed7aa',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <Flame size={18} color="#c2410c" />
+                <h4 style={{ margin: 0, fontSize: '0.95rem', color: '#c2410c', fontWeight: 700 }}>
+                  Fruits Category to Consume
+                </h4>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.85rem', color: '#334155', lineHeight: 1.6, flex: 1 }}>
+                {currentGuide.fruits_to_consume.map((fruit, i) => (
+                  <li key={i} style={{ marginBottom: '4px' }}>
+                    {fruit}
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                onClick={() => handleQuickAddFoodGoal(`Enjoy daily fruit: ${currentGuide.fruits_to_consume[0]}`)}
+                style={{
+                  marginTop: '0.85rem',
+                  padding: '0.35rem 0.65rem',
+                  background: '#ffedd5',
+                  border: '1px solid #fdba74',
+                  color: '#c2410c',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                }}
+              >
+                <Plus size={13} /> Add fruit goal to CarePlan
+              </button>
+            </div>
+
+            {/* Card 3: Food Habits to Improve */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #eff6ff 0%, #ffffff 100%)',
+                border: '1px solid #bfdbfe',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <Activity size={18} color="#1d4ed8" />
+                <h4 style={{ margin: 0, fontSize: '0.95rem', color: '#1d4ed8', fontWeight: 700 }}>
+                  Food Habits to Improve
+                </h4>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.85rem', color: '#334155', lineHeight: 1.6, flex: 1 }}>
+                {currentGuide.habits_to_improve.map((habit, i) => (
+                  <li key={i} style={{ marginBottom: '6px' }}>
+                    {habit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Card 4: What to Eat vs What to Avoid */}
+            <div
+              style={{
+                background: '#ffffff',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.85rem',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem' }}>
+                  <CheckCircle2 size={16} color="#16a34a" />
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#16a34a' }}>
+                    What to Prioritize (Boosters)
+                  </span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.8rem', color: '#334155', lineHeight: 1.5 }}>
+                  {currentGuide.what_to_eat.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '0.65rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem' }}>
+                  <XCircle size={16} color="#dc2626" />
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#dc2626' }}>
+                    What to Avoid / Limit (Inhibitors)
+                  </span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.8rem', color: '#64748b', lineHeight: 1.5 }}>
+                  {currentGuide.what_to_avoid.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '1rem', color: 'var(--color-text-muted)' }}>
+            Loading nutrition guidance database...
+          </div>
+        )}
       </div>
 
       {/* Stats Overview */}
@@ -327,14 +617,14 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
       {/* Add Task Form */}
       <div className={styles.formCard}>
         <h3 className={styles.formTitle}>
-          <Plus size={18} color="var(--color-primary)" /> Add a General Wellness Task
+          <Plus size={18} color="var(--color-primary)" /> Add a Daily Wellness Habit
         </h3>
 
         <form onSubmit={handleCreateTask}>
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
               <label htmlFor="taskTitle" className={styles.inputLabel}>
-                Task Title (e.g., Drink 2L water, 30m brisk walk)
+                Task Title (e.g. Eat 1 bowl sprouted moong, drink 2.5L water)
               </label>
               <input
                 id="taskTitle"
@@ -362,8 +652,8 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
                   )
                 }
               >
+                <option value="food">Wholesome Nutrition & Food</option>
                 <option value="water">Hydration (Water)</option>
-                <option value="food">Wholesome Nutrition</option>
                 <option value="exercise">Physical Activity</option>
                 <option value="sleep">Sleep & Rest</option>
                 <option value="general">General Wellness</option>
@@ -421,7 +711,7 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
               No wellness tasks yet
             </h4>
             <p style={{ margin: 0, fontSize: '0.9rem', maxWidth: '400px' }}>
-              Create your first daily wellness goal above (hydration, food, exercise, or sleep) to start tracking your healthy habits.
+              Select a nutritional focus above or create your first daily wellness goal to start tracking healthy habits.
             </p>
           </div>
         ) : (
@@ -484,3 +774,5 @@ export const CarePlanView: React.FC<CarePlanViewProps> = ({
     </div>
   );
 };
+
+export default CarePlanView;

@@ -12,7 +12,9 @@ import {
   Save,
   CheckCircle2,
   XCircle,
+  Activity,
 } from 'lucide-react';
+import { getDeficiencyClinicalInsight } from '../services/clinicalInsights';
 import styles from './MedBotView.module.css';
 
 interface QuestionOption {
@@ -561,55 +563,112 @@ export const MedBotView: React.FC<MedBotViewProps> = ({
 
                   <details className={styles.whyDetails}>
                     <summary className={styles.whySummary}>
-                      Why: {nut.matched_tags.length} matched tag(s) across {nut.contributing_rows.length} reference condition(s)
+                      Clinical Breakdown: Causes, Medical References & Pathophysiology (Why this happened)
                     </summary>
-                    <div className={styles.whyContent}>
-                      <div className={styles.entryTags}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
-                          Matched tags:
-                        </span>
-                        {nut.matched_tags.map((t) => (
-                          <span key={t} className={styles.matchedTagBadge}>
-                            ✓ {t}
-                          </span>
-                        ))}
-                      </div>
-                      <div className={styles.contributingRowsList}>
-                        {nut.contributing_rows.map((row) => (
-                          <div key={row.class_label} className={styles.contributingRowItem}>
-                            <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
-                            <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
+                    {(() => {
+                      const insight = getDeficiencyClinicalInsight(nut.nutrient);
+                      return (
+                        <div className={styles.whyContent} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                          {/* 1. Reasoning Chain */}
+                          <div style={{ background: '#f0fdf4', padding: '0.75rem', borderRadius: '6px', border: '1px solid #bbf7d0' }}>
+                            <strong style={{ fontSize: '0.82rem', color: '#166534', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
+                              <Activity size={14} /> Biological Reasoning & Pathophysiology:
+                            </strong>
+                            <p style={{ margin: 0, fontSize: '0.8rem', color: '#14532d', lineHeight: 1.5 }}>
+                              {insight.reasoning}
+                            </p>
                           </div>
-                        ))}
-                      </div>
-                    </div>
+
+                          {/* 2. Major Causes */}
+                          <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                            <strong style={{ fontSize: '0.82rem', color: '#334155', display: 'block', marginBottom: '4px' }}>
+                              Etiology & Major Causes (Risk Factors):
+                            </strong>
+                            <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.78rem', color: '#475569', lineHeight: 1.5 }}>
+                              {insight.majorCauses.map((cause, cIdx) => (
+                                <li key={cIdx}>{cause}</li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* 3. Clinical Medications & Supplementation */}
+                          <div style={{ background: '#fffbeb', padding: '0.75rem', borderRadius: '6px', border: '1px solid #fde68a' }}>
+                            <strong style={{ fontSize: '0.82rem', color: '#92400e', display: 'block', marginBottom: '4px' }}>
+                              Clinical Medication & Pharmacological Reference:
+                            </strong>
+                            <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.78rem', color: '#78350f', lineHeight: 1.5 }}>
+                              {insight.medications.map((med, mIdx) => (
+                                <li key={mIdx}>{med}</li>
+                              ))}
+                            </ul>
+                            <p style={{ margin: '6px 0 0 0', fontSize: '0.72rem', color: '#b45309', fontStyle: 'italic' }}>
+                              * Reference only: Pharmacological dosing and therapeutic regimens require formal laboratory confirmation and a physician's prescription.
+                            </p>
+                          </div>
+
+                          {/* 4. Matched Symptoms & Diagnostic Evidence */}
+                          <div className={styles.entryTags}>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', fontWeight: 600 }}>
+                              Reported Symptoms Matched:
+                            </span>
+                            {nut.matched_tags.map((t) => (
+                              <span key={t} className={styles.matchedTagBadge}>
+                                ✓ {t}
+                              </span>
+                            ))}
+                          </div>
+                          <div className={styles.contributingRowsList}>
+                            {nut.contributing_rows.map((row) => (
+                              <div key={row.class_label} className={styles.contributingRowItem}>
+                                <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
+                                <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </details>
                 </div>
               ))
             ) : (
-              evaluationResult.matched_entries.map((entry) => (
-                <div key={entry.class_label} className={styles.entryCard}>
-                  <div className={styles.entryHeader}>
-                    <h4 className={styles.entryTitle}>{entry.class_label.replace(/_/g, ' ')}</h4>
-                    <span className={styles.matchBadge}>
-                      {entry.match_count} of {entry.total_condition_tags} tags matched
-                    </span>
-                  </div>
-                  <div className={styles.deficiencyAssociation}>
-                    <strong>Associated Deficiency:</strong> {entry.vitamin_deficiency_association} ({entry.body_region})
-                  </div>
-                  <div className={styles.entryTags}>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
-                      Matched tags:
-                    </span>
-                    {entry.matched_tags.map((t) => (
-                      <span key={t} className={styles.matchedTagBadge}>
-                        ✓ {t}
+              evaluationResult.matched_entries.map((entry) => {
+                const insight = getDeficiencyClinicalInsight(entry.vitamin_deficiency_association);
+                return (
+                  <div key={entry.class_label} className={styles.entryCard}>
+                    <div className={styles.entryHeader}>
+                      <h4 className={styles.entryTitle}>{entry.class_label.replace(/_/g, ' ')}</h4>
+                      <span className={styles.matchBadge}>
+                        {entry.match_count} of {entry.total_condition_tags} tags matched
                       </span>
-                    ))}
+                    </div>
+                    <div className={styles.deficiencyAssociation}>
+                      <strong>Associated Deficiency:</strong> {entry.vitamin_deficiency_association} ({entry.body_region})
+                    </div>
+                    <div className={styles.entryTags}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+                        Matched tags:
+                      </span>
+                      {entry.matched_tags.map((t) => (
+                        <span key={t} className={styles.matchedTagBadge}>
+                          ✓ {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <details style={{ marginTop: '0.75rem', fontSize: '0.8rem' }}>
+                      <summary style={{ cursor: 'pointer', color: 'var(--color-primary)', fontWeight: 600 }}>
+                        Clinical Causes, Medications & Reasoning
+                      </summary>
+                      <div style={{ padding: '0.6rem', background: '#f8fafc', borderRadius: '6px', marginTop: '0.4rem', lineHeight: 1.5 }}>
+                        <p style={{ margin: '0 0 4px 0' }}><strong>Pathology:</strong> {insight.reasoning}</p>
+                        <p style={{ margin: '0 0 4px 0' }}><strong>Medications:</strong> {insight.medications.join('; ')}</p>
+                        <p style={{ margin: 0 }}><strong>Causes:</strong> {insight.majorCauses.join('; ')}</p>
+                      </div>
+                    </details>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         )}

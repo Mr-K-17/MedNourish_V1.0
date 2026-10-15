@@ -9,6 +9,7 @@ import {
   HelpCircle,
   Camera,
   Building2,
+  ArrowRight,
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 
@@ -18,7 +19,7 @@ interface ModuleTile {
   description: string;
   icon: React.ReactNode;
   phase: string;
-  status: 'coming_soon' | 'ready';
+  status: 'ready';
   tag: string;
 }
 
@@ -40,79 +41,79 @@ export const Dashboard: React.FC<DashboardProps> = ({
       description:
         'Guided health and symptom questionnaire with Simple and Standard modes for transparent reference matching.',
       icon: <Bot size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 1B',
+      phase: 'Interactive Consultation',
       status: 'ready',
-      tag: 'Available Now',
+      tag: 'Core Feature',
     },
     {
       id: 'symptom-explorer',
       title: 'Symptom Reference Explorer',
       description:
-        'Browse and select anatomical symptom tags to look up educational reference-table associations.',
+        'Browse and select anatomical symptom tags across Eyes, Lips, Tongue, Hair, Nails, and Skin to analyze nutrient associations.',
       icon: <Search size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 1B',
+      phase: 'Knowledge Explorer',
       status: 'ready',
-      tag: 'Available Now',
+      tag: 'Reference Base',
     },
     {
       id: 'careplan',
-      title: 'CarePlan Wellness Tasks',
+      title: 'CarePlan Wellness Tasks & Diet',
       description:
-        'Customizable daily wellness tasks for water intake, nutrition, and exercise. No medication reminders.',
+        'Personalized daily routine with rich food recommendations, fruits to eat, dietary habits, and hydration targets.',
       icon: <CalendarCheck size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 1B',
+      phase: 'Nutrition & Lifestyle',
       status: 'ready',
-      tag: 'Available Now',
-    },
-    {
-      id: 'reports',
-      title: 'Files & Reports',
-      description:
-        'Secure timeline of saved reference match summaries with date stamps and matched tag histories.',
-      icon: <FileText size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 1B',
-      status: 'ready',
-      tag: 'Available Now',
-    },
-    {
-      id: 'nursebot',
-      title: 'App Help & FAQ (NurseBot)',
-      description:
-        'Scripted application guidance, FAQs, and medical safety boundary explanations. No generative AI.',
-      icon: <HelpCircle size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 1B',
-      status: 'ready',
-      tag: 'Available Now',
+      tag: 'Action Plan',
     },
     {
       id: 'medscan-lite',
       title: 'MedScan-Lite Image Inspection',
       description:
-        'Guided regional photo capture and ephemeral image quality audit (resolution, illumination, format).',
+        'Guided regional photo capture and edge MobileNetV2 classification detecting physical deficiency manifestations.',
       icon: <Camera size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 2',
+      phase: 'Computer Vision',
       status: 'ready',
-      tag: 'Capture & Quality',
+      tag: 'Edge AI',
     },
     {
       id: 'virtual-ward',
-      title: 'VirtualWard Facility Directory',
+      title: 'VirtualWard Facility Directory & Map',
       description:
-        'Locate nearby hospitals and community health centers with one-click Google Maps links and consultation requests.',
+        'Locate nearby hospitals and community health centers on an interactive map with direct navigation and consultation vouchers.',
       icon: <Building2 size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 3',
+      phase: 'Clinical Directory',
       status: 'ready',
-      tag: 'Facility Links',
+      tag: 'Facility Map',
+    },
+    {
+      id: 'reports',
+      title: 'Files & Assessment Reports',
+      description:
+        'Timeline of saved reference match summaries, diagnostic justifications, and exportable consultation PDFs/summaries.',
+      icon: <FileText size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Health Records',
+      status: 'ready',
+      tag: 'Saved Reports',
+    },
+    {
+      id: 'nursebot',
+      title: 'NurseBot Assistant & FAQ',
+      description:
+        'Instant clinical guidance, FAQ assistance, and medical boundary explanations powered by curated health references.',
+      icon: <HelpCircle size={28} className={styles.tileIcon} aria-hidden="true" />,
+      phase: 'Assistance & FAQ',
+      status: 'ready',
+      tag: 'Clinical Guide',
     },
     {
       id: 'mllab',
-      title: 'Experimental ML Lab (not for health decisions)',
+      title: 'Experimental ML Lab',
       description:
-        'Algorithmic sandbox evaluating tabular models, reference keyword rankings, and MobileNetV2 edge models.',
+        'Inspect model evaluation benchmarks, latency metrics, ROC curves, confusion matrices, and tabular XGBoost/LightGBM comparisons.',
       icon: <Sparkles size={28} className={styles.tileIcon} aria-hidden="true" />,
-      phase: 'Phase 3.3',
+      phase: 'ML Benchmarks',
       status: 'ready',
-      tag: 'Experimental Demo',
+      tag: 'Model Analytics',
     },
   ];
 
@@ -121,18 +122,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className={styles.welcomeBanner}>
         <div>
           <h2 className={styles.welcomeTitle}>
-            Hello, {displayName || 'Member'}
+            Welcome back, {displayName || 'Member'}
           </h2>
           <p className={styles.welcomeText}>
-            You are signed in as a verified adult (18+) under educational consent {consentVersion || 'v1.0'}.
+            Personalized nutritional assessment and clinical knowledge base active under consent {consentVersion || 'v2.0'}.
           </p>
         </div>
       </div>
 
       <div className={styles.sectionHeader}>
-        <h3 className={styles.sectionTitle}>Application Modules</h3>
+        <h3 className={styles.sectionTitle}>MedNourish Clinical Suite</h3>
         <span className={styles.sectionBadge}>
-          <Clock size={14} /> Phase 1B Deliverables
+          <Clock size={14} /> Full Suite Active
         </span>
       </div>
 
@@ -140,9 +141,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {modules.map((m) => (
           <div
             key={m.id}
+            data-tile={m.id}
             className={styles.tileCard}
             role="region"
             aria-labelledby={`tile-title-${m.id}`}
+            onClick={() => onSelectTile?.(m.id)}
           >
             <div className={styles.tileHeader}>
               <div className={styles.iconWrapper}>{m.icon}</div>
@@ -162,19 +165,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <button
                 type="button"
                 className={styles.tileActionBtn}
-                disabled={m.status === 'coming_soon'}
-                aria-disabled={m.status === 'coming_soon'}
-                onClick={() => onSelectTile?.(m.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectTile?.(m.id);
+                }}
               >
-                {m.status === 'ready' ? (
-                  <>
-                    <Search size={14} /> Launch Explorer
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={14} /> Preview (Phase 1B)
-                  </>
-                )}
+                <span>Launch</span>
+                <ArrowRight size={14} />
               </button>
             </div>
           </div>

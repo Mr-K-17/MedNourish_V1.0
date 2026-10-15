@@ -9,7 +9,9 @@ import {
   Info,
   Bookmark,
   Check,
+  Activity,
 } from 'lucide-react';
+import { getDeficiencyClinicalInsight } from '../services/clinicalInsights';
 import styles from './SymptomExplorer.module.css';
 
 interface TagItem {
@@ -469,69 +471,125 @@ export const SymptomExplorer: React.FC<SymptomExplorerProps> = ({
 
                     <details className={styles.whyDetails}>
                       <summary className={styles.whySummary}>
-                        Why: {nut.matched_tags.length} matched tag(s) across {nut.contributing_rows.length} reference condition(s)
+                        Clinical Breakdown: Causes, Medical References & Pathophysiology
                       </summary>
-                      <div className={styles.whyContent}>
+                      {(() => {
+                        const insight = getDeficiencyClinicalInsight(nut.nutrient);
+                        return (
+                          <div className={styles.whyContent} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                            {/* Reasoning */}
+                            <div style={{ background: '#f0fdf4', padding: '0.65rem 0.85rem', borderRadius: '6px', border: '1px solid #bbf7d0' }}>
+                              <strong style={{ fontSize: '0.8rem', color: '#166534', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '3px' }}>
+                                <Activity size={13} /> Pathophysiological Reasoning:
+                              </strong>
+                              <p style={{ margin: 0, fontSize: '0.78rem', color: '#14532d', lineHeight: 1.5 }}>
+                                {insight.reasoning}
+                              </p>
+                            </div>
+
+                            {/* Causes */}
+                            <div style={{ background: '#f8fafc', padding: '0.65rem 0.85rem', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                              <strong style={{ fontSize: '0.8rem', color: '#334155', display: 'block', marginBottom: '3px' }}>
+                                Major Causes & Risk Factors:
+                              </strong>
+                              <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.76rem', color: '#475569', lineHeight: 1.5 }}>
+                                {insight.majorCauses.map((c, idx) => (
+                                  <li key={idx}>{c}</li>
+                                ))}
+                              </ul>
+                            </div>
+
+                            {/* Medications */}
+                            <div style={{ background: '#fffbeb', padding: '0.65rem 0.85rem', borderRadius: '6px', border: '1px solid #fde68a' }}>
+                              <strong style={{ fontSize: '0.8rem', color: '#92400e', display: 'block', marginBottom: '3px' }}>
+                                Clinical Medication & Supplement Reference:
+                              </strong>
+                              <ul style={{ margin: 0, paddingLeft: '1.15rem', fontSize: '0.76rem', color: '#78350f', lineHeight: 1.5 }}>
+                                {insight.medications.map((m, idx) => (
+                                  <li key={idx}>{m}</li>
+                                ))}
+                              </ul>
+                              <span style={{ fontSize: '0.7rem', color: '#b45309', display: 'block', marginTop: '4px', fontStyle: 'italic' }}>
+                                * Clinical reference only — consult a physician for diagnostic confirmation and personalized dosing.
+                              </span>
+                            </div>
+
+                            <div className={styles.tagsRow}>
+                              <span className={styles.fieldLabel}>Matched Tags:</span>
+                              <div className={styles.matchedTagPills}>
+                                {nut.matched_tags.map((t) => (
+                                  <span key={t} className={styles.matchedPill}>
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <div className={styles.contributingRowsList}>
+                              {nut.contributing_rows.map((row) => (
+                                <div key={row.class_label} className={styles.contributingRowItem}>
+                                  <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
+                                  <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </details>
+                  </div>
+                ))
+              ) : (
+                matchResult.matched_entries.map((item, idx) => {
+                  const insight = getDeficiencyClinicalInsight(item.vitamin_deficiency_association);
+                  return (
+                    <div key={`${item.class_label}-${idx}`} className={styles.matchItem}>
+                      <div className={styles.matchItemHeader}>
+                        <div className={styles.matchTitleBlock}>
+                          <span className={styles.matchRegionBadge}>{item.body_region}</span>
+                          <h4 className={styles.matchClassName}>{item.class_label.replace(/_/g, ' ')}</h4>
+                        </div>
+                        <span className={styles.matchCountPill}>
+                          <strong>{item.match_count}</strong> of {item.total_condition_tags} tags matched
+                        </span>
+                      </div>
+
+                      <div className={styles.matchBody}>
+                        <div className={styles.deficiencyRow}>
+                          <span className={styles.fieldLabel}>Nutrient Reference:</span>
+                          <span className={styles.fieldValue}>{item.vitamin_deficiency_association}</span>
+                        </div>
+
                         <div className={styles.tagsRow}>
                           <span className={styles.fieldLabel}>Matched Tags:</span>
                           <div className={styles.matchedTagPills}>
-                            {nut.matched_tags.map((t) => (
+                            {item.matched_tags.map((t) => (
                               <span key={t} className={styles.matchedPill}>
                                 {t}
                               </span>
                             ))}
                           </div>
                         </div>
-                        <div className={styles.contributingRowsList}>
-                          {nut.contributing_rows.map((row) => (
-                            <div key={row.class_label} className={styles.contributingRowItem}>
-                              <span>{row.class_label.replace(/_/g, ' ')} ({row.body_region})</span>
-                              <strong>{row.row_match_percentage}% ({row.match_count}/{row.total_condition_tags} tags)</strong>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </details>
-                  </div>
-                ))
-              ) : (
-                matchResult.matched_entries.map((item, idx) => (
-                  <div key={`${item.class_label}-${idx}`} className={styles.matchItem}>
-                    <div className={styles.matchItemHeader}>
-                      <div className={styles.matchTitleBlock}>
-                        <span className={styles.matchRegionBadge}>{item.body_region}</span>
-                        <h4 className={styles.matchClassName}>{item.class_label.replace(/_/g, ' ')}</h4>
-                      </div>
-                      <span className={styles.matchCountPill}>
-                        <strong>{item.match_count}</strong> of {item.total_condition_tags} tags matched
-                      </span>
-                    </div>
 
-                    <div className={styles.matchBody}>
-                      <div className={styles.deficiencyRow}>
-                        <span className={styles.fieldLabel}>Nutrient Reference:</span>
-                        <span className={styles.fieldValue}>{item.vitamin_deficiency_association}</span>
+                        <details style={{ marginTop: '0.6rem', fontSize: '0.8rem' }}>
+                          <summary style={{ cursor: 'pointer', color: 'var(--color-primary)', fontWeight: 600 }}>
+                            Clinical Causes, Medications & Reasoning
+                          </summary>
+                          <div style={{ padding: '0.5rem', background: '#f8fafc', borderRadius: '6px', marginTop: '0.35rem', lineHeight: 1.5 }}>
+                            <p style={{ margin: '0 0 3px 0' }}><strong>Pathology:</strong> {insight.reasoning}</p>
+                            <p style={{ margin: '0 0 3px 0' }}><strong>Medications:</strong> {insight.medications.join('; ')}</p>
+                            <p style={{ margin: 0 }}><strong>Causes:</strong> {insight.majorCauses.join('; ')}</p>
+                          </div>
+                        </details>
                       </div>
 
-                      <div className={styles.tagsRow}>
-                        <span className={styles.fieldLabel}>Matched Tags:</span>
-                        <div className={styles.matchedTagPills}>
-                          {item.matched_tags.map((t) => (
-                            <span key={t} className={styles.matchedPill}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
+                      <div className={styles.matchItemFooter}>
+                        <span className={styles.reviewStatusLabel}>
+                          Review Status: <em>{item.review_status}</em>
+                        </span>
                       </div>
                     </div>
-
-                    <div className={styles.matchItemFooter}>
-                      <span className={styles.reviewStatusLabel}>
-                        Review Status: <em>{item.review_status}</em>
-                      </span>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
 
               {matchResult.unmatched_user_tags.length > 0 && (

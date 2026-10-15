@@ -1,23 +1,40 @@
-/* Design tokens derived from Design.md Section 8 */
-
+/* Design tokens - MedNourish v3 */
 :root {
-  /* Brand palette */
-  --color-primary: #1e5a84;
-  --color-primary-dark: #123752;
-  --color-primary-light: #e6f0f7;
+  /* Brand palette - deep teal + vibrant accents */
+  --color-primary: #0d7377;
+  --color-primary-dark: #095255;
+  --color-primary-light: #e6f6f6;
+  --color-primary-mid: #149a9f;
 
   /* Accent & status */
-  --color-accent: #2e7d5b;
-  --color-warning: #9e6400;
-  --color-danger: #c5221f;
+  --color-accent: #10b981;
+  --color-accent-dark: #059669;
+  --color-accent2: #f59e0b;
+  --color-accent2-light: #fef3c7;
+  --color-warning: #d97706;
+  --color-danger: #ef4444;
+  --color-danger-bg: #fee2e2;
+
+  /* Gradients */
+  --grad-header: linear-gradient(135deg, #0d7377 0%, #149a9f 50%, #059669 100%);
+  --grad-welcome: linear-gradient(135deg, #e6f6f6 0%, #f0fdf4 50%, #ffffff 100%);
+  --grad-card-medbot: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%);
+  --grad-card-symptom: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+  --grad-card-careplan: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+  --grad-card-reports: linear-gradient(135deg, #fef9c3 0%, #fefce8 100%);
+  --grad-card-nursebot: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+  --grad-card-medscan: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
+  --grad-card-ward: linear-gradient(135deg, #e0e7ff 0%, #eef2ff 100%);
+  --grad-card-mllab: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%);
 
   /* Neutrals */
-  --color-bg-app: #f8fafc;
+  --color-bg-app: #f4f8fa;
   --color-bg-surface: #ffffff;
-  --color-text-primary: #1a202c;
-  --color-text-secondary: #4a5568;
-  --color-text-muted: #718096;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
   --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
 
   /* Typography */
   --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -27,12 +44,14 @@
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
 
   /* Spacing */
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
   --spacing-3: 0.75rem;
   --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
   --spacing-6: 1.5rem;
   --spacing-8: 2rem;
 
@@ -40,8 +59,12 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 body {

@@ -7,6 +7,8 @@ import {
   Image as ImageIcon,
   FileCode,
   UploadCloud,
+  BarChart3,
+  Maximize2,
 } from 'lucide-react';
 import styles from './MLLabView.module.css';
 
@@ -21,7 +23,8 @@ export const MLLabView: React.FC<MLLabViewProps> = ({
   onBackToDashboard,
   onOpenEmergencyModal,
 }) => {
-  const [activeTab, setActiveTab] = useState<'tabular' | 'keywords' | 'image' | 'cards'>('tabular');
+  const [activeTab, setActiveTab] = useState<'graphs' | 'tabular' | 'keywords' | 'image' | 'cards'>('graphs');
+  const [selectedGraphModal, setSelectedGraphModal] = useState<{ title: string; src: string; desc: string } | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -257,6 +260,14 @@ export const MLLabView: React.FC<MLLabViewProps> = ({
       <div className={styles.tabs}>
         <button
           type="button"
+          className={`${styles.tabBtn} ${activeTab === 'graphs' ? styles.activeTabBtn : ''}`}
+          onClick={() => setActiveTab('graphs')}
+        >
+          <BarChart3 size={16} style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+          Model Graphs & Benchmarks
+        </button>
+        <button
+          type="button"
           className={`${styles.tabBtn} ${activeTab === 'tabular' ? styles.activeTabBtn : ''}`}
           onClick={() => setActiveTab('tabular')}
         >
@@ -290,6 +301,345 @@ export const MLLabView: React.FC<MLLabViewProps> = ({
       </div>
 
       {/* 4. Tab Contents */}
+
+      {/* TAB 0: Model Graphs & Benchmarks */}
+      {activeTab === 'graphs' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div className={styles.card}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-primary-dark)' }}>
+                  Empirical ML Benchmark Results
+                </h3>
+                <p style={{ margin: '0.25rem 0 0 0', color: '#64748b', fontSize: '0.875rem' }}>
+                  Visualization results generated directly from our verified tabular gradient boosting and MobileNetV2 edge models.
+                </p>
+              </div>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <span style={{ fontSize: '0.78rem', background: '#dcfce7', color: '#166534', padding: '0.3rem 0.65rem', borderRadius: '12px', fontWeight: 600 }}>
+                  13 Models Verified
+                </span>
+                <span style={{ fontSize: '0.78rem', background: '#e0f2fe', color: '#0369a1', padding: '0.3rem 0.65rem', borderRadius: '12px', fontWeight: 600 }}>
+                  TFLite Edge Latency ~3.8ms
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '1.5rem' }}>
+            {/* Graph 1 */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    1. Model Accuracy Comparison (All 13 Models)
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    Tabular full-feature vs symptom-only vs 7 MobileNetV2 regional vision classifiers.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'Model Accuracy Comparison',
+                    src: '/graphs/01_model_accuracy_comparison.png',
+                    desc: 'Cross-model accuracy audit on held-out test splits. Demonstrates tabular full (99.88%), tabular symptom-only (79.87%), and vision architectures (81.0% - 99.7%).'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'Model Accuracy Comparison',
+                  src: '/graphs/01_model_accuracy_comparison.png',
+                  desc: 'Cross-model accuracy audit on held-out test splits. Demonstrates tabular full (99.88%), tabular symptom-only (79.87%), and vision architectures (81.0% - 99.7%).'
+                })}
+              >
+                <img
+                  src="/graphs/01_model_accuracy_comparison.png"
+                  alt="Model Accuracy Comparison"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '6px', fontSize: '0.8rem', color: '#166534' }}>
+                <strong>Key Takeaway:</strong> Realistic symptom-only models avoid biomarker leakage while maintaining ~80% accuracy.
+              </div>
+            </div>
+
+            {/* Graph 2 */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    2. Precision, Recall & Macro-F1 Breakdown
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    Evaluation of rare class sensitivity and class imbalance effects across all targets.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'Precision, Recall and F1 Score Comparison',
+                    src: '/graphs/02_precision_recall_f1_comparison.png',
+                    desc: 'Multi-metric breakdown highlighting class balance and boundary trade-offs across tabular and image classification tasks.'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'Precision, Recall and F1 Score Comparison',
+                  src: '/graphs/02_precision_recall_f1_comparison.png',
+                  desc: 'Multi-metric breakdown highlighting class balance and boundary trade-offs across tabular and image classification tasks.'
+                })}
+              >
+                <img
+                  src="/graphs/02_precision_recall_f1_comparison.png"
+                  alt="Precision, Recall and F1 Comparison"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', fontSize: '0.8rem', color: '#1e40af' }}>
+                <strong>Key Takeaway:</strong> Macro-F1 metrics strictly penalize rare-class misclassifications, ensuring transparent reporting.
+              </div>
+            </div>
+
+            {/* Graph 3 */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    3. MedScan CV Performance & Shortcut Gap Audit
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    Rigorous source shortcut detection (hair signs, nails, eyes, lips, tongue).
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'MedScan CV Performance & Shortcut Gap',
+                    src: '/graphs/03_medscan_cv_performance.png',
+                    desc: 'Audit evaluating genuine anatomical signal vs background dataset artifacts across regional computer vision models.'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'MedScan CV Performance & Shortcut Gap',
+                  src: '/graphs/03_medscan_cv_performance.png',
+                  desc: 'Audit evaluating genuine anatomical signal vs background dataset artifacts across regional computer vision models.'
+                })}
+              >
+                <img
+                  src="/graphs/03_medscan_cv_performance.png"
+                  alt="MedScan CV Performance & Shortcut Gap"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: '#fef3c7', border: '1px solid #fde68a', borderRadius: '6px', fontSize: '0.8rem', color: '#92400e' }}>
+                <strong>Key Takeaway:</strong> Hair and Nails models show genuine anatomical feature learning with minimal shortcut gap.
+              </div>
+            </div>
+
+            {/* Graph 4 */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    4. Edge Inference Latency (TFLite vs Keras)
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    CPU inference benchmark demonstrating ~45x speedup using Float32 TFLite.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'Inference Latency Benchmark',
+                    src: '/graphs/04_inference_latency.png',
+                    desc: 'Benchmarked across 100 warm-up runs: MobileNetV2 Keras (~170ms) vs TensorFlow Lite Interpreter (~3.8ms).'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'Inference Latency Benchmark',
+                  src: '/graphs/04_inference_latency.png',
+                  desc: 'Benchmarked across 100 warm-up runs: MobileNetV2 Keras (~170ms) vs TensorFlow Lite Interpreter (~3.8ms).'
+                })}
+              >
+                <img
+                  src="/graphs/04_inference_latency.png"
+                  alt="Inference Latency Benchmark"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.75rem', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '6px', fontSize: '0.8rem', color: '#166534' }}>
+                <strong>Key Takeaway:</strong> TFLite enables real-time edge image triage with sub-4ms response time without GPU.
+              </div>
+            </div>
+
+            {/* Graph 5 (Tabular Confusion Matrices) */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    5A. Tabular Confusion Matrices
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    Confusion matrix heatmaps for XGBoost and LightGBM across all target deficiencies.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'Tabular Confusion Matrices',
+                    src: '/graphs/05_confusion_matrices_tabular.png',
+                    desc: 'Normalized classification matrices showing true positive rates along the diagonal for both gradient boosting engines.'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'Tabular Confusion Matrices',
+                  src: '/graphs/05_confusion_matrices_tabular.png',
+                  desc: 'Normalized classification matrices showing true positive rates along the diagonal for both gradient boosting engines.'
+                })}
+              >
+                <img
+                  src="/graphs/05_confusion_matrices_tabular.png"
+                  alt="Tabular Confusion Matrices"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+
+            {/* Graph 6 (Vision Confusion Matrices) */}
+            <div className={styles.card} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--color-text-primary)' }}>
+                    5B. Vision Regional Confusion Matrices
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    MobileNetV2 classification matrices across all 7 regional vision checkpoints.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedGraphModal({
+                    title: 'Vision Confusion Matrices',
+                    src: '/graphs/05_confusion_matrices_vision.png',
+                    desc: 'Multi-class visual confusion grids for Eyes, Lips, Tongue, Hair, Nails, Skin, and Combined models.'
+                  })}
+                  style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 600 }}
+                >
+                  <Maximize2 size={13} /> Full View
+                </button>
+              </div>
+
+              <div
+                style={{ background: '#f8fafc', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e2e8f0', cursor: 'pointer' }}
+                onClick={() => setSelectedGraphModal({
+                  title: 'Vision Confusion Matrices',
+                  src: '/graphs/05_confusion_matrices_vision.png',
+                  desc: 'Multi-class visual confusion grids for Eyes, Lips, Tongue, Hair, Nails, Skin, and Combined models.'
+                })}
+              >
+                <img
+                  src="/graphs/05_confusion_matrices_vision.png"
+                  alt="Vision Confusion Matrices"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for full-resolution graph inspection */}
+      {selectedGraphModal && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.75)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem',
+            backdropFilter: 'blur(4px)',
+          }}
+          onClick={() => setSelectedGraphModal(null)}
+        >
+          <div
+            style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              maxWidth: '1000px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: '1.5rem',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1.25rem' }}>{selectedGraphModal.title}</h3>
+                <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+                  {selectedGraphModal.desc}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedGraphModal(null)}
+                style={{
+                  background: '#f1f5f9',
+                  border: 'none',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                }}
+              >
+                Close ✕
+              </button>
+            </div>
+            <img
+              src={selectedGraphModal.src}
+              alt={selectedGraphModal.title}
+              style={{ width: '100%', height: 'auto', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* TAB 1: Tabular Lab Values */}
       {activeTab === 'tabular' && (
