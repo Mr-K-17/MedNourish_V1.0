@@ -436,6 +436,7 @@ export const App: React.FC = () => {
               <CarePlanView
                 idToken={idToken}
                 onBackToDashboard={() => setActiveView('dashboard')}
+                onNavigateToView={(view) => setActiveView(view as any)}
               />
             ) : activeView === 'nursebot' && idToken ? (
               <NurseBotView
