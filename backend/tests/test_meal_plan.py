@@ -374,6 +374,14 @@ async def test_careplan_endpoints_and_isolation():
         assert "cards" in data_guid
         assert data_guid["disclaimer"] == "General food ideas, not a prescribed diet."
 
+        # 7. GET /v1/careplan/export/ics
+        res_ics = await client.get("/v1/careplan/export/ics")
+        assert res_ics.status_code == 200
+        assert "text/calendar" in res_ics.headers.get("content-type", "")
+        assert "BEGIN:VCALENDAR" in res_ics.text
+        assert "SUMMARY:MedNourish Meal:" in res_ics.text
+        assert "END:VCALENDAR" in res_ics.text
+
     # User B Isolation check: User B has their own separate plan
     app.dependency_overrides[get_current_user] = lambda: user_b
     async with AsyncClient(transport=transport, base_url="http://test") as client:

@@ -483,6 +483,77 @@ def run_v2_smoke_tests() -> Dict[str, Any]:
             f"Auto tasks synced: {len(auto_tasks)}, User task created: {r_user.status_code in (200, 201)}",
         )
 
+        # 13b. CarePlan Deterministic Meal Planner V3 (C-39)
+        # a) Verify 7-day meal plan exists in DB after questionnaire
+        r_mp = client.get("/v1/careplan/meal-plan", headers=headers1)
+        all_response_texts.append(r_mp.text)
+        mp_data = r_mp.json()
+        days = mp_data.get("days", [])
+        plan_id = mp_data.get("plan_id")
+        mp_exists = r_mp.status_code == 200 and len(days) == 7 and all("breakfast" in d.get("meals", {}) for d in days)
+
+        # b) Ticking off breakfast marks it done and recalculates nutrients (pending -> covered)
+        day0_date = days[0]["date"] if days else datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        r_log = client.post(
+            "/v1/careplan/meal-plan/log",
+            json={"plan_id": plan_id, "plan_date": day0_date, "slot": "breakfast", "option_index": 0, "done": True},
+            headers=headers1,
+        )
+        all_response_texts.append(r_log.text)
+        r_nutr = client.get(f"/v1/careplan/meal-plan/nutrients?date={day0_date}", headers=headers1)
+        all_response_texts.append(r_nutr.text)
+        nutr_data = r_nutr.json()
+        log_recalc_ok = (
+            r_log.status_code == 200
+            and r_log.json().get("done") is True
+            and r_nutr.status_code == 200
+            and len(nutr_data.get("covered", [])) > 0
+        )
+
+        # c) User changing preference to 'vegan' regenerates the plan with 0 dairy / egg / meat items
+        r_vegan_pref = client.put(
+            "/v1/careplan/meal-plan/preferences",
+            json={"diet_pref": "vegan", "cuisine": "indian", "meal_times": {"breakfast": "08:30", "lunch": "13:00", "dinner": "20:00"}},
+            headers=headers1,
+        )
+        all_response_texts.append(r_vegan_pref.text)
+        r_vegan_mp = client.get("/v1/careplan/meal-plan", headers=headers1)
+        all_response_texts.append(r_vegan_mp.text)
+        vegan_days = r_vegan_mp.json().get("days", [])
+        non_vegan_keywords = ["egg", "paneer", "curd", "yogurt", "milk", "fish", "chicken", "meat", "mutton"]
+        has_non_vegan = False
+        for vd in vegan_days:
+            for s in ("breakfast", "lunch", "dinner"):
+                for opt in vd.get("meals", {}).get(s, {}).get("options", []):
+                    opt_name = opt.get("name", "").lower()
+                    if any(nv in opt_name for nv in non_vegan_keywords):
+                        has_non_vegan = True
+        vegan_ok = (
+            r_vegan_pref.status_code == 200
+            and len(vegan_days) == 7
+            and not has_non_vegan
+        )
+
+        # d) .ics export returns valid text/calendar content with SUMMARY matching chosen meals
+        r_ics = client.get("/v1/careplan/export/ics", headers=headers1)
+        all_response_texts.append(r_ics.text)
+        ics_ok = (
+            r_ics.status_code == 200
+            and "text/calendar" in r_ics.headers.get("content-type", "")
+            and "BEGIN:VCALENDAR" in r_ics.text
+            and "SUMMARY:MedNourish Meal:" in r_ics.text
+            and "END:VCALENDAR" in r_ics.text
+        )
+
+        careplan_v3_pass = mp_exists and log_recalc_ok and vegan_ok and ics_ok
+        record(
+            "CarePlan Meal Planner V3 (C-39)",
+            "GET/POST/PUT /v1/careplan/meal-plan*",
+            200 if careplan_v3_pass else 500,
+            careplan_v3_pass,
+            f"7-day plan: {mp_exists}, Log toggle & covered nutrients: {len(nutr_data.get('covered', []))}, Vegan 0-animal foods: {not has_non_vegan}, ICS valid: {ics_ok}",
+        )
+
         # Authenticate User 2 for Isolation
         token2, uid2 = get_emulator_token(f"smoke_u2_{ts}@mednourish.local")
         headers2 = {"Authorization": f"Bearer {token2}"}

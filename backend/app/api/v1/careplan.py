@@ -21,7 +21,7 @@ import json
 import logging
 from typing import List, Optional
 import uuid
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 from app.core.auth import AuthenticatedUser, get_current_user
 from app.db.session import get_db
@@ -565,4 +565,96 @@ def get_nutrition_guidance(
         "cards": guidance_cards,
         "disclaimer": "General food ideas, not a prescribed diet.",
     }
+
+
+@router.get("/careplan/export/ics")
+@router.get("/careplan/meal-plan/ics")
+def export_careplan_ics(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Exports active CarePlan tasks and chosen meals as an iCalendar (.ics) feed."""
+    tasks = (
+        db.query(CarePlanItem)
+        .filter(CarePlanItem.user_id == current_user.uid)
+        .all()
+    )
+    active_plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+
+    ics_lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//MedNourish//CarePlan MealPlanner//EN",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+    ]
+    now_stamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    today_str = datetime.utcnow().strftime("%Y%m%d")
+
+    for t in tasks:
+        time_part = t.reminder_time.replace(":", "") + "00" if t.reminder_time else "080000"
+        dt_start = f"{today_str}T{time_part}Z"
+        ics_lines.extend([
+            "BEGIN:VEVENT",
+            f"UID:task-{t.id}@mednourish.local",
+            f"DTSTAMP:{now_stamp}",
+            f"DTSTART:{dt_start}",
+            f"SUMMARY:Wellness: {t.title}",
+            "DESCRIPTION:General wellness routine via MedNourish.",
+            "RRULE:FREQ=DAILY",
+            "STATUS:CONFIRMED",
+            "END:VEVENT",
+        ])
+
+    if active_plan:
+        try:
+            plan_data = json.loads(active_plan.plan_json)
+            logs = {
+                (l.plan_date, l.slot): l.option_index
+                for l in db.query(CarePlanMealLog)
+                .filter(CarePlanMealLog.user_id == current_user.uid, CarePlanMealLog.plan_id == active_plan.id)
+                .all()
+            }
+            prefs = json.loads(active_plan.prefs_json) if active_plan.prefs_json else {}
+            meal_times = prefs.get("meal_times", {"breakfast": "08:00", "lunch": "12:30", "dinner": "19:30"})
+
+            for day in plan_data.get("days", []):
+                day_date_str = day.get("date", "").replace("-", "")
+                if not day_date_str:
+                    continue
+                meals = day.get("meals", {})
+                for slot in ("breakfast", "lunch", "dinner"):
+                    slot_data = meals.get(slot, {})
+                    options = slot_data.get("options", [])
+                    if not options:
+                        continue
+                    chosen_idx = logs.get((day.get("date"), slot), 0)
+                    chosen_opt = options[chosen_idx] if chosen_idx < len(options) else options[0]
+                    t_str = meal_times.get(slot, "12:00").replace(":", "") + "00"
+                    dt_start = f"{day_date_str}T{t_str}Z"
+                    ics_lines.extend([
+                        "BEGIN:VEVENT",
+                        f"UID:meal-{day_date_str}-{slot}@mednourish.local",
+                        f"DTSTAMP:{now_stamp}",
+                        f"DTSTART:{dt_start}",
+                        f"SUMMARY:MedNourish Meal: {chosen_opt.get('name', slot.capitalize())}",
+                        f"DESCRIPTION:{chosen_opt.get('prep_note', 'Planned meal')}",
+                        "STATUS:CONFIRMED",
+                        "END:VEVENT",
+                    ])
+        except Exception:
+            pass
+
+    ics_lines.append("END:VCALENDAR")
+    ics_content = "\r\n".join(ics_lines) + "\r\n"
+    return Response(
+        content=ics_content,
+        media_type="text/calendar",
+        headers={"Content-Disposition": "attachment; filename=mednourish_careplan.ics"},
+    )
+
 
