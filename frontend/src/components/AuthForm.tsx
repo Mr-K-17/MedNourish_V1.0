@@ -50,11 +50,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onSuccess }) => {
   return (
     <div className={styles.authContainer}>
       <h2 className={styles.heading}>
-        {isRegister ? 'Create Fictional Account' : 'Sign In to MedNourish'}
+        {isRegister ? 'Create Account' : 'Sign In to MedNourish'}
       </h2>
-      <p className={styles.subheading}>
-        Phase 1A Local Auth Emulator (strictly fictional accounts, no cloud sync)
-      </p>
 
       {errorMsg && (
         <div className={styles.errorAlert} role="alert">
