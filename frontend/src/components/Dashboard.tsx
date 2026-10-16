@@ -53,7 +53,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       icon: <Search size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Knowledge Explorer',
       status: 'ready',
-      tag: 'Reference Base',
+      tag: 'Core Feature',
     },
     {
       id: 'careplan',
@@ -73,7 +73,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       icon: <Camera size={28} className={styles.tileIcon} aria-hidden="true" />,
       phase: 'Computer Vision',
       status: 'ready',
-      tag: 'Edge AI',
+      tag: 'Core Feature',
     },
     {
       id: 'virtual-ward',
