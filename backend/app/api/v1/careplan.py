@@ -16,19 +16,40 @@ Adheres strictly to:
 """
 
 from datetime import datetime
+import hashlib
+import json
 import logging
+from typing import List, Optional
 import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.auth import AuthenticatedUser, get_current_user
 from app.db.session import get_db
-from app.models.user import CarePlanItem
+from app.models.user import (
+    CarePlanItem,
+    CarePlanMealLog,
+    CarePlanMealPlan,
+    CarePlanPrefs,
+    SavedSummary,
+)
 from app.schemas.careplan import (
     CarePlanDeleteResponse,
     CarePlanItemCreate,
     CarePlanItemResponse,
     CarePlanItemUpdate,
     CarePlanListResponse,
+    MealLogRequest,
+    MealNutrientsResponse,
+    MealPlanPreferencesRequest,
+    MealPlanPreferencesResponse,
+)
+from app.services.meal_plan_service import (
+    generate_deterministic_meal_plan,
+    get_day_nutrients,
+    get_nutrition_guidance_cards,
+    get_user_conditions,
+    get_user_preferences,
+    save_user_preferences,
 )
 
 logger = logging.getLogger(__name__)
@@ -252,3 +273,296 @@ def delete_care_plan_task(
         id=task_id,
         message="Wellness task deleted successfully.",
     )
+
+
+# ============================================================================
+# Phase 5 / C-39 Deterministic Meal Planning Endpoints
+# ============================================================================
+
+@router.get("/careplan/meal-plan")
+def get_meal_plan(
+    day: Optional[int] = None,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Returns the user's active 7-day meal plan and meal logs."""
+    plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+    if not plan:
+        # Check if user has latest SavedSummary
+        latest_summary = (
+            db.query(SavedSummary)
+            .filter(SavedSummary.user_id == current_user.uid)
+            .order_by(SavedSummary.created_at.desc())
+            .first()
+        )
+        focus_list = []
+        source_id = "initial"
+        if latest_summary and latest_summary.snapshot_scores_json:
+            source_id = latest_summary.id
+            try:
+                scores = json.loads(latest_summary.snapshot_scores_json)
+                focus_list = [
+                    {"nutrient": k, "final_pct": v.get("final_pct", 0)}
+                    for k, v in scores.items()
+                    if v.get("final_pct", 0) >= 30.0
+                ]
+            except Exception:
+                pass
+
+        prefs = get_user_preferences(db, current_user.uid)
+        conds = get_user_conditions(db, current_user.uid)
+        plan_dict = generate_deterministic_meal_plan(
+            user_id=current_user.uid,
+            focus_nutrients=focus_list,
+            user_conditions=conds,
+            preferences=prefs,
+        )
+        plan_id = f"plan_{hashlib.sha256(f'{current_user.uid}_{source_id}_{datetime.utcnow().isoformat()}'.encode()).hexdigest()[:16]}"
+        plan = CarePlanMealPlan(
+            id=plan_id,
+            user_id=current_user.uid,
+            source_entry_id=source_id,
+            created_at=datetime.utcnow(),
+            status="active",
+            focus_json=json.dumps(plan_dict["focus_nutrients"]),
+            prefs_json=json.dumps(plan_dict["preferences"]),
+            plan_json=json.dumps(plan_dict),
+        )
+        db.add(plan)
+        db.commit()
+        db.refresh(plan)
+
+    plan_data = json.loads(plan.plan_json)
+    plan_data["plan_id"] = plan.id
+    plan_data["created_at"] = plan.created_at.isoformat()
+    plan_data["status"] = plan.status
+
+    # Attach meal logs for this plan
+    logs = (
+        db.query(CarePlanMealLog)
+        .filter(CarePlanMealLog.user_id == current_user.uid, CarePlanMealLog.plan_id == plan.id)
+        .all()
+    )
+    plan_data["logs"] = [
+        {
+            "id": log.id,
+            "plan_date": log.plan_date,
+            "slot": log.slot,
+            "option_index": log.option_index,
+            "done": log.done,
+            "done_at": log.done_at.isoformat() if log.done_at else None,
+        }
+        for log in logs
+    ]
+
+    if day is not None and 0 <= day < len(plan_data.get("days", [])):
+        return {
+            "plan_id": plan.id,
+            "day": plan_data["days"][day],
+            "preferences": plan_data.get("preferences"),
+            "focus_nutrients": plan_data.get("focus_nutrients"),
+            "doctor_note": plan_data.get("doctor_note"),
+            "logs": plan_data["logs"],
+        }
+
+    return plan_data
+
+
+@router.post("/careplan/meal-plan/generate")
+def force_generate_meal_plan(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Force regenerates active meal plan from latest reports and preferences."""
+    old_plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+    if old_plan:
+        old_plan.status = "stale"
+        db.add(old_plan)
+
+    latest_summary = (
+        db.query(SavedSummary)
+        .filter(SavedSummary.user_id == current_user.uid)
+        .order_by(SavedSummary.created_at.desc())
+        .first()
+    )
+    focus_list = []
+    source_id = "manual_regen"
+    if latest_summary and latest_summary.snapshot_scores_json:
+        source_id = latest_summary.id
+        try:
+            scores = json.loads(latest_summary.snapshot_scores_json)
+            focus_list = [
+                {"nutrient": k, "final_pct": v.get("final_pct", 0)}
+                for k, v in scores.items()
+                if v.get("final_pct", 0) >= 30.0
+            ]
+        except Exception:
+            pass
+
+    prefs = get_user_preferences(db, current_user.uid)
+    conds = get_user_conditions(db, current_user.uid)
+    plan_dict = generate_deterministic_meal_plan(
+        user_id=current_user.uid,
+        focus_nutrients=focus_list,
+        user_conditions=conds,
+        preferences=prefs,
+    )
+    plan_id = f"plan_{hashlib.sha256(f'{current_user.uid}_{source_id}_{datetime.utcnow().isoformat()}'.encode()).hexdigest()[:16]}"
+    plan = CarePlanMealPlan(
+        id=plan_id,
+        user_id=current_user.uid,
+        source_entry_id=source_id,
+        created_at=datetime.utcnow(),
+        status="active",
+        focus_json=json.dumps(plan_dict["focus_nutrients"]),
+        prefs_json=json.dumps(plan_dict["preferences"]),
+        plan_json=json.dumps(plan_dict),
+    )
+    db.add(plan)
+    db.commit()
+    db.refresh(plan)
+    plan_data = json.loads(plan.plan_json)
+    plan_data["plan_id"] = plan.id
+    plan_data["logs"] = []
+    return plan_data
+
+
+@router.get("/careplan/meal-plan/preferences", response_model=MealPlanPreferencesResponse)
+def get_meal_plan_preferences_endpoint(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Retrieves user meal planning preferences."""
+    prefs = get_user_preferences(db, current_user.uid)
+    return MealPlanPreferencesResponse(**prefs)
+
+
+@router.put("/careplan/meal-plan/preferences", response_model=MealPlanPreferencesResponse)
+def update_meal_plan_preferences_endpoint(
+    payload: MealPlanPreferencesRequest,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Updates user meal planning preferences and refreshes active plan."""
+    updated = save_user_preferences(
+        db, current_user.uid, payload.diet_pref, payload.cuisine, payload.meal_times
+    )
+    active_plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+    if active_plan:
+        conds = get_user_conditions(db, current_user.uid)
+        focus = json.loads(active_plan.focus_json)
+        new_plan_dict = generate_deterministic_meal_plan(
+            user_id=current_user.uid,
+            focus_nutrients=focus,
+            user_conditions=conds,
+            preferences=updated,
+        )
+        active_plan.prefs_json = json.dumps(updated)
+        active_plan.plan_json = json.dumps(new_plan_dict)
+        db.add(active_plan)
+        db.commit()
+
+    return MealPlanPreferencesResponse(**updated)
+
+
+@router.post("/careplan/meal-plan/log")
+def log_meal_option(
+    payload: MealLogRequest,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Toggles or sets the completion status for a specific meal option."""
+    log_item = (
+        db.query(CarePlanMealLog)
+        .filter(
+            CarePlanMealLog.user_id == current_user.uid,
+            CarePlanMealLog.plan_id == payload.plan_id,
+            CarePlanMealLog.plan_date == payload.plan_date,
+            CarePlanMealLog.slot == payload.slot,
+        )
+        .first()
+    )
+    if not log_item:
+        log_item = CarePlanMealLog(
+            id=f"log_{uuid.uuid4().hex[:16]}",
+            user_id=current_user.uid,
+            plan_id=payload.plan_id,
+            plan_date=payload.plan_date,
+            slot=payload.slot,
+            option_index=payload.option_index,
+            done=payload.done,
+            done_at=datetime.utcnow() if payload.done else None,
+        )
+        db.add(log_item)
+    else:
+        log_item.option_index = payload.option_index
+        log_item.done = payload.done
+        log_item.done_at = datetime.utcnow() if payload.done else None
+        db.add(log_item)
+    db.commit()
+    db.refresh(log_item)
+    return {
+        "status": "success",
+        "id": log_item.id,
+        "slot": log_item.slot,
+        "option_index": log_item.option_index,
+        "done": log_item.done,
+    }
+
+
+@router.get("/careplan/meal-plan/nutrients", response_model=MealNutrientsResponse)
+def get_meal_nutrients_status(
+    date: str,
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Returns covered and pending nutrients for that date computed from ticked options."""
+    active_plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+    if not active_plan:
+        return MealNutrientsResponse(date=date, covered=[], pending=["Dietary Fiber"], progress_pct=0.0)
+
+    nutrients_data = get_day_nutrients(db, current_user.uid, active_plan.id, date)
+    return MealNutrientsResponse(**nutrients_data)
+
+
+@router.get("/careplan/nutrition-guidance")
+def get_nutrition_guidance(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Returns curated focus nutrient guidance cards."""
+    active_plan = (
+        db.query(CarePlanMealPlan)
+        .filter(CarePlanMealPlan.user_id == current_user.uid, CarePlanMealPlan.status == "active")
+        .first()
+    )
+    focus = []
+    if active_plan:
+        try:
+            focus = json.loads(active_plan.focus_json)
+        except Exception:
+            pass
+
+    guidance_cards = get_nutrition_guidance_cards(focus)
+    return {
+        "focus_nutrients": focus,
+        "cards": guidance_cards,
+        "disclaimer": "General food ideas, not a prescribed diet.",
+    }
+

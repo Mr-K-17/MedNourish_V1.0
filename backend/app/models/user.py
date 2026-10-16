@@ -5,7 +5,7 @@ Never stores date of birth or infers user age.
 """
 
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, Float, Boolean, DateTime
+from sqlalchemy import Column, String, Integer, Float, Boolean, DateTime, Text
 from app.db.session import Base
 
 
@@ -149,4 +149,47 @@ class MedScanSession(Base):
     quality_metrics_json = Column(String(2048), nullable=False)
     notes = Column(String(512), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+
+class CarePlanPrefs(Base):
+    """User preferences for deterministic meal planning (Step 2 / C-39)."""
+
+    __tablename__ = "careplan_prefs"
+
+    user_id = Column(String(128), primary_key=True, index=True)
+    diet_pref = Column(String(32), default="veg", nullable=False)  # veg, nonveg, vegan, eggetarian
+    cuisine = Column(String(32), default="indian", nullable=False)  # indian, global, mixed
+    meal_times_json = Column(String(512), default='{"breakfast":"08:00","lunch":"13:00","dinner":"20:00"}', nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+
+
+class CarePlanMealPlan(Base):
+    """Stored 7-day meal plan generated deterministically for a user (Step 2 / C-39)."""
+
+    __tablename__ = "careplan_meal_plan"
+
+    id = Column(String(64), primary_key=True, index=True)
+    user_id = Column(String(128), index=True, nullable=False)
+    source_entry_id = Column(String(64), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    status = Column(String(32), default="active", nullable=False)  # active, stale
+    focus_json = Column(Text, nullable=False)  # top nutrients JSON list
+    prefs_json = Column(Text, nullable=False)  # diet_pref, cuisine, times
+    plan_json = Column(Text, nullable=False)   # 7-day plan structure
+
+
+class CarePlanMealLog(Base):
+    """Tracks daily eaten meals and option choices (Step 2 / C-39)."""
+
+    __tablename__ = "careplan_meal_log"
+
+    id = Column(String(64), primary_key=True, index=True)
+    user_id = Column(String(128), index=True, nullable=False)
+    plan_id = Column(String(64), index=True, nullable=False)
+    plan_date = Column(String(16), nullable=False)  # YYYY-MM-DD
+    slot = Column(String(32), nullable=False)       # breakfast, lunch, dinner
+    option_index = Column(Integer, default=0, nullable=False)  # 0 or 1
+    done = Column(Boolean, default=False, nullable=False)
+    done_at = Column(DateTime, nullable=True)
+
 

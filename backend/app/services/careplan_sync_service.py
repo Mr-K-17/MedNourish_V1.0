@@ -86,14 +86,8 @@ def get_curated_routines_for_nutrient(nutrient_name: str) -> List[Dict[str, str]
                     assoc_vit = row.get("Associated_Vitamin", "").lower()
 
                     if norm_nut in vit_def or norm_nut in assoc_vit:
-                        # 1. Dietary recommendation (food)
-                        diet = row.get("Dietary_Recommendations", "")
-                        clean_diet = clean_routine_text(diet)
-                        if clean_diet and len(clean_diet) >= 12:
-                            results.append({
-                                "category": "food",
-                                "title": f"Nutrition focus: {clean_diet}",
-                            })
+                        # 1. Dietary recommendation is now handled by the deterministic MealPlan service (C-39).
+                        # Stop creating one-line food items.
 
                         # 2. Lifestyle routine (lifestyle / general)
                         lifestyle = row.get("Lifestyle_Routine", "")
@@ -112,7 +106,7 @@ def get_curated_routines_for_nutrient(nutrient_name: str) -> List[Dict[str, str]
                                 "category": "general",
                                 "title": f"Guidance: {clean_follow}",
                             })
-                        if len(results) >= 3:
+                        if len(results) >= 2:
                             break
         except Exception as e:
             logger.debug(f"Error reading routine file {csv_file}: {e}")
@@ -136,6 +130,22 @@ def sync_careplan_from_top_nutrients(
     reactivated_count = 0
     stale_count = 0
 
+    # Mark old auto food items stale (never delete user-created or user-edited items per C-39)
+    old_auto_foods = (
+        db.query(CarePlanItem)
+        .filter(
+            CarePlanItem.user_id == user_id,
+            CarePlanItem.is_auto.is_(True),
+            CarePlanItem.category == "food",
+            CarePlanItem.is_user_edited.is_(False),
+            CarePlanItem.is_stale.is_(False),
+        )
+        .all()
+    )
+    for it in old_auto_foods:
+        it.is_stale = True
+        stale_count += 1
+
     # 1. Process items for each eligible nutrient
     for nut_item in eligible_nutrients:
         nut_name = nut_item.get("nutrient", "")
@@ -144,10 +154,10 @@ def sync_careplan_from_top_nutrients(
 
         routines = get_curated_routines_for_nutrient(nut_name)
         if not routines:
-            # Fallback dietary routine
+            # Fallback lifestyle routine
             routines = [{
-                "category": "food",
-                "title": f"Nutrition: Incorporate foods rich in {nut_name} into meals",
+                "category": "general",
+                "title": f"Habit: Maintain daily balanced wellness routine for {nut_name}",
             }]
 
         for r in routines[:2]:  # at most 2 items per nutrient
@@ -245,6 +255,13 @@ def sync_careplan_from_top_nutrients(
         if item.nutrient and item.nutrient not in active_nutrient_names:
             item.is_stale = True
             stale_count += 1
+
+    # Trigger MealPlan deterministic regeneration (C-39)
+    try:
+        from app.services.meal_plan_service import sync_meal_plan_from_report
+        sync_meal_plan_from_report(db, user_id, source_entry_id, top_nutrients)
+    except Exception as e:
+        logger.warning("CarePlan v3 meal plan sync failed non-fatally: %s", e)
 
     db.commit()
     return {

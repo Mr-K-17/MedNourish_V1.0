@@ -141,3 +141,31 @@ class CarePlanDeleteResponse(BaseModel):
     status: str = Field("deleted")
     id: str
     message: str
+
+
+class MealPlanPreferencesRequest(BaseModel):
+    diet_pref: str = Field("veg", description="Diet preference: veg, nonveg, vegan, eggetarian")
+    cuisine: str = Field("indian", description="Cuisine preference: indian, global, mixed")
+    meal_times: Optional[dict] = Field(None, description="Meal reminder times")
+
+
+class MealPlanPreferencesResponse(BaseModel):
+    diet_pref: str
+    cuisine: str
+    meal_times: dict
+
+
+class MealLogRequest(BaseModel):
+    plan_id: str
+    plan_date: str
+    slot: str
+    option_index: int = 0
+    done: bool = True
+
+
+class MealNutrientsResponse(BaseModel):
+    date: str
+    covered: List[str]
+    pending: List[str]
+    progress_pct: float
+

@@ -33,7 +33,16 @@ if backend_dir not in sys.path:
 
 from app.core.config import settings
 from app.db.session import Base
-from app.models.user import UserProfile, UserConsentLog, SavedSummary, CarePlanItem, MedScanSession
+from app.models.user import (
+    UserProfile,
+    UserConsentLog,
+    SavedSummary,
+    CarePlanItem,
+    MedScanSession,
+    CarePlanPrefs,
+    CarePlanMealPlan,
+    CarePlanMealLog,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger("seed_demo")
@@ -52,6 +61,9 @@ def seed_database(db_url: str = None) -> None:
 
     try:
         # 1. Clean existing demo user records
+        db.query(CarePlanMealLog).filter(CarePlanMealLog.user_id == DEMO_USER_ID).delete()
+        db.query(CarePlanMealPlan).filter(CarePlanMealPlan.user_id == DEMO_USER_ID).delete()
+        db.query(CarePlanPrefs).filter(CarePlanPrefs.user_id == DEMO_USER_ID).delete()
         db.query(MedScanSession).filter(MedScanSession.user_id == DEMO_USER_ID).delete()
         db.query(CarePlanItem).filter(CarePlanItem.user_id == DEMO_USER_ID).delete()
         db.query(SavedSummary).filter(SavedSummary.user_id == DEMO_USER_ID).delete()
@@ -265,6 +277,39 @@ def seed_database(db_url: str = None) -> None:
             created_at=datetime.utcnow(),
         )
         db.add(medscan_session)
+
+        # 6. Seed Fictional CarePlan Meal Preferences & Plan (C-39)
+        from app.services.meal_plan_service import generate_deterministic_meal_plan
+        demo_prefs = CarePlanPrefs(
+            user_id=DEMO_USER_ID,
+            diet_pref="veg",
+            cuisine="indian",
+            meal_times_json=json.dumps({"breakfast": "08:30", "lunch": "13:00", "dinner": "20:00"}),
+            updated_at=datetime.utcnow(),
+        )
+        db.add(demo_prefs)
+
+        demo_focus = [
+            {"nutrient": "Iron", "percentage": 68.0, "source": "MedBot"},
+            {"nutrient": "Vitamin A", "percentage": 42.0, "source": "Explorer"},
+        ]
+        demo_plan_dict = generate_deterministic_meal_plan(
+            user_id=DEMO_USER_ID,
+            focus_nutrients=demo_focus,
+            user_conditions=["anemia"],
+            preferences={"diet_pref": "veg", "cuisine": "indian", "meal_times": {"breakfast": "08:30", "lunch": "13:00", "dinner": "20:00"}},
+        )
+        demo_meal_plan = CarePlanMealPlan(
+            id="plan-demo-user-01",
+            user_id=DEMO_USER_ID,
+            source_entry_id="sum-medbot-01",
+            created_at=datetime.utcnow(),
+            status="active",
+            focus_json=json.dumps(demo_plan_dict["focus_nutrients"]),
+            prefs_json=json.dumps(demo_plan_dict["preferences"]),
+            plan_json=json.dumps(demo_plan_dict),
+        )
+        db.add(demo_meal_plan)
 
         db.commit()
         logger.info("Successfully seeded fictional demo records for user '%s'.", DEMO_USER_ID)
