@@ -178,7 +178,7 @@ Requirement IDs are stable and referenced by `Phases.md`, `Design.md` and `Archi
 | ID | Requirement | Phase | Status |
 |---|---|---|---|
 | CARE-01 | Offer optional general wellness tasks (food, water, sleep, exercise) that the user accepts or edits. Suggestions must not be framed as treatment for a predicted deficiency. | 1 | Proposed |
-| CARE-02 | Custom tasks and alerts: water, food, exercise. No medication reminders and no medicine or supplement suggestions (C-22, C-08). **Amended by C-38**: CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements/drugs). | 1 / v2 | Confirmed (C-08, C-22, C-38) |
+| CARE-02 | Custom tasks and alerts: water, food, exercise. No medication reminders and no medicine or supplement suggestions (C-22, C-08). **Amended by C-38 & C-39**: CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements/drugs). C-39 amends the food part: CarePlan includes a deterministic meal planner from a curated food guide: foods only; no medicines, supplements, doses, calories or nutrient amounts. | 1 / v2 / v3 | Confirmed (C-08, C-22, C-38, C-39) |
 | CARE-03 | Mark tasks done; keep completion history. | 1 | Confirmed (brief) |
 | CARE-04 | Reminders while the app is open (MVP). Background push, Google Tasks and Google Calendar sync in Phase 3. | 1 / 3 | Proposed (PV-15, PV-16) |
 | CARE-05 | Automatic schedule from all modules, including VirtualWard and MedScan. | 3 | Confirmed (brief) |

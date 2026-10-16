@@ -204,7 +204,7 @@ Do not implement the feature in the left column until the listed items are close
 - **Calibration:** making a model's scores behave like honest probabilities.
 - **Shadow mode:** running a model quietly and comparing it with the rules without showing its output to users.
 
-## 11. Owner Amendments Register (C-33..C-38)
+## 11. Owner Amendments Register (C-33..C-39)
 
 | Amendment ID | Overrides / Amends | Specification |
 |---|---|---|
@@ -214,4 +214,5 @@ Do not implement the feature in the left column until the listed items are close
 | **C-36** | C-08 (NurseBot only) | NurseBot may show internet-sourced vitamin/medication information with a disclaimer from allowlisted sources (MedlinePlus/ODS). CarePlan and reports still never contain medicines, supplements or doses. |
 | **C-37** | Architecture / MedScan | MedScan lists nutrient candidates with percentages (blended with region follow-up checklist). |
 | **C-38** | CARE-02 / Reports | CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements). |
+| **C-39** | C-38 / CARE-02 | CarePlan includes a deterministic meal planner from a curated food guide: foods only; no medicines, supplements, doses, calories or nutrient amounts; amends C-38 for the food part. |
 

@@ -687,7 +687,10 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 ### S-049 – 2026-10-14 – Antigravity (Implementation Engineer) – MedNourish-Dev (branch dev)
 - Executed Step B & C completion audit: closed all 4 partial items (profile edit modal, image_to_nutrient.yaml, snapshot scores, CarePlan auto-sync).
 - All verification passed: 25/25 audit checklist Done, 8/8 end-to-end live HTTP journeys passed, 17/17 smoke test passed, 0 regressions across SQLite and MySQL.
-- Re-tagged v2-demo locally at clean commit; full prototype ready for evaluation.
+### S-050 – 2026-10-16 – Antigravity (Implementation Engineer) – MedNourish-Dev (branch dev)
+- STEP 0 completed: diagnosed root cause of one-line food items (aggressive 135-char truncation of CSV text into single task strings).
+- Decision C-39 recorded in Rules.md, PRD.md, and Memory.md: deterministic meal planner from curated food guide (foods only, amends C-38 for food).
+- Preserved exercise, lifestyle, clinician referral auto-items, manual tasks, and .ics export while initiating CarePlan v3 rebuild.
 
 ---
 
