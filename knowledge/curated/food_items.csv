@@ -1,0 +1,207 @@
+food_id,name,cuisine,food_group,meal_slots,diet_tags,allergens,cautions,nutrients,prep_note
+f_ragi_roti,Ragi Roti with Onions,indian,millet,breakfast;lunch;dinner,veg;vegan,,high_potassium,b_complex;calcium;fiber;iron;protein_energy,Warm finger millet flatbread pressed with onion and cumin
+f_ragi_porridge,Savory Ragi Buttermilk Porridge,indian,millet,breakfast,veg,dairy,high_potassium,b2;calcium;iron;protein_energy;water,Cooling ragi malt simmered and whisked with light curd
+f_jowar_bhakri,Jowar Bhakri Flatbread,indian,millet,lunch;dinner,veg;vegan,,high_potassium,b_complex;fiber;iron;protein_energy;zinc,Hand-flattened sorghum flatbread baked on an iron skillet
+f_bajra_roti,Bajra Roti with Fenugreek,indian,millet,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein_energy;zinc,Pearl millet flatbread kneaded with fresh methi greens
+f_foxtail_upma,Foxtail Millet Vegetable Upma,indian,millet,breakfast;dinner,veg;vegan,,,b_complex;fiber;iron;protein_energy;vitamin_c,Fluffy steamed foxtail millet tossed with ginger and peas
+f_little_millet_khichdi,Little Millet Moong Khichdi,indian,millet,lunch;dinner,veg;vegan,,,b_complex;fiber;protein;protein_energy;zinc,Nutritious slow-simmered millet cooked with yellow moong
+f_barnyard_pulao,Barnyard Millet Garden Pulao,indian,millet,lunch;dinner,veg;vegan,,,fiber;iron;protein_energy;vitamin_a;vitamin_c,"Millet pilaf gently spiced with bay leaf, peas, and carrots"
+f_chapathi,Whole Wheat Chapathi,indian,cereal,breakfast;lunch;dinner,veg;vegan,gluten,,b_complex;fiber;iron;protein;protein_energy,Puffed whole wheat tawa flatbread brushed with water or oil
+f_multigrain_roti,Multigrain Phulka,indian,cereal,lunch;dinner,veg;vegan,gluten,,b_complex;fiber;iron;protein;protein_energy,"Handmade phulka blended with whole wheat, oats, and barley"
+f_methi_thepla,Spiced Methi Thepla,indian,cereal,breakfast;lunch,veg;vegan,gluten,,b9_folate;fiber;iron;vitamin_a,Whole wheat rolled flatbread infused with fresh fenugreek
+f_vegetable_dalia,Broken Wheat Vegetable Dalia,indian,cereal,breakfast;dinner,veg;vegan,gluten,,b_complex;fiber;iron;vitamin_c,Hearty cracked wheat porridge cooked with peas and carrots
+f_rolled_oats_porridge,Warm Rolled Oats Porridge,global,cereal,breakfast,veg;vegan,,,b_complex;biotin;fiber;zinc,Rolled oats simmered with cinnamon and water or almond milk
+f_overnight_chia_oats,Overnight Oats with Chia Seeds,global,cereal,breakfast,veg;vegan,,,b_complex;calcium;fiber;zinc,Chilled oats soaked overnight with soaked chia and cinnamon
+f_steamed_brown_rice,Steamed Brown Basmati Rice,indian,cereal,lunch;dinner,veg;vegan,,,b3;b_complex;fiber;zinc,Nutty whole grain brown rice steamed tender and fluffy
+f_red_rice_kanji,Red Rice Kanji Broth,indian,cereal,breakfast;dinner,veg;vegan,,,fiber;iron;water;zinc,Traditional cooked red rice broth seasoned with roasted
+f_wholewheat_sourdough,Toasted Whole Wheat Sourdough,global,cereal,breakfast;lunch,veg;vegan,gluten,,b_complex;fiber;iron;zinc,Fermented artisan whole grain sourdough slice toasted crisp
+f_steamed_idli,Steamed Rice and Urad Idli,indian,cereal,breakfast;dinner,veg;vegan,,,b2;b_complex;protein;protein_energy;zinc,Fermented soft steamed rice and black gram savory cakes
+f_ragi_idli,Steamed Ragi Idli,indian,millet,breakfast;dinner,veg;vegan,,high_potassium,calcium;fiber;iron;protein;protein_energy,Fermented finger millet batter steamed into pillowy cakes
+f_plain_dosa,Crisp Sourdough Dosa,indian,cereal,breakfast;dinner,veg;vegan,,,b_complex;iron;protein;protein_energy,Thin golden fermented crepe seared crisp on a tawa
+f_pesarattu,Whole Green Moong Pesarattu,indian,pulse,breakfast;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,Traditional Andhra green gram dosa ground with ginger and
+f_vegetable_poha,Beaten Rice Vegetable Poha,indian,cereal,breakfast,veg;vegan,nuts,,b_complex;iron;protein_energy;vitamin_c,"Flattened rice tempered with mustard, roasted peanuts, lemon"
+f_sooji_upma,Semolina Vegetable Upma,indian,cereal,breakfast;dinner,veg;vegan,gluten,,b_complex;fiber;iron;vitamin_a,Roasted wheat semolina cooked with curry leaves and veggies
+f_oats_upma,Vegetable Oats Upma,indian,cereal,breakfast;dinner,veg;vegan,,,biotin;fiber;vitamin_c;zinc,"Toasted whole rolled oats tossed with ginger, carrots, peas"
+f_yellow_moong_dal,Yellow Moong Dal Tadka,indian,pulse,lunch;dinner,veg;vegan,,,b9_folate;iron;protein;protein_energy;zinc,Golden skinned split mung beans cooked with cumin and garlic
+f_toor_dal_sambar,Vegetable Drumstick Sambar,indian,pulse,breakfast;lunch;dinner,veg;vegan,,,fiber;protein;protein_energy;vitamin_a;vitamin_c,Tangy toor dal lentil stew simmered with moringa drumsticks
+f_dal_makhani_light,Home-Style Slow Dal Makhani,indian,pulse,lunch;dinner,veg,dairy,,calcium;fiber;iron;protein;protein_energy,Black lentils and kidney beans simmered with light curd
+f_punjabi_rajma,Simmered Punjabi Rajma Curry,indian,pulse,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein;protein_energy,"Red kidney beans slow cooked with tomatoes, ginger, spices"
+f_kala_chana_curry,Black Chickpea Kala Chana,indian,pulse,breakfast;lunch;dinner,veg;vegan,,high_potassium,fiber;iron;protein;protein_energy;zinc,Dense brown chickpeas stewed in an aromatic onion-tomato
+f_kabuli_chole,Spiced Kabuli Chana Chole,indian,pulse,lunch;dinner,veg;vegan,,,fiber;iron;protein;protein_energy;zinc,"White chickpeas simmered with roasted cumin, tea-leaf"
+f_whole_masoor_dal,Brown Lentil Masoor Curry,indian,pulse,lunch;dinner,veg;vegan,,,b_complex;fiber;iron;protein;protein_energy,Earthy whole brown lentils gently tempered with cumin seeds
+f_chana_dal_lauki,Chana Dal with Bottle Gourd,indian,pulse,lunch;dinner,veg;vegan,,,fiber;iron;protein;protein_energy;water,Bengal gram split lentils cooked with cooling tender lauki
+f_palak_dal,Spinach Moong Dal Melange,indian,pulse,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein_energy;vitamin_a,Tender yellow moong dal cooked with garden fresh spinach
+f_sprouted_moong_salad,Sprouted Moong Chaat Salad,indian,pulse,breakfast;lunch,veg;vegan,,,b9_folate;fiber;protein;protein_energy;vitamin_c,"Raw sprouted green gram tossed with lime juice, cucumber"
+f_edamame_salad,Steamed Green Edamame Pods,global,pulse,lunch;dinner,veg;vegan,soy,high_potassium,b9_folate;fiber;iron;protein;protein_energy,Young whole green soybeans lightly tossed with sea salt
+f_lentil_vegetable_soup,Warm French Lentil Soup,global,pulse,lunch;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,"Hearty brown lentils simmered with celery, leeks, and"
+f_hummus_tahini,Chickpea Hummus with Sesame,global,pulse,breakfast;lunch;dinner,veg;vegan,,,calcium;fiber;protein;protein_energy;zinc,Creamy blended chickpeas with sesame tahini and garlic
+f_plain_curd,Set Cow Milk Curd / Dahi,indian,dairy,breakfast;lunch;dinner,veg,dairy,,b12;b2;calcium;protein;protein_energy,Fresh homemade probiotic whole milk yogurt set overnight
+f_greek_yogurt,Unsweetened Plain Greek Yogurt,global,dairy,breakfast;lunch,veg,dairy,,b12;b2;calcium;protein;protein_energy,Thick strained natural yogurt rich in casein and whey
+f_paneer_tikka,Grilled Spiced Paneer Tikka,indian,dairy,lunch;dinner,veg,dairy,,b12;calcium;protein;protein_energy;zinc,Firm cottage cheese cubes marinated in spiced hung yogurt
+f_palak_paneer,Home-Style Palak Paneer,indian,dairy,lunch;dinner,veg,dairy,high_potassium,b12;calcium;iron;vitamin_a,Fresh cottage cheese simmered in seasoned puree of spinach
+f_spiced_buttermilk,Tempered Masala Buttermilk,indian,dairy,lunch;dinner,veg,dairy,,b12;b2;calcium;water,Churned yogurt drink spiced with curry leaves and ginger
+f_tofu_stirfry,Sesame Glazed Firm Tofu,global,pulse,lunch;dinner,veg;vegan,soy,,b12;calcium;iron;protein;protein_energy;zinc,Pan-seared firm soy tofu tossed with sesame seeds and
+f_palak_tofu,Vegan Palak Tofu Curry,indian,vegetable,lunch;dinner,veg;vegan,soy,high_potassium,b12;calcium;iron;protein;protein_energy;vitamin_a,Cubes of firm tofu cooked in hearty fenugreek spinach gravy
+f_boiled_egg,Soft Boiled Country Egg,global,egg,breakfast;lunch,veg;egg,,,b12;biotin;protein;protein_energy;vitamin_d,Free-range whole chicken egg cooked gently for tender yolk
+f_egg_bhurji,Indian Spiced Egg Bhurji,indian,egg,breakfast;dinner,veg;egg,,,b12;biotin;protein;protein_energy;vitamin_a,"Scrambled eggs stir-fried with onions, tomatoes, coriander"
+f_vegetable_omelette,Garden Vegetable Omelette,global,egg,breakfast;dinner,veg;egg,,,b12;biotin;protein;protein_energy;vitamin_c,Whisked farm eggs folded over diced peppers and spinach
+f_egg_curry,South Indian Egg Coconut Curry,indian,egg,lunch;dinner,veg;egg,,,b12;iron;protein;protein_energy;vitamin_d,Hard-boiled eggs simmered in a light coriander curry broth
+f_poached_egg_toast,Poached Egg on Rye Sourdough,global,egg,breakfast,veg;egg,gluten,,b12;b_complex;biotin;protein;protein_energy,Warm pasture egg served over rustic toasted artisan bread
+f_grilled_salmon,Pan Seared Wild Salmon,global,fish,lunch;dinner,nonveg,,high_potassium,b12;b3;protein;protein_energy;vitamin_d,Wild caught salmon fillet cooked skin-down with lemon herbs
+f_steamed_fish_curry,Kerala Steamed Fish in Curry Leaf,indian,fish,lunch;dinner,nonveg,,,b12;protein;protein_energy;vitamin_d;zinc,Fresh coastal white fish simmered with kokum and fresh
+f_sardines_curry,Tomato Simmered Sardines,indian,fish,lunch;dinner,nonveg,,,b12;calcium;iron;vitamin_d,Small oily sardines stewed whole with tomatoes and tamarind
+f_grilled_chicken_breast,Herbed Grilled Chicken Breast,global,meat,lunch;dinner,nonveg,,,b3;b_complex;protein;protein_energy;zinc,Lean skinless chicken breast marinated in rosemary and
+f_country_chicken_curry,Home Style Chicken Curry,indian,meat,lunch;dinner,nonveg,,,b3;iron;protein;protein_energy;zinc,Bone-in tender chicken simmered with ginger-garlic gravy
+f_chicken_moringa_soup,Chicken and Moringa Clear Soup,indian,meat,breakfast;dinner,nonveg,,,iron;protein;protein_energy;vitamin_c;water,Slow-simmered bone broth cooked with fresh moringa leaves
+f_steamed_spinach,Garlic Steamed Fresh Spinach,global,leafy_green,lunch;dinner,veg;vegan,,high_potassium,b9_folate;iron;vitamin_a;vitamin_e;vitamin_k,Baby spinach leaves wilted quickly with minced garlic
+f_methi_aloo_dry,Fenugreek Methi Greens Stirfry,indian,leafy_green,lunch;dinner,veg;vegan,,high_potassium,b9_folate;calcium;iron;vitamin_a,Chopped bitter fenugreek leaves sauteed with light cumin
+f_sarson_saag,Traditional Mustard Sarson Saag,indian,leafy_green,lunch;dinner,veg;vegan,,high_potassium,calcium;vitamin_a;vitamin_c;vitamin_e;vitamin_k,Simmered mustard greens with bathua and ginger root
+f_moringa_poriyal,Drumstick Leaves Moringa Poriyal,indian,leafy_green,lunch;dinner,veg;vegan,,,calcium;iron;vitamin_a;vitamin_c,Tender moringa leaves sauteed with mustard and fresh coconut
+f_amaranth_greens,Red Amaranth Leaves Thoran,indian,leafy_green,lunch;dinner,veg;vegan,,high_potassium,calcium;iron;vitamin_a;vitamin_c,Chopped red amaranth leaves steamed with shallots and chili
+f_steamed_kale,Braised Curly Kale with Olive Oil,global,leafy_green,lunch;dinner,veg;vegan,,high_potassium,calcium;vitamin_a;vitamin_c;vitamin_k,Hearty kale leaves braised with crushed garlic and pepper
+f_roasted_carrots,Roasted Orange Carrots in Cumin,global,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Tender sweet carrots roasted golden with olive oil and cumin
+f_baked_sweet_potato,Baked Cinnamon Sweet Potato,global,vegetable,breakfast;lunch;dinner,veg;vegan,,high_potassium,b_complex;biotin;fiber;vitamin_a;vitamin_e,Whole sweet potato baked until caramelized with cinnamon
+f_yellow_pumpkin_curry,Yellow Pumpkin Kaddu Sabzi,indian,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Diced yellow pumpkin braised with fenugreek seeds and
+f_steamed_broccoli,Lightly Steamed Broccoli Florets,global,vegetable,lunch;dinner,veg;vegan,,,b9_folate;calcium;vitamin_c;vitamin_e;vitamin_k,Bright green crisp broccoli steamed and seasoned with lemon
+f_spiced_cauliflower,Roasted Gobi Florets with Turmeric,indian,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_c;vitamin_k,Cauliflower tossed with wild turmeric and roasted dry
+f_bhindi_masala,Crispy Okra Bhindi Masala,indian,vegetable,lunch;dinner,veg;vegan,,,b9_folate;calcium;fiber;vitamin_c,Sliced ladyfingers shallow pan-seared with coriander and
+f_lauki_sabzi,Bottle Gourd Lauki Stew,indian,vegetable,lunch;dinner,veg;vegan,,,b_complex;fiber;vitamin_c;water,Tender calabash squash gently cooked with cumin and curry
+f_beetroot_poriyal,Grated Beetroot Thoran,indian,vegetable,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;water,Grated crimson beets sauteed with mustard seeds and coconut
+f_tomato_rasam,Tangy Pepper Tomato Rasam,indian,vegetable,lunch;dinner,veg;vegan,,,b_complex;iron;vitamin_c;water,Clear herbal broth made from fresh tomatoes and crushed
+f_cucumber_kosambari,Moong Cucumber Kosambari,indian,vegetable,lunch;dinner,veg;vegan,,,fiber;protein;protein_energy;vitamin_c;water,Finely diced cooling cucumber tossed with soaked moong dal
+f_button_mushrooms,Sauteed Garlic Button Mushrooms,global,vegetable,breakfast;lunch;dinner,veg;vegan,,,b12;b2;b3;vitamin_d;zinc,Plump white mushrooms browned with thyme and black pepper
+f_bell_pepper_stirfry,Tri-Color Bell Pepper Medley,global,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_a;vitamin_c;vitamin_e,"Sliced red, yellow, and green peppers sauteed in olive oil"
+f_green_peas_matar,Fresh Green Peas Matar Curry,indian,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;protein;protein_energy;vitamin_c,Sweet garden peas cooked tender in fragrant cumin sauce
+f_ripe_papaya,Fresh Ripe Papaya Slices,indian,fruit,breakfast;fruit_side,veg;vegan,,,b9_folate;vitamin_a;vitamin_c;water,Sweet orange papaya spears served chilled with lime wedge
+f_ripe_mango,Sliced Seasonal Sweet Mango,indian,fruit,breakfast;fruit_side,veg;vegan,,high_sugar,b3;b_complex;vitamin_a;vitamin_c;water,Sun-ripened fresh alphonso or banganapalli mango cheeks
+f_pink_guava,Crunchy Pink Guava Wedges,indian,fruit,breakfast;fruit_side,veg;vegan,,,b3;fiber;iron;protein;protein_energy;vitamin_c;zinc,Crisp tropical guava sliced with fresh black salt garnish
+f_nagpur_orange,Fresh Sweet Nagpur Orange,indian,fruit,breakfast;fruit_side,veg;vegan,,,b9_folate;calcium;vitamin_c;vitamin_d;water,Pealed sweet and tangy citrus segments rich in natural juice
+f_fresh_amla,Raw Wild Amla Indian Gooseberry,indian,fruit,breakfast;fruit_side,veg;vegan,,,b_complex;fiber;iron;vitamin_c,Tart whole Indian gooseberry sliced fresh with mint pinch
+f_robusta_banana,Golden Robusta Banana,indian,fruit,breakfast;fruit_side,veg;vegan,,high_potassium,b12;b3;b_complex;biotin;fiber;protein_energy,Ripe naturally sweet banana easy on digestion
+f_kashmiri_apple,Crisp Kashmiri Red Apple,indian,fruit,breakfast;fruit_side,veg;vegan,,,b12;b2;b_complex;fiber;vitamin_c;water,Firm unpeeled apple slices retaining crisp natural pectin
+f_fresh_pomegranate,Ruby Red Pomegranate Arils,indian,fruit,breakfast;fruit_side,veg;vegan,,,b9_folate;fiber;iron;vitamin_c;zinc,Jeweled juicy pomegranate seeds harvested fresh from fruit
+f_sweet_watermelon,Juicy Red Watermelon Triangles,global,fruit,breakfast;fruit_side,veg;vegan,,,iron;vitamin_a;vitamin_c;water,Chilled crisp red melon wedges offering high hydration
+f_sweet_muskmelon,Fragrant Orange Muskmelon Bowl,indian,fruit,breakfast;fruit_side,veg;vegan,,,vitamin_a;vitamin_c;vitamin_d;water,Sweet cantaloupe melon diced into bite-sized juicy cubes
+f_fresh_strawberries,Fresh Sweet Red Strawberries,global,fruit,breakfast;fruit_side,veg;vegan,,,b12;b9_folate;biotin;fiber;vitamin_c;zinc,Handpicked ripe red berries washed and hulled fresh
+f_fresh_blueberries,Wild Plump Blueberries,global,fruit,breakfast;fruit_side,veg;vegan,,,b3;b_complex;fiber;vitamin_c;vitamin_k,Antioxidant-dense dark berries ready for whole snacking
+f_ripe_avocado,Hass Avocado Half with Lime,global,fruit,breakfast;lunch;fruit_side,veg;vegan,,high_potassium,b12;b2;b9_folate;fiber;vitamin_d;vitamin_e;water;zinc,Creamy ripe nutrient-rich avocado mashed with lime juice
+f_green_kiwi,Tangy Emerald Kiwi Slices,global,fruit,breakfast;fruit_side,veg;vegan,,,b2;fiber;vitamin_c;vitamin_e;vitamin_k,Tart green kiwi fruit peeled and sliced into bright rounds
+f_sweet_pineapple,Fresh Golden Pineapple Chunks,global,fruit,breakfast;fruit_side,veg;vegan,,,b3;b_complex;fiber;vitamin_c;water,Sweet golden pineapple cubes rich in bromelain enzymes
+f_medjool_dates,Soft Pitted Medjool Dates,global,fruit,breakfast;fruit_side,veg;vegan,,high_sugar;high_potassium,b_complex;fiber;iron;protein_energy,Plump whole natural dates with deep caramel richness
+f_dried_figs,Sun-Dried Anjeer Figs,indian,fruit,breakfast;fruit_side,veg;vegan,,high_sugar,b2;calcium;fiber;iron;protein_energy;vitamin_d,Whole dried figs soaked tender overnight in pure water
+f_soaked_almonds,Overnight Soaked California Almonds,global,nut_seed,breakfast,veg;vegan,nuts,,b2;calcium;protein;protein_energy;vitamin_e,Raw whole almonds blanched and peeled after overnight soak
+f_raw_walnuts,Crisp Shelled English Walnuts,global,nut_seed,breakfast,veg;vegan,nuts,,b_complex;biotin;fiber;protein;protein_energy,Fresh whole walnut halves rich in plant omega-3 fatty acids
+f_roasted_pumpkin_seeds,Toasted Salt-Free Pumpkin Seeds,global,nut_seed,breakfast;lunch;dinner,veg;vegan,,,iron;protein;protein_energy;vitamin_e;zinc,Crunchy roasted pepitas ready to sprinkle on dishes
+f_white_sesame_til,Roasted White Sesame Seeds,indian,nut_seed,breakfast;lunch;dinner,veg;vegan,,,calcium;iron;protein;protein_energy;zinc,Fragrant nutty sesame seeds lightly toasted on skillet
+f_chia_seeds,Hydrated Black Chia Seeds,global,nut_seed,breakfast,veg;vegan,,,calcium;fiber;iron;protein;protein_energy,Chia seeds bloomed in water to a gentle soothing gel
+f_ground_flaxseeds,Cold Ground Brown Flaxseed Meal,global,nut_seed,breakfast,veg;vegan,,,b_complex;fiber;iron;protein;protein_energy,Milled whole flaxseeds added to porridges and warm doughs
+f_roasted_peanuts,Dry Roasted Peanuts with Skin,indian,nut_seed,breakfast;lunch,veg;vegan,nuts,,b3;fiber;protein;protein_energy;zinc,Crisp roasted groundnuts offering steady energy release
+f_extra_virgin_olive_oil,Cold-Pressed Extra Virgin Olive Oil,global,oil,lunch;dinner,veg;vegan,,,vitamin_e;vitamin_k,Drizzle of unrefined fragrant cold-pressed Mediterranean oil
+f_pure_cow_ghee,Traditional Cultured Cow Ghee,indian,oil,breakfast;lunch;dinner,veg,dairy,,vitamin_a;vitamin_e,Pure golden clarified butter cooked slowly from cultured
+f_tender_coconut_water,Natural Tender Coconut Water,indian,beverage,breakfast,veg;vegan,,high_potassium,calcium;protein_energy;water,Clear refreshing electrolytes drained straight from raw
+f_warm_lemon_water,Warm Lemon Water with Ginger,global,beverage,breakfast,veg;vegan,,,vitamin_c;water,Pure warm drinking water steeped with fresh lemon and ginger
+f_herbal_mint_water,Infused Fresh Mint Cucumber Water,global,beverage,lunch;dinner,veg;vegan,,,water,Cooling spring water infused with garden mint and cucumber
+f_chana_masala_gravy,Homestyle Chana Masala Gravy,indian,pulse,lunch;dinner,veg;vegan,,,fiber;iron;protein;protein_energy;zinc,Chickpeas braised in slow roasted tomato and onion reduction
+f_moong_dal_chilla,Savory Sprouted Moong Chilla,indian,pulse,breakfast;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,Pan-fried ground green gram crepes folded with grated
+f_ragi_mudde,Steamed Ragi Mudde Ball,indian,millet,lunch;dinner,veg;vegan,,high_potassium,b_complex;calcium;fiber;iron;protein_energy,Traditional Karnataka steamed finger millet flour dough ball
+f_vegetable_khichdi,Comforting Moong Rice Khichdi,indian,cereal,lunch;dinner,veg;vegan,,,b9_folate;b_complex;fiber;protein;protein_energy,"Wholesome mild one-pot dish of rice, split moong, and cumin"
+f_lemon_rice,Peanut Tempered Lemon Rice,indian,cereal,lunch;dinner,veg;vegan,nuts,,b_complex;iron;protein_energy;vitamin_c,"Fluffy rice tossed with fresh lemon juice, curry leaves,"
+f_curd_rice,Tempered Probiotic Curd Rice,indian,cereal,lunch;dinner,veg,dairy,,b12;b2;calcium;protein;protein_energy,Soft mashed rice blended with fresh homemade curd and
+f_baingan_bharta,Smoked Roasted Baingan Bharta,indian,vegetable,lunch;dinner,veg;vegan,,,b_complex;fiber;vitamin_c;water,Fire-roasted eggplant mashed and sauteed with peas and
+f_cabbage_poriyal,Steamed Cabbage Green Pea Poriyal,indian,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_c;vitamin_k,Finely shredded cabbage tossed with grated coconut and peas
+f_aloo_gobi_matar,Homestyle Aloo Gobi Matar,indian,vegetable,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;vitamin_c;vitamin_k,"Cauliflower florets, sweet peas, and potato simmered dry"
+f_moringa_drumstick_curry,Drumstick Tomato Stew,indian,vegetable,lunch;dinner,veg;vegan,,,calcium;iron;vitamin_a;vitamin_c,Whole tender drumsticks stewed with tomatoes and cumin
+f_matar_paneer,Homestyle Green Matar Paneer,indian,dairy,lunch;dinner,veg,dairy,,b12;calcium;protein;protein_energy;vitamin_a,Cottage cheese cubes and fresh green peas in tomato gravy
+f_kadai_paneer,Kadai Bell Pepper Paneer,indian,dairy,lunch;dinner,veg,dairy,,calcium;protein;protein_energy;vitamin_a;vitamin_c,Paneer tossed in a wok with chunky red and green bell
+f_rajma_pulao,Fragrant Brown Rice Rajma Pulao,indian,cereal,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein;protein_energy,Whole brown rice cooked with seasoned dark red kidney beans
+f_masoor_pulao,Whole Masoor and Mint Pulao,indian,cereal,lunch;dinner,veg;vegan,,,b_complex;fiber;iron;protein;protein_energy,Basmati rice layered with whole brown lentils and fresh mint
+f_soya_chunk_curry,Textured Soya Chunks Curry,indian,pulse,lunch;dinner,veg;vegan,soy,,b12;calcium;fiber;iron;protein;protein_energy,Spongy defatted soy chunks cooked tender in spicy onion
+f_soya_keema_matar,Vegetarian Soya Keema Matar,indian,pulse,lunch;dinner,veg;vegan,soy,,b12;b_complex;fiber;iron;protein;protein_energy,Minced soy protein sauteed with garden peas and fresh herbs
+f_fish_tikka,Tandoori Fish Tikka,indian,fish,lunch;dinner,nonveg,,,b12;protein;protein_energy;vitamin_d;zinc,Cubes of firm coastal fish char-grilled with ajwain seeds
+f_chicken_tikka,Lean Grilled Chicken Tikka,indian,meat,lunch;dinner,nonveg,dairy,,b3;b_complex;protein;protein_energy;zinc,Skinless chicken morsels roasted in clay oven with herbs
+f_steamed_sweet_corn,Warm Lemon Pepper Sweet Corn,global,vegetable,breakfast;lunch,veg;vegan,,,b_complex;fiber;vitamin_a;vitamin_c,Steamed golden corn kernels tossed with fresh lemon and
+f_raw_papaya_salad,Raw Green Papaya Lime Salad,global,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Julienned green papaya tossed with lime juice and chili
+f_vegetable_clear_soup,Garden Vegetable Clear Soup,global,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Light soothing vegetable broth with broccoli and sweet
+f_spinach_corn_sandwich,Grilled Spinach Corn Sandwich,global,cereal,breakfast;lunch,veg;vegan,gluten,,b_complex;fiber;iron;vitamin_a,Whole grain bread filled with steamed spinach and sweet corn
+f_tofu_vegetable_scramble,Turmeric Spiced Tofu Scramble,global,pulse,breakfast,veg;vegan,soy,,calcium;iron;protein;protein_energy;zinc,Crumbled organic tofu sauteed with onions and yellow
+f_lentil_shepherd_pie,Brown Lentil Vegetable Mash,global,pulse,lunch;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,Slow-stewed brown lentils topped with sweet potato mash
+f_quinoa_vegetable_bowl,Steamed Quinoa Garden Bowl,global,cereal,lunch;dinner,veg;vegan,,,fiber;iron;protein;protein_energy;zinc,Fluffy white quinoa tossed with roasted carrots and greens
+f_avocado_toast,Mashed Avocado on Whole Grain Toast,global,cereal,breakfast,veg;vegan,gluten,high_potassium,b9_folate;fiber;vitamin_e;water,Crushed ripe avocado spread over warm toasted multi-seed
+f_chia_pudding,Almond Milk Chia Seed Pudding,global,nut_seed,breakfast,veg;vegan,nuts,,calcium;fiber;iron;protein;protein_energy,Chilled chia seeds soaked in unsweetened almond milk
+f_baked_salmon_dill,Baked Salmon with Fresh Dill,global,fish,lunch;dinner,nonveg,,high_potassium,b12;b3;protein;protein_energy;vitamin_d,Oven baked wild salmon steak seasoned with fresh dill weed
+f_tuna_salad_bowl,Olive Oil Flaked Tuna Salad,global,fish,lunch;dinner,nonveg,,,b12;b3;protein;protein_energy;vitamin_d,Flaked skipjack tuna mixed with crisp celery and lemon juice
+f_turkey_breast_slice,Roasted Lean Turkey Breast,global,meat,lunch;dinner,nonveg,,,b3;b_complex;protein;protein_energy;zinc,Carved tender roasted white poultry breast seasoned with
+f_steamed_asparagus,Tender Steamed Asparagus Spears,global,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_a;vitamin_k,Fresh green asparagus stalks steamed until tender-crisp
+f_zucchini_stirfry,Herbed Green Zucchini Rounds,global,vegetable,lunch;dinner,veg;vegan,,,b_complex;fiber;vitamin_c;water,Sliced tender summer squash sauteed in cold-pressed oil
+f_sauteed_kale_greens,Garlic Sauteed Dinosaur Kale,global,leafy_green,lunch;dinner,veg;vegan,,high_potassium,calcium;vitamin_a;vitamin_c;vitamin_k,Lacinato kale leaves tossed with garlic slivers in olive oil
+f_steamed_edamame_bowl,Warm Salted Edamame in Shell,global,pulse,breakfast;lunch,veg;vegan,soy,high_potassium,b9_folate;fiber;iron;protein;protein_energy,Whole immature green soybean pods lightly steamed and salted
+f_pomegranate_sprout_chaat,Pomegranate Moong Sprout Chaat,indian,pulse,breakfast;lunch,veg;vegan,,,fiber;iron;protein;protein_energy;vitamin_c,Sprouted moong beans combined with crunchy pomegranate arils
+f_methi_dal_tadka,Fresh Methi Leaves Toor Dal,indian,pulse,lunch;dinner,veg;vegan,,,b9_folate;iron;protein;protein_energy;vitamin_a,Pigeon pea split lentils stewed with bitter fenugreek greens
+f_amla_ginger_juice,Fresh Squeezed Amla Ginger Shot,indian,beverage,breakfast,veg;vegan,,,iron;vitamin_c,Pure pressed gooseberry juice with a hint of warm ginger
+f_buttermilk_neer_moru,Spiced Neer Moru Buttermilk,indian,dairy,lunch;dinner,veg,dairy,,b12;b2;calcium;water,Whisked thin buttermilk seasoned with asafoetida and ginger
+f_steamed_corn_chaat,Sweet Corn and Tomato Chaat,indian,vegetable,breakfast;lunch,veg;vegan,,,b_complex;fiber;vitamin_c;water,"Warm sweet corn mixed with diced tomatoes, mint, and lemon"
+f_roasted_chana_snack,Roasted Bengal Gram Chana Snack,indian,pulse,breakfast;lunch,veg;vegan,,,fiber;iron;protein;protein_energy;zinc,Crunchy roasted whole yellow chickpeas eaten with husk
+f_masoor_dal_tadka,Red Lentil Masoor Dal Tadka,indian,pulse,lunch;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,Split red lentils simmered rapidly with turmeric and cumin
+f_lauki_soup,Creamless Bottle Gourd Soup,indian,vegetable,dinner,veg;vegan,,,b_complex;fiber;water,Warm pureed tender gourd soup seasoned with black
+f_tomato_cucumber_salad,Fresh Tomato and Cucumber Salad,global,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Sliced vine tomatoes and garden cucumbers with lemon
+f_beetroot_curd_pachadi,Crimson Beetroot Dahi Pachadi,indian,dairy,lunch;dinner,veg,dairy,high_potassium,b12;b9_folate;calcium;fiber,Grated sweet beets folded into chilled probiotic yogurt
+f_cucumber_curd_raita,Cooling Cucumber Mint Raita,indian,dairy,lunch;dinner,veg,dairy,,b12;b2;calcium;water,"Whisked yogurt with grated cucumber, roasted cumin, and mint"
+f_boiled_chickpea_salad,Lemon Parsley Chickpea Salad,global,pulse,breakfast;lunch,veg;vegan,,,fiber;iron;protein;protein_energy;zinc,Tender boiled chickpeas mixed with chopped parsley and lemon
+f_black_eyed_peas_curry,Lobia Black Eyed Peas Curry,indian,pulse,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein;protein_energy,Cowpeas cooked in fragrant tomato onion base
+f_spinach_lentil_khichdi,Palak Moong Brown Rice Khichdi,indian,cereal,lunch;dinner,veg;vegan,,high_potassium,b9_folate;iron;protein;protein_energy;vitamin_a,"Comforting blend of brown rice, lentils, and fresh spinach"
+f_bajra_khichdi,Pearl Millet Bajra Moong Khichdi,indian,millet,lunch;dinner,veg;vegan,,high_potassium,fiber;iron;protein;protein_energy;zinc,Coarsely ground bajra slow-cooked with split yellow moong
+f_ragi_dosa,Crispy Fermented Ragi Dosa,indian,millet,breakfast;dinner,veg;vegan,,high_potassium,calcium;fiber;iron;protein;protein_energy,Thin crisp crepe made from fermented ragi and urad batter
+f_jowar_upma,Cracked Jowar Vegetable Upma,indian,millet,breakfast;dinner,veg;vegan,,high_potassium,b_complex;fiber;iron;protein_energy;zinc,Sorghum semolina cooked fluffy with carrots and mustard
+f_red_poha,Organic Red Rice Poha,indian,cereal,breakfast,veg;vegan,nuts,,b_complex;fiber;iron;protein_energy,Flattened red unpolished rice tossed with peanuts and lime
+f_sprouted_fenugreek_salad,Sprouted Methi Seeds Salad,indian,pulse,breakfast;lunch,veg;vegan,,,b_complex;fiber;iron;protein_energy;zinc,Sprouted bitter fenugreek seeds tossed with grated carrots
+f_pumpkin_soup,Roasted Pumpkin Coconut Soup,global,vegetable,dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Velvety roasted pumpkin pureed with a splash of coconut milk
+f_carrot_ginger_soup,Warm Carrot and Ginger Potage,global,vegetable,dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Simmered sweet carrots pureed with spicy warming ginger
+f_mushroom_pepper_fry,Button Mushroom Pepper Fry,indian,vegetable,lunch;dinner,veg;vegan,,,b12;b2;b3;vitamin_d;zinc,Fresh button mushrooms stir-fried with cracked black pepper
+f_steamed_cauliflower,Steamed Cauliflower with Turmeric,global,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_c;vitamin_k,Cauliflower pieces steamed tender and sprinkled with sea
+f_spinach_egg_bake,Baked Egg and Spinach Skillet,global,egg,breakfast;dinner,veg;egg,,high_potassium,b12;iron;protein;protein_energy;vitamin_a,Farm eggs cracked over wilted garlic spinach and baked
+f_boiled_chana_chaat,Kala Chana Chaat with Raw Mango,indian,pulse,breakfast;lunch,veg;vegan,,high_potassium,fiber;iron;protein;protein_energy;vitamin_c,Boiled black chickpeas tossed with green chili and raw mango
+f_curd_poha,Dahi Poha with Roasted Cumin,indian,cereal,breakfast;lunch,veg,dairy,,b12;b2;calcium;iron,Flattened rice soaked soft in churned fresh cow yogurt
+f_barley_vegetable_soup,Pearl Barley Vegetable Broth,global,cereal,dinner,veg;vegan,gluten,,b_complex;fiber;iron;zinc,Chewy whole pearl barley cooked tender in vegetable stock
+f_grilled_pomfret,Grilled Coastal Pomfret Fish,indian,fish,lunch;dinner,nonveg,,,b12;protein;protein_energy;vitamin_d;zinc,Fresh whole white pomfret marinated in turmeric and
+f_mackerel_curry,Spicy Coastal Mackerel Fish Curry,indian,fish,lunch;dinner,nonveg,,,b12;iron;protein;protein_energy;vitamin_d,Rich fatty mackerel fish stewed with kokum and hot spices
+f_boiled_sweet_potato_cubes,Boiled Sweet Potato Cubes with Chaat Masala,indian,vegetable,breakfast;lunch,veg;vegan,,high_potassium,biotin;fiber;vitamin_a;water,Steamed orange sweet potato cubes dusted with roasted cumin
+f_tamarind_rasam,Peppery Tamarind Rasam,indian,beverage,lunch;dinner,veg;vegan,,,b_complex;iron;water,Spicy clear south Indian broth made with crushed garlic
+f_radish_mooli_salad,Fresh White Radish Mooli Salad,indian,vegetable,lunch;dinner,veg;vegan,,,b9_folate;fiber;vitamin_c;water,Crisp peeled white radish slices garnished with coriander
+f_snake_gourd_kootu,Snake Gourd Chana Dal Kootu,indian,vegetable,lunch;dinner,veg;vegan,,,calcium;fiber;protein;protein_energy;water,Tender padavalanga cooked with yellow lentils and coconut
+f_ridge_gourd_curry,Ridge Gourd Turai Moong Sabzi,indian,vegetable,lunch;dinner,veg;vegan,,,b_complex;fiber;vitamin_c;water,Light vegetable curry of ridge gourd and split yellow dal
+f_pointed_gourd_parwal,Stir-Fried Parwal Pointed Gourd,indian,vegetable,lunch;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,Tender halved pointed gourds pan roasted with aromatic
+f_colocasia_arbi_roast,Tawa Roasted Arbi Colocasia,indian,vegetable,lunch;dinner,veg;vegan,,high_potassium,b_complex;fiber;vitamin_e;water,Boiled taro roots pan-roasted golden with carom ajwain seeds
+f_sweet_lime_mosambi,Fresh Squeezed Mosambi Sweet Lime,indian,fruit,breakfast;fruit_side,veg;vegan,,,b9_folate;vitamin_c;water,Hand-pressed sweet lime fruit drink served fresh without
+f_raw_guava_chaat,Crisp Green Guava Chaat,indian,fruit,breakfast;fruit_side,veg;vegan,,,fiber;iron;protein;protein_energy;vitamin_c,Sliced crunchy tropical green guava sprinkled with chaat
+f_jamun_black_plum,Wild Jamun Black Plum Fruit,indian,fruit,breakfast;fruit_side,veg;vegan,,,fiber;iron;vitamin_c;water,Deep purple wild berries known for rich natural flavonoids
+f_custard_apple_sitaphal,Ripe Sugar Apple Sitaphal,indian,fruit,breakfast;fruit_side,veg;vegan,,high_sugar;high_potassium,b_complex;fiber;iron;vitamin_c,Aromatic creamy pulpy fruit segments packed with minerals
+f_wood_apple_bael,Sun Dried Bael Fruit Pulp,indian,fruit,breakfast;fruit_side,veg;vegan,,,b_complex;fiber;vitamin_c;water,Traditional soothing herbal fruit pulp steeped in fresh
+f_soya_milk_plain,Fortified Plain Soy Milk,global,beverage,breakfast,veg;vegan,soy,,b12;calcium;protein;protein_energy;vitamin_d,Plant milk fortified with calcium and cobalamin B12
+f_almond_milk_plain,Unsweetened Plain Almond Milk,global,beverage,breakfast,veg;vegan,nuts,,calcium;vitamin_d;vitamin_e;water,Light dairy-free nutty drink blended from raw whole almonds
+f_oat_milk_plain,Fortified Whole Oat Milk,global,beverage,breakfast,veg;vegan,,,b12;calcium;fiber;vitamin_d,Creamy oat beverage fortified with essential vitamins
+f_cow_milk_warm,Warm Single Toned Cow Milk,indian,dairy,breakfast;dinner,veg,dairy,,b12;calcium;protein;protein_energy;vitamin_d,Gently warmed dairy milk providing natural bioavailable
+f_pan_seared_paneer,Light Pan Seared Paneer Bites,indian,dairy,breakfast;lunch,veg,dairy,,b12;calcium;protein;protein_energy;zinc,Lightly browned farmer cheese cubes seasoned with herbs
+f_steamed_mung_sprouts,Warm Steamed Moong Sprouts,indian,pulse,breakfast;lunch,veg;vegan,,,b9_folate;fiber;protein;protein_energy;vitamin_c,Gently heated sprouted mung beans seasoned with rock salt
+f_sesame_chutney,Toasted Sesame and Coconut Chutney,indian,nut_seed,breakfast;dinner,veg;vegan,,,calcium;iron;vitamin_e;zinc,Thick stone-ground dip made of white sesame seeds and
+f_peanut_chutney,Roasted Peanut Mint Chutney,indian,nut_seed,breakfast;dinner,veg;vegan,nuts,,b3;fiber;protein;protein_energy;zinc,Aromatic breakfast dip made from roasted groundnuts and
+f_mint_coriander_chutney,Green Mint and Coriander Chutney,indian,vegetable,breakfast;lunch;dinner,veg;vegan,,,iron;vitamin_a;vitamin_c;water,Bright uncooked raw herb chutney with lemon juice and cumin
+f_ginger_garlic_dal,Spiced Ginger Garlic Dal,indian,pulse,lunch;dinner,veg;vegan,,,b_complex;iron;protein;protein_energy;zinc,Thick yellow lentil broth simmered with fresh crushed garlic
+f_horse_gram_soup,Spicy Horse Gram Kulthi Soup,indian,pulse,lunch;dinner,veg;vegan,,,calcium;fiber;iron;protein;protein_energy,Aromatic south Indian rasam style broth made from horse gram
+f_sprouted_chana_salad,Sprouted Kala Chana Salad,indian,pulse,breakfast;lunch,veg;vegan,,high_potassium,fiber;iron;protein;protein_energy;vitamin_c,Firm sprouted black gram tossed with tomato and lemon juice
+f_vegetable_biryani,Brown Rice Garden Vegetable Biryani,indian,cereal,lunch;dinner,veg;vegan,,,b_complex;fiber;vitamin_a;vitamin_c,Long grain whole brown rice layered with spiced
+f_soya_biryani,Spiced Soya Nugget Biryani,indian,cereal,lunch;dinner,veg;vegan,soy,,b_complex;fiber;iron;protein;protein_energy,Whole grain rice cooked with marinated high-protein soy
+f_fish_biryani_light,Light Fish and Rice Pilaf,indian,fish,lunch;dinner,nonveg,,,b12;protein;protein_energy;vitamin_d;zinc,Flaky fish fillet steamed with fragrant whole basmati grains
+f_chicken_pulao_mild,Mild Herbed Chicken Pulao,indian,meat,lunch;dinner,nonveg,,,b3;b_complex;iron;protein;protein_energy,Tender chicken morsels cooked with whole spices and basmati
+f_steamed_idiyappam,Steamed Rice String Hoppers Idiyappam,indian,cereal,breakfast;dinner,veg;vegan,,,b_complex;protein_energy;water,Delicate steamed rice vermicelli nests served with stew
+f_appam_plain,Fermented Rice Batter Appam,indian,cereal,breakfast;dinner,veg;vegan,,,b2;b_complex;protein_energy,Bowl-shaped soft fermented rice pancake with crisp lacy
+f_vegetable_stew,Kerala Vegetable Coconut Milk Stew,indian,vegetable,breakfast;dinner,veg;vegan,,,fiber;vitamin_a;vitamin_c;water,"Carrots, potatoes, and green beans simmered in light"
+f_kadala_curry,Black Chickpea Kadala Coconut Curry,indian,pulse,breakfast;lunch;dinner,veg;vegan,,high_potassium,fiber;iron;protein;protein_energy;zinc,Tender black chickpeas simmered with roasted coconut gravy
+f_khaman_dhokla,Steamed Besan Khaman Dhokla,indian,pulse,breakfast,veg;vegan,,,b_complex;iron;protein;protein_energy;zinc,Fluffy fermented chickpea flour savory cake tempered with
+f_khandvi,Rolled Spiced Besan Khandvi,indian,pulse,breakfast,veg,dairy,,b2;calcium;protein;protein_energy;zinc,Silky rolls of cooked chickpea flour and whisked buttermilk
+f_moong_dal_halwa_light,Low Sweetness Moong Dal Warm Bowl,indian,pulse,dinner,veg,dairy,high_sugar,b_complex;iron;protein;protein_energy,Coarsely ground yellow moong dal cooked with light ghee
+f_carrot_porridge,Warm Grated Carrot Milk Porridge,indian,vegetable,breakfast;dinner,veg,dairy,,b12;b2;calcium;vitamin_a,Grated red carrots simmered in toned milk with green
+f_smoked_salmon_scramble,Smoked Salmon and Herb Scramble,global,fish,breakfast,nonveg,,,b12;b3;protein;protein_energy;vitamin_d,Flaked wild salmon gently folded with fresh dill and pepper
+f_grilled_chicken_breakfast_wrap,Grilled Chicken Breakfast Wrap,global,meat,breakfast,nonveg,,,b3;b_complex;protein;protein_energy;zinc,Lean sliced chicken breast with crisp greens in flatbread
+f_poached_fish_broth,Poached White Fish Breakfast Broth,global,fish,breakfast,nonveg,,,b12;protein;protein_energy;water;zinc,Delicate fish fillet poached with ginger and scallions
+f_chicken_liver_pate_toast,Herbed Chicken Liver Toast,global,meat,breakfast,nonveg,gluten,,b12;b9_folate;iron;vitamin_a,Cooked chicken liver pate spread thin over toasted bread
+f_steamed_sweet_potato_mash,Savory Sweet Potato Garlic Mash,global,vegetable,lunch;dinner,veg;vegan,,high_potassium,biotin;fiber;vitamin_a;water,Mashed steamed sweet potato infused with garlic and olive
