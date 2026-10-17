@@ -1,0 +1,8 @@
+region,num_classes,test_set_size,test_accuracy_pct,ci_95_low,ci_95_high,baseline_accuracy_pct,advantage_pp,macro_f1,tflite_max_abs_diff,tflite_agreement_pct,float32_size_mb,drq_size_mb,shortcut_risk,sample_gate
+combined,10,662,41.54,37.76,45.32,25.53,16.01,0.4153,1.20e-05,100.00,8.51,2.41,False,True
+eyes,3,270,98.89,97.41,100.00,95.19,3.70,0.9889,3.00e-06,100.00,8.47,2.40,True,False
+hair,2,115,93.04,88.70,97.39,94.78,-1.74,0.9056,6.00e-06,100.00,8.47,2.39,True,False
+lips,3,114,90.35,84.21,94.74,83.33,7.02,0.7432,1.40e-05,100.00,8.47,2.40,True,True
+nails,3,118,73.73,65.25,81.36,73.73,0.00,0.6480,5.00e-06,100.00,8.47,2.40,True,True
+skin,6,227,81.06,76.21,85.90,72.25,8.81,0.6290,1.30e-05,100.00,8.48,2.40,True,True
+tongue,4,149,86.58,81.21,91.95,75.17,11.41,0.7748,7.00e-06,100.00,8.48,2.40,True,False

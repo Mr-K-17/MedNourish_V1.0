@@ -1,0 +1,62 @@
+model_family,model,class_name,metric,value_pct
+Tabular symptom_only,symptom_lifestyle_only,Anemia,XGB Prec,79.22
+Tabular symptom_only,symptom_lifestyle_only,Anemia,XGB Rec,73.49
+Tabular symptom_only,symptom_lifestyle_only,Anemia,XGB F1,76.25
+Tabular symptom_only,symptom_lifestyle_only,Anemia,LGB Prec,78.15
+Tabular symptom_only,symptom_lifestyle_only,Anemia,LGB Rec,74.70
+Tabular symptom_only,symptom_lifestyle_only,Anemia,LGB F1,76.39
+Tabular symptom_only,symptom_lifestyle_only,Healthy,XGB Prec,89.78
+Tabular symptom_only,symptom_lifestyle_only,Healthy,XGB Rec,93.05
+Tabular symptom_only,symptom_lifestyle_only,Healthy,XGB F1,91.38
+Tabular symptom_only,symptom_lifestyle_only,Healthy,LGB Prec,89.46
+Tabular symptom_only,symptom_lifestyle_only,Healthy,LGB Rec,92.72
+Tabular symptom_only,symptom_lifestyle_only,Healthy,LGB F1,91.06
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,XGB Prec,33.33
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,XGB Rec,29.17
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,XGB F1,31.11
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,LGB Prec,40.00
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,LGB Rec,33.33
+Tabular symptom_only,symptom_lifestyle_only,Night_Blindness,LGB F1,36.36
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,XGB Prec,72.85
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,XGB Rec,78.16
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,XGB F1,75.41
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,LGB Prec,73.15
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,LGB Rec,76.70
+Tabular symptom_only,symptom_lifestyle_only,Rickets_Osteomalacia,LGB F1,74.88
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,XGB Prec,50.00
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,XGB Rec,36.84
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,XGB F1,42.42
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,LGB Prec,46.15
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,LGB Rec,31.58
+Tabular symptom_only,symptom_lifestyle_only,Scurvy,LGB F1,37.50
+Vision v2,combined,Other_Nutrient_Deficiency,F1-Score,58.96
+Vision v2,combined,Vitamin_A_Deficiency,F1-Score,46.51
+Vision v2,combined,Vitamin_B12_Deficiency,F1-Score,20.80
+Vision v2,combined,Vitamin_B3_Deficiency,F1-Score,36.02
+Vision v2,combined,Vitamin_B9_Deficiency,F1-Score,57.25
+Vision v2,combined,Vitamin_B_Complex_Deficiency,F1-Score,21.13
+Vision v2,combined,Vitamin_C_Deficiency,F1-Score,66.67
+Vision v2,combined,Vitamin_D_Deficiency,F1-Score,10.85
+Vision v2,combined,Vitamin_E_Deficiency,F1-Score,53.33
+Vision v2,combined,Vitamin_K_Deficiency,F1-Score,43.75
+Vision v2,eyes,Vitamin_A_Deficiency,F1-Score,98.34
+Vision v2,eyes,Normal,F1-Score,98.89
+Vision v2,eyes,Other_Non_Nutritional,F1-Score,99.44
+Vision v2,hair,Normal,F1-Score,95.40
+Vision v2,hair,Other_Non_Nutritional,F1-Score,85.71
+Vision v2,lips,Normal,F1-Score,99.42
+Vision v2,lips,NON_NUTRITIONAL,F1-Score,59.26
+Vision v2,lips,NUTRITIONAL,F1-Score,64.29
+Vision v2,nails,Other_Non_Nutritional,F1-Score,80.98
+Vision v2,nails,NORMAL,F1-Score,53.85
+Vision v2,nails,Nutritional,F1-Score,59.57
+Vision v2,skin,Normal,F1-Score,96.67
+Vision v2,skin,Other_Non_Nutritional,F1-Score,86.06
+Vision v2,skin,BIOTIN,F1-Score,36.36
+Vision v2,skin,VITAMIN_C,F1-Score,58.33
+Vision v2,skin,Vitamin_B3_Pellagra,F1-Score,71.43
+Vision v2,skin,ZINC,F1-Score,28.57
+Vision v2,tongue,Diabetes,F1-Score,66.67
+Vision v2,tongue,Healthy,F1-Score,57.14
+Vision v2,tongue,OralCancer,F1-Score,88.89
+Vision v2,tongue,Other_TCM_Tongue,F1-Score,97.21

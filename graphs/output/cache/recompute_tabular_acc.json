@@ -1,0 +1,14 @@
+{
+  "with_labs": {
+    "xgb_acc": 0.9938,
+    "lgb_acc": 0.9912
+  },
+  "no_labs": {
+    "xgb_acc": 0.9925,
+    "lgb_acc": 0.9912
+  },
+  "symptom_lifestyle_only": {
+    "xgb_acc": 0.7987,
+    "lgb_acc": 0.7975
+  }
+}
