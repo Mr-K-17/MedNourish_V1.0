@@ -215,4 +215,6 @@ Do not implement the feature in the left column until the listed items are close
 | **C-37** | Architecture / MedScan | MedScan lists nutrient candidates with percentages (blended with region follow-up checklist). |
 | **C-38** | CARE-02 / Reports | CarePlan auto-sync from reports for top nutrients >= 30% from curated dietary/lifestyle routine columns only (never supplements). |
 | **C-39** | C-38 / CARE-02 | CarePlan includes a deterministic meal planner from a curated food guide: foods only; no medicines, supplements, doses, calories or nutrient amounts; amends C-38 for the food part. |
+| **C-40** | Publish & Deployment | Clean-history snapshot published to GitHub (Mr-K-17/MedNourish_V1.0) on branch main with static Pages landing and CI (GitHub Actions + GitLab CI); datasets, model weights, .env*, and *.db excluded. |
+
 

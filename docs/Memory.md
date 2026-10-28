@@ -129,6 +129,7 @@ These are decisions by the owner, as recorded in the planning conversation and i
 | C-30 | **Experimental ML Lab.** XGBoost, LightGBM, and MobileNetV2/TFLite models shown ONLY in separated 'Experimental ML Lab' area with model cards (data used, split method, metrics, confusion matrix, limitations). Outputs are dataset labels/rankings, never diagnoses, never percentages shown as risk, never fed into MedBot, Explorer, summaries, CarePlan or reports. | `PRD.md` LAB-01 · SAF-01, GR-05 |
 | C-31 | **Dataset-label classifiers.** Models train on folder/CSV labels as an academic benchmark ('can the model separate the dataset\'s own classes'), not clinical truth. Mandatory: SHA-256 + perceptual-hash deduplication, source/folder-aware splits so duplicates never cross splits, non-nutritional classes kept as 'Other/non-nutritional' or excluded, masks/segmentation excluded, documented warning that source differences can inflate scores. | `Rules.md` DAT-01..05 · C-12 |
 | C-32 | **Databases come last.** Until Stage 9 the app runs on SQLite (file `backend/dev.db`) via `DB_MODE=sqlite` default, plus a seed script with demo data. Live MySQL/MongoDB verification is Stage 9. | `Architecture.md` 3 · C-25 |
+| C-40 | **Clean-history public repository.** Publish snapshot of MedNourish to GitHub (Mr-K-17/MedNourish_V1.0, branch main) with CI and static landing on GitHub Pages. Datasets, model binaries, .env*, *.db, and historical git commits strictly excluded. | Decision C-40 · PV-09 |
 
 *Note:* Confirmed decisions C-01 through C-25 are now canonical across all documents.
 
@@ -691,6 +692,11 @@ Ordered by what unblocks the most. Task numbers match `Phases.md` section 2.
 - STEP 0 completed: diagnosed root cause of one-line food items (aggressive 135-char truncation of CSV text into single task strings).
 - Decision C-39 recorded in Rules.md, PRD.md, and Memory.md: deterministic meal planner from curated food guide (foods only, amends C-38 for food).
 - Preserved exercise, lifestyle, clinician referral auto-items, manual tasks, and .ics export while initiating CarePlan v3 rebuild.
+
+### S-051 -- 2026-10-28 -- Antigravity (Implementation Engineer) -- MedNourish-Dev (branch dev)
+- Published clean-history repository snapshot to GitHub (Mr-K-17/MedNourish_V1.0) on branch main (commit f5c3394, size 2.35 MiB, 219 files).
+- Configured CI workflows for GitHub Actions (pytest + npm build) and GitLab CI, with static landing page deployed via GitHub Pages.
+- Excluded all raw datasets, model weight binaries (*.keras, *.tflite), .env*, *.db, and historical commits per C-40 authorization.
 
 ---
 
