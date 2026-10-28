@@ -1,0 +1,12 @@
+# MedNourish — Class Map: Lips (Phase 3 v2: min 40 support gate)
+model: lips
+dataset_root: LIPS
+cap_per_class: 600
+classes:
+  - name: Normal
+    source_folders: ["NORMAL"]
+  - name: NUTRITIONAL
+    source_folders: ["NUTRITIONAL"]
+  - name: NON_NUTRITIONAL
+    source_folders: ["NON_NUTRITIONAL"]
+excluded_folders: []

@@ -1,0 +1,16 @@
+# MedNourish — Class Map: Hair
+model: hair
+dataset_root: HAIR
+cap_per_class: 600
+classes:
+  - name: Normal
+    source_folders: ["Normal"]
+  - name: Other_Non_Nutritional
+    source_folders: ["Other"]
+excluded_folders:
+  - name: Alopecia
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 31 images)"
+  - name: Corkscrew_Hair
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 19 images)"
+  - name: Sparse_Hair
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 13 images)"

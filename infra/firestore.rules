@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // SEC-02 & Architecture.md: Deny-by-default for all collections
+    // Phase 1: Zero direct client writes. Clients may only read their own profile/reports.
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // All writes must go through verified FastAPI endpoints
+    }
+
+    match /reports/{reportId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

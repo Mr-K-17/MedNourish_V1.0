@@ -1,0 +1,12 @@
+# MedNourish — Class Map: Nails (Phase 3 v2: min 40 support gate)
+model: nails
+dataset_root: NAILS
+cap_per_class: 600
+classes:
+  - name: Nutritional
+    source_folders: ["NUTRITIONAL"]
+  - name: NORMAL
+    source_folders: ["NORMAL"]
+  - name: Other_Non_Nutritional
+    source_folders: ["OTHER", "NON_NUTRITIONAL"]
+excluded_folders: []

@@ -1,0 +1,30 @@
+# MedNourish — Nutrient Group Classification Hierarchy
+# Maps 116 reference table raw deficiency strings to canonical nutrient groups
+
+groups:
+  Non_Nutritional:
+    - "Not Nutritional"
+    - "None"
+    - "Not Primarily Nutritional"
+    - "Not Applicable"
+    - "Structural Possibly Nutritional"
+    - "Structural Rarely Metabolic"
+  Vitamin_A:
+    - "Vitamin A Deficiency"
+  Vitamin_B_Complex:
+    - "Vitamin B3 Deficiency"
+    - "Vitamin B12 Deficiency"
+    - "Biotin B7 Deficiency"
+    - "Vitamin B2 Deficiency"
+    - "Vitamin B9 Deficiency"
+    - "Vitamin B Complex Deficiency"
+    - "Vitamin B6 Deficiency"
+  Vitamin_C_and_D:
+    - "Vitamin C Deficiency"
+    - "Vitamin D Deficiency"
+  Iron_and_Zinc:
+    - "Zinc Deficiency"
+    - "Iron Deficiency"
+  Protein_Energy_Malnutrition:
+    - "Protein Energy Malnutrition"
+    - "General Malnutrition"

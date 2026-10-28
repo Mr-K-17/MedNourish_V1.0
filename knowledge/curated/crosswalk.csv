@@ -1,0 +1,117 @@
+master_body_region,master_class_label,master_vitamin_deficiency,regional_class_label,routine_vitamin_deficiency,regional_join_status,routine_join_status
+EYES,Bitot_Spots,Vitamin A Deficiency,Bitot_Spots,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,Conjunctival_Xerosis,Vitamin A Deficiency,Conjunctival_Xerosis,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,Corneal_Xerosis,Vitamin A Deficiency,Corneal_Xerosis,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,Corneal_Ulceration,Vitamin A Deficiency,Corneal_Ulceration,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,Keratomalacia,Vitamin A Deficiency,Keratomalacia,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,Corneal_Opacity,Vitamin A Deficiency,Corneal_Opacity,Vitamin A Deficiency,MATCHED,MATCHED
+EYES,B12_Optic_Neuropathy,Vitamin B12 Deficiency,B12_Optic_Neuropathy,Vitamin B12 Deficiency,MATCHED,MATCHED
+EYES,Other_Nutritional_Optic_Neuropathy,Vitamin B Complex Deficiency,Other_Nutritional_Optic_Neuropathy,,MATCHED,UNMATCHED
+EYES,Normal,None,Normal,None,MATCHED,MATCHED
+EYES,Diabetic_Retinopathy,Not Nutritional,Diabetic_Retinopathy,,MATCHED,UNMATCHED
+EYES,Glaucoma,Not Nutritional,Glaucoma,,MATCHED,UNMATCHED
+EYES,AMD,Not Nutritional,AMD,,MATCHED,UNMATCHED
+EYES,Cataract,Not Nutritional,Cataract,,MATCHED,UNMATCHED
+EYES,Hypertensive_Retinopathy,Not Nutritional,Hypertensive_Retinopathy,,MATCHED,UNMATCHED
+EYES,Other_Ocular,Not Nutritional,Other,,MATCHED,UNMATCHED
+HAIR,Normal,None,NORMAL,None,MATCHED,MATCHED
+HAIR,Vitamin_C_Corkscrew_Hair,Vitamin C Deficiency,VITAMIN_C_CORKSCREW_HAIR,Vitamin C Deficiency,MATCHED,MATCHED
+HAIR,Biotin_Alopecia,Biotin B7 Deficiency,BIOTIN_ALOPECIA,,MATCHED,UNMATCHED
+HAIR,Biotin_Thinning_Hair,Biotin B7 Deficiency,BIOTIN_THINNING_HAIR,,MATCHED,UNMATCHED
+HAIR,Zinc_Alopecia,Zinc Deficiency,ZINC_ALOPECIA,Zinc Deficiency,MATCHED,MATCHED
+HAIR,Zinc_Sparse_Hair,Zinc Deficiency,ZINC_SPARSE_HAIR,Zinc Deficiency,MATCHED,MATCHED
+HAIR,Iron_Diffuse_Hair_Loss,Iron Deficiency,,Iron Deficiency,UNMATCHED,MATCHED
+HAIR,Iron_Hair_Thinning,Iron Deficiency,,Iron Deficiency,UNMATCHED,MATCHED
+HAIR,PEM_Sparse_Hair,Protein Energy Malnutrition,,Protein-Energy Malnutrition (PEM),UNMATCHED,MATCHED
+HAIR,PEM_Thin_Hair,Protein Energy Malnutrition,,Protein-Energy Malnutrition (PEM),UNMATCHED,MATCHED
+HAIR,PEM_Brittle_Hair,Protein Energy Malnutrition,,Protein-Energy Malnutrition (PEM),UNMATCHED,MATCHED
+HAIR,PEM_Depigmented_Hair,Protein Energy Malnutrition,,Protein-Energy Malnutrition (PEM),UNMATCHED,MATCHED
+HAIR,Vitamin_D_Hair_Loss,Vitamin D Deficiency,VITAMIN_D_HAIR_LOSS,Vitamin D Deficiency,MATCHED,MATCHED
+HAIR,Vitamin_A_Hair_Loss,Vitamin A Deficiency,VITAMIN_A_HAIR_LOSS,Vitamin A Deficiency,MATCHED,MATCHED
+HAIR,Vitamin_A_Dry_Hair,Vitamin A Deficiency,VITAMIN_A_DRY_HAIR,Vitamin A Deficiency,MATCHED,MATCHED
+HAIR,Androgenetic_Alopecia,Not Nutritional,ANDROGENETIC_ALOPECIA,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Alopecia_Areata,Not Nutritional,ALOPECIA_AREATA,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Telogen_Effluvium,Not Nutritional,TELOGEN_EFFLUVIUM,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Traction_Alopecia,Not Nutritional,TRACTION_ALOPECIA,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Trichotillomania,Not Nutritional,TRICHOTILLOMANIA,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Tinea_Capitis,Not Nutritional,TINEA_CAPITIS,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Scarring_Alopecia,Not Nutritional,SCARRING_ALOPECIA,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Seborrheic_Dermatitis,Not Nutritional,SEBORRHEIC_DERMATITIS,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Psoriasis_Hair,Not Nutritional,PSORIASIS,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Hair_Non_Nutritional_Other,Not Nutritional,NON_NUTRITIONAL_OTHER,Not Nutritional (Hormonal/Genetic),MATCHED,MATCHED
+HAIR,Hair_Shaft_Brittle_Hair,Structural Possibly Nutritional,HAIR_SHAFT_BRITTLE_HAIR,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Dry_Hair,Structural Possibly Nutritional,HAIR_SHAFT_DRY_HAIR,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Split_Ends,Not Primarily Nutritional,HAIR_SHAFT_SPLIT_ENDS,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Fragile_Hair,Structural Possibly Nutritional,HAIR_SHAFT_FRAGILE_HAIR,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Kinky_Hair,Structural Rarely Metabolic,HAIR_SHAFT_KINKY_HAIR,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Short_Broken_Hairs,Not Primarily Nutritional,HAIR_SHAFT_SHORT_BROKEN_HAIRS,,MATCHED,UNMATCHED
+HAIR,Hair_Shaft_Other,Not Applicable,HAIR_SHAFT_OTHER,,MATCHED,UNMATCHED
+LIPS,Normal,None,NORMAL,None,MATCHED,MATCHED
+LIPS,Lips_B2_Riboflavin,Vitamin B2 Deficiency,B2_Riboflavin,,MATCHED,UNMATCHED
+LIPS,Lips_B3_Niacin_Pellagra,Vitamin B3 Deficiency,B3_Niacin_Pellagra,,MATCHED,UNMATCHED
+LIPS,Lips_B6,Vitamin B6 Deficiency,B6,,MATCHED,UNMATCHED
+LIPS,Lips_B9_Folate,Vitamin B9 Deficiency,B9_Folate,,MATCHED,UNMATCHED
+LIPS,Lips_B12,Vitamin B12 Deficiency,B12,Vitamin B12 Deficiency,MATCHED,MATCHED
+LIPS,Lips_Iron,Iron Deficiency,Iron,Iron Deficiency,MATCHED,MATCHED
+LIPS,Lips_Zinc,Zinc Deficiency,Zinc,Zinc Deficiency,MATCHED,MATCHED
+LIPS,Lips_Candida,Not Nutritional,Candida,,MATCHED,UNMATCHED
+LIPS,Lips_Allergic_Contact_Cheilitis,Not Nutritional,Allergic_Contact_Cheilitis,,MATCHED,UNMATCHED
+LIPS,Lips_Irritant_Cheilitis,Not Nutritional,Irritant_Cheilitis,,MATCHED,UNMATCHED
+LIPS,Lips_Actinic_Cheilitis,Not Nutritional,Actinic_Cheilitis,,MATCHED,UNMATCHED
+LIPS,Lips_Atopic_Cheilitis,Not Nutritional,Atopic_Cheilitis,,MATCHED,UNMATCHED
+LIPS,Lips_Exfoliative_Cheilitis,Not Nutritional,Exfoliative_Cheilitis,,MATCHED,UNMATCHED
+NAILS,Normal,None,NORMAL,None,MATCHED,MATCHED
+NAILS,Nails_Iron_Koilonychia,Iron Deficiency,,Iron Deficiency,UNMATCHED,MATCHED
+NAILS,Nails_B12_Melanonychia,Vitamin B12 Deficiency,,Vitamin B12 Deficiency,UNMATCHED,MATCHED
+NAILS,Nails_VitC_Periungual_Hemorrhage,Vitamin C Deficiency,,Vitamin C Deficiency,UNMATCHED,MATCHED
+NAILS,Nails_Zinc_Nail_Dystrophy,Zinc Deficiency,,Zinc Deficiency,UNMATCHED,MATCHED
+NAILS,Nails_Zinc_Ridging,Zinc Deficiency,,Zinc Deficiency,UNMATCHED,MATCHED
+NAILS,Nails_Zinc_Paronychia,Zinc Deficiency,PARONYCHIA,Zinc Deficiency,MATCHED,MATCHED
+NAILS,Nails_Malnutrition_Thin_Nails,General Malnutrition,MALNUTRITION_THIN_NAILS,General Malnutrition (Protein-Calorie/Multi-Nutrient),MATCHED,MATCHED
+NAILS,Nails_Malnutrition_Soft_Nails,General Malnutrition,MALNUTRITION_SOFT_NAILS,General Malnutrition (Protein-Calorie/Multi-Nutrient),MATCHED,MATCHED
+NAILS,Nails_Malnutrition_Ridging,General Malnutrition,MALNUTRITION_RIDGING,General Malnutrition (Protein-Calorie/Multi-Nutrient),MATCHED,MATCHED
+NAILS,Nails_Psoriasis,Not Nutritional,PSORIASIS,,MATCHED,UNMATCHED
+NAILS,Nails_Onychomycosis,Not Nutritional,ONYCHOMYCOSIS,,MATCHED,UNMATCHED
+NAILS,Nails_Trauma,Not Nutritional,TRAUMA,,MATCHED,UNMATCHED
+NAILS,Nails_Lichen_Planus,Not Nutritional,LICHEN_PLANUS,,MATCHED,UNMATCHED
+NAILS,Nails_Paronychia,Not Nutritional,PARONYCHIA,,MATCHED,UNMATCHED
+NAILS,Nails_Other,Not Nutritional,OTHER,,MATCHED,UNMATCHED
+SKIN,Normal,None,NORMAL,None,MATCHED,MATCHED
+SKIN,Skin_B3_Pellagra,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_B3_Photosensitive_Dermatitis,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_B3_Hyperpigmentation,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_B3_Casal_Necklace,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_B3_Pellagrous_Glove,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_B3_Pellagrous_Boot,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+SKIN,Skin_VitC_Perifollicular_Hemorrhage,Vitamin C Deficiency,,Vitamin C Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_VitC_Petechiae,Vitamin C Deficiency,,Vitamin C Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_VitC_Ecchymoses,Vitamin C Deficiency,,Vitamin C Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_VitC_Follicular_Hyperkeratosis,Vitamin C Deficiency,,Vitamin C Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_VitA_Xerosis,Vitamin A Deficiency,,Vitamin A Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_VitA_Follicular_Hyperkeratosis,Vitamin A Deficiency,,Vitamin A Deficiency,UNMATCHED,MATCHED
+SKIN,Skin_Zinc_Periorificial_Dermatitis,Zinc Deficiency,ZINC_PERIORIFICIAL_DERMATITIS,Zinc Deficiency,MATCHED,MATCHED
+SKIN,Skin_Zinc_Acral_Dermatitis,Zinc Deficiency,ZINC_ACRAL_DERMATITIS,Zinc Deficiency,MATCHED,MATCHED
+SKIN,Skin_Zinc_Perianal_Dermatitis,Zinc Deficiency,ZINC_PERIANAL_DERMATITIS,Zinc Deficiency,MATCHED,MATCHED
+SKIN,Skin_Zinc_Psoriasiform_Plaques,Zinc Deficiency,ZINC_PSORIASIFORM_PLAQUES,Zinc Deficiency,MATCHED,MATCHED
+SKIN,Skin_Zinc_Vesiculobullous_Eruption,Zinc Deficiency,ZINC_VESICULOBULLOUS_ERUPTION,Zinc Deficiency,MATCHED,MATCHED
+SKIN,Skin_Biotin_Periorificial_Dermatitis,Biotin B7 Deficiency,BIOTIN_PERIORIFICIAL_DERMATITIS,,MATCHED,UNMATCHED
+SKIN,Skin_Biotin_Intertriginous_Dermatitis,Biotin B7 Deficiency,BIOTIN_INTERTRIGINOUS_DERMATITIS,,MATCHED,UNMATCHED
+SKIN,Skin_PEM_Flaky_Paint_Dermatosis,Protein Energy Malnutrition,PEM_FLAKY_PAINT_DERMATOSIS,Protein-Energy Malnutrition (PEM),MATCHED,MATCHED
+SKIN,Skin_PEM_Dry_Fragile_Skin,Protein Energy Malnutrition,PEM_DRY_FRAGILE_SKIN,Protein-Energy Malnutrition (PEM),MATCHED,MATCHED
+SKIN,Skin_PEM_Hyperpigmentation_Desquamation,Protein Energy Malnutrition,PEM_HYPERPIGMENTATION_DESQUAMATION,Protein-Energy Malnutrition (PEM),MATCHED,MATCHED
+TONGUE,Normal,None,NORMAL,None,MATCHED,MATCHED
+TONGUE,Tongue_Iron_Atrophic_Glossitis,Iron Deficiency,IRON_ATROPHIC_GLOSSITIS,Iron Deficiency,MATCHED,MATCHED
+TONGUE,Tongue_B12_Hunter_Glossitis,Vitamin B12 Deficiency,,Vitamin B12 Deficiency,UNMATCHED,MATCHED
+TONGUE,Tongue_B12_Atrophic_Glossitis,Vitamin B12 Deficiency,,Vitamin B12 Deficiency,UNMATCHED,MATCHED
+TONGUE,Tongue_Folate_Red_Beefy_Tongue,Vitamin B9 Deficiency,,,UNMATCHED,UNMATCHED
+TONGUE,Tongue_Riboflavin_Magenta_Tongue,Vitamin B2 Deficiency,,,UNMATCHED,UNMATCHED
+TONGUE,Tongue_Niacin_Inflamed_Red_Tongue,Vitamin B3 Deficiency,,,UNMATCHED,UNMATCHED
+TONGUE,Tongue_VitA_Glossitis,Vitamin A Deficiency,,Vitamin A Deficiency,UNMATCHED,MATCHED
+TONGUE,Tongue_Zinc_Glossitis,Zinc Deficiency,ZINC_GLOSSITIS,Zinc Deficiency,MATCHED,MATCHED
+TONGUE,Tongue_Geographic_Tongue,Not Nutritional,GEOGRAPHIC_TONGUE,,MATCHED,UNMATCHED
+TONGUE,Tongue_Fissured_Tongue,Not Nutritional,FISSURED_TONGUE,,MATCHED,UNMATCHED
+TONGUE,Tongue_Oral_Candidiasis,Not Nutritional,ORAL_CANDIDIASIS,,MATCHED,UNMATCHED
+TONGUE,Tongue_Hairy_Tongue,Not Nutritional,HAIRY_TONGUE,,MATCHED,UNMATCHED
+TONGUE,Tongue_Median_Rhomboid_Glossitis,Not Nutritional,MEDIAN_RHOMBOID_GLOSSITIS,,MATCHED,UNMATCHED
+TONGUE,Tongue_Leukoplakia,Not Nutritional,LEUKOPLAKIA,,MATCHED,UNMATCHED
+TONGUE,Tongue_Other,Not Nutritional,OTHER,,MATCHED,UNMATCHED

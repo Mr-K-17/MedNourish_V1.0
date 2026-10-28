@@ -1,0 +1,14 @@
+# MedNourish — Class Map: Eyes
+model: eyes
+dataset_root: EYES
+cap_per_class: 600
+classes:
+  - name: Normal
+    source_folders: ["Normal"]
+  - name: Vitamin_A_Deficiency
+    source_folders: ["Vitamin_A_Deficiency"]
+  - name: Other_Non_Nutritional
+    source_folders: ["Other_Ocular_Conditions"]
+excluded_folders:
+  - name: Nutritional_Optic_Conditions
+    reason: "Dropped due to insufficient sample count (< 100 usable images: 22 images)"

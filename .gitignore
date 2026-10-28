@@ -1,0 +1,66 @@
+# ==============================================================================
+# MedNourish — Clean Public Snapshot Git Ignore
+# ==============================================================================
+
+# Datasets & raw corpora (never published)
+datasets/
+datasets/**
+
+# Model weights & binaries
+*.keras
+*.h5
+*.tflite
+*.onnx
+*.npy
+*.npz
+*.pkl
+*.joblib
+*.pt
+ml/artifacts/manifests/
+ml/cache/
+graphs/output/cache/
+graphs/output/*.png
+
+# Unreviewed routine CSV copies
+*Suggested_Routine*.csv
+
+# Environment & local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+service-account*.json
+firebase-adminsdk*.json
+
+# Databases & local persistent storage
+*.db
+*.sqlite*
+backend/storage/medscan/
+storage/
+
+# Scratch & temporary logs
+scratch/
+logs/
+*.log
+*.pid
+scripts/.pids.json
+
+# Dependencies & Build artifacts
+node_modules/
+dist/
+build/
+public/
+site/dist/
+
+# Virtual environments & Caches
+.venv/
+**/.venv/
+tf/
+cv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/

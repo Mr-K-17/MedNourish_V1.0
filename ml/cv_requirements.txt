@@ -1,0 +1,11 @@
+# CV Pipeline Requirements (OpenCV Image Preprocessing & MobileNetV2 Pipeline)
+# Target Runtime: Python 3.14.8 on Windows x64
+# Governing Spec: docs/CV_PIPELINE_SPEC.md
+
+numpy==2.5.4
+opencv-python==5.0.0.93
+pillow==12.3.0
+pytest==9.1.1
+onnx==1.23.2
+onnxruntime==1.31.0
+
