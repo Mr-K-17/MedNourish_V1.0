@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedNourish — Multimodal Nutritional Deficiency Screener &amp; Lifestyle Companion</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      border-bottom: 1px solid var(--surface-border);
+      margin-bottom: 2.5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(2, 132, 199, 0.15);
+      color: #38bdf8;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; color: #fff; }
+    p.lead { font-size: 1.2rem; color: var(--text-muted); max-width: 760px; margin: 0 auto; }
+    .disclaimer-card {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid var(--warning);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 2rem 0;
+      color: #fde68a;
+    }
+    .disclaimer-card strong { color: #fbbf24; }
+    section { margin-bottom: 3.5rem; }
+    h2 { font-size: 1.7rem; font-weight: 700; margin-bottom: 1rem; color: #38bdf8; border-bottom: 1px solid var(--surface-border); padding-bottom: 0.5rem; }
+    h3 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: #e2e8f0; }
+    p, li { color: #cbd5e1; margin-bottom: 0.75rem; }
+    ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .table-container {
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; text-align: left; }
+    th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--surface-border); }
+    th { background: rgba(15, 23, 42, 0.6); color: #f1f5f9; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .highlight { color: #38bdf8; font-weight: 600; }
+    .code-block {
+      background: #090d16;
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      color: #e2e8f0;
+      margin-bottom: 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem 1rem;
+      border-top: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">Research &amp; Engineering Prototype</div>
+      <h1>MedNourish V1.0</h1>
+      <p class="lead">An end-to-end multimodal screening architecture exploring tabular gradient boosting, curated knowledge retrieval, and mobile edge computer vision.</p>
+    </header>
+
+    <div class="disclaimer-card">
+      <strong>Important Academic &amp; Research Disclaimer:</strong> MedNourish is an educational and engineering prototype. It is strictly NOT a certified medical diagnostic device or clinical decision-support tool. It does not provide medical diagnoses, treatment prescriptions, or emergency triage. Real clinical evaluation requires consultation with qualified healthcare professionals and accredited laboratory diagnostics.
+    </div>
+
+    <section id="overview">
+      <h2>1. Overview &amp; Architecture</h2>
+      <p>MedNourish integrates multiple clinical AI patterns to evaluate nutritional wellness without opaque black boxes:</p>
+      <ul>
+        <li><strong>Deterministic Symptom Matching:</strong> Rigorous inverted-index set intersections and BM25/TF-IDF mapping across curated anatomical manifestations (Eyes, Hair, Lips, Nails, Skin, Tongue).</li>
+        <li><strong>Leakage-Aware Tabular Screening:</strong> Honest comparative benchmarks evaluating blood biomarker models versus non-invasive symptom-only screening.</li>
+        <li><strong>Edge Computer Vision:</strong> Transfer-learned MobileNetV2 vision models converted to TFLite for local in-browser / edge anatomical evaluation.</li>
+        <li><strong>Privacy-Preserving Local Operation:</strong> Offline-capable architecture designed with field-level encryption, role-based isolation, and zero unauthorized third-party telemetry.</li>
+      </ul>
+    </section>
+
+    <section id="results">
+      <h2>2. Empirical Benchmarks &amp; Methodological Findings</h2>
+      <p>All benchmarks reflect verified evaluations conducted against real hold-out test splits:</p>
+
+      <h3>Tabular Model Evaluation &amp; Data Leakage Analysis</h3>
+      <p>Demonstrating the realistic performance drop when moving from post-bloodwork laboratory indicators to non-invasive pre-test symptoms:</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Model Profile</th>
+              <th>Features Included</th>
+              <th>XGBoost Test Acc</th>
+              <th>XGBoost Macro-F1</th>
+              <th>Clinical Reality &amp; Leakage Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>With Labs (All)</strong></td>
+              <td>Serum biomarkers + Diet RDA + Symptoms + Demographics</td>
+              <td class="highlight">99.38%</td>
+              <td class="highlight">0.9781</td>
+              <td><strong>Direct Target Leakage:</strong> Blood serum cutoffs directly define outcome labels.</td>
+            </tr>
+            <tr>
+              <td><strong>No Labs (Diet+Symptoms)</strong></td>
+              <td>Diet RDA percentages + Symptoms + Demographics</td>
+              <td>99.25%</td>
+              <td>0.9734</td>
+              <td>Captures synthetic RDA dietary alignment without invasive blood draws.</td>
+            </tr>
+            <tr>
+              <td><strong>Symptoms Only</strong></td>
+              <td>Observable symptoms + Demographics + Lifestyle</td>
+              <td class="highlight">79.87%</td>
+              <td class="highlight">0.6332</td>
+              <td><strong>Realistic Pre-Test Model:</strong> Captures true clinical ambiguity before diagnostic labs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Reference-Table Learner (116 Curated Expert Mapping Rows)</h3>
+      <p>Learner cross-validation over anatomical symptom keywords mapped to 6 canonical nutrient groups:</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>5-Fold CV Macro-F1</th>
+              <th>Behavioral Characteristics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Deterministic Keyword Baseline</strong></td>
+              <td>0.6600</td>
+              <td>Exact lexical match; conservative but brittle to phrasing.</td>
+            </tr>
+            <tr>
+              <td><strong>LightGBM</strong></td>
+              <td>0.2835</td>
+              <td>Over-penalized on small 116-row reference table.</td>
+            </tr>
+            <tr>
+              <td><strong>XGBoost (Character N-gram TF-IDF)</strong></td>
+              <td class="highlight">0.7086</td>
+              <td>Superior generalization over typo/synonym variations while preserving deterministic safety bounds.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Computer Vision MobileNetV2 Models &amp; TFLite Quantization</h3>
+      <p>Support gate: &ge;40 usable images per region. Verified with Float32 parity and Dynamic Range Quantization (DRQ):</p>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Classes</th>
+              <th>Test Samples</th>
+              <th>Test Accuracy (95% CI)</th>
+              <th>Macro-F1</th>
+              <th>Shortcut Risk (Color Hist)</th>
+              <th>TFLite Top-1 Parity</th>
+              <th>Quantized Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>combined</strong></td><td>10</td><td>662</td><td>41.54% [37.76%, 45.32%]</td><td>0.4153</td><td>25.53% (LOW)</td><td>100.00%</td><td>2.41 MB</td></tr>
+            <tr><td><strong>eyes</strong></td><td>3</td><td>270</td><td>98.89% [97.41%, 100.0%]</td><td>0.9889</td><td>95.19% (HIGH)</td><td>100.00%</td><td>2.40 MB</td></tr>
+            <tr><td><strong>hair</strong></td><td>2</td><td>115</td><td>93.04% [88.70%, 97.39%]</td><td>0.9056</td><td>94.78% (HIGH)</td><td>100.00%</td><td>2.39 MB</td></tr>
+            <tr><td><strong>lips</strong></td><td>3</td><td>114</td><td>90.35% [84.21%, 94.74%]</td><td>0.7432</td><td>83.33% (HIGH)</td><td>100.00%</td><td>2.40 MB</td></tr>
+            <tr><td><strong>nails</strong></td><td>3</td><td>118</td><td>73.73% [65.25%, 81.36%]</td><td>0.6480</td><td>73.73% (HIGH)</td><td>100.00%</td><td>2.40 MB</td></tr>
+            <tr><td><strong>skin</strong></td><td>6</td><td>227</td><td>81.06% [76.21%, 85.90%]</td><td>0.6290</td><td>72.25% (HIGH)</td><td>100.00%</td><td>2.40 MB</td></tr>
+            <tr><td><strong>tongue</strong></td><td>4</td><td>149</td><td>86.58% [81.21%, 91.95%]</td><td>0.7748</td><td>75.17% (HIGH)</td><td>100.00%</td><td>2.40 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.88rem; color: #94a3b8;"><em>Note: Color-histogram baseline tests confirmed significant domain shortcut risks across several public image datasets (camera illumination and background cues).</em></p>
+    </section>
+
+    <section id="reproduce">
+      <h2>3. Running Locally</h2>
+      <p>To run the development stack locally in SQLite mode:</p>
+      
+      <p><strong>1. Backend (FastAPI):</strong></p>
+      <div class="code-block">
+cd backend
+python -m venv .venv
+# On Windows: .venv\Scripts\activate
+# On Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+cp ../.env.example .env
+export DB_MODE=sqlite
+python -m uvicorn app.main:app --reload --port 8000
+      </div>
+
+      <p><strong>2. Frontend (React 19 + TypeScript + Vite):</strong></p>
+      <div class="code-block">
+cd frontend
+npm ci
+npm run dev
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 MedNourish Research Project. Released under educational &amp; evaluation notice.</p>
+    </footer>
+  </div>
+</body>
+</html>

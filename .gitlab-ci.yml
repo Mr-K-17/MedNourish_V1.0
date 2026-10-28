@@ -1,0 +1,36 @@
+stages:
+  - test
+  - build
+  - pages
+
+backend-tests:
+  stage: test
+  image: python:3.12-slim
+  variables:
+    DB_MODE: "sqlite"
+    PYTHONPATH: "backend"
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r backend/requirements.txt
+  script:
+    - cd backend && python -m pytest tests -m "not live and not emulator and not ml" -v
+
+frontend-build:
+  stage: build
+  image: node:20-alpine
+  before_script:
+    - cd frontend && npm ci
+  script:
+    - cd frontend && npx tsc --noEmit && npm run build
+
+pages:
+  stage: pages
+  image: alpine:3.20
+  script:
+    - mkdir -p public
+    - cp -r site/* public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
