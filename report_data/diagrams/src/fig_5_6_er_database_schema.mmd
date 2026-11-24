@@ -1,0 +1,43 @@
+erDiagram
+    user_profiles ||--o{ user_consent_logs : "records"
+    user_profiles ||--o{ saved_summaries : "generates"
+    user_profiles ||--o{ care_plan_items : "schedules"
+    user_profiles ||--o{ medscan_sessions : "captures"
+
+    user_profiles {
+        int id PK
+        string user_id UK
+        int age
+        string gender
+        string diet_type
+        float height_cm
+        float weight_kg
+    }
+    user_consent_logs {
+        int id PK
+        string user_id FK
+        boolean agreed
+        string version
+        datetime timestamp
+    }
+    care_plan_items {
+        int id PK
+        string user_id FK
+        date plan_date
+        string title
+        boolean completed
+    }
+    saved_summaries {
+        int id PK
+        string user_id FK
+        string session_type
+        string risk_band
+        float score
+    }
+    medscan_sessions {
+        int id PK
+        string user_id FK
+        string anatomical_region
+        float blur_score
+        string predicted_class
+    }

@@ -1,0 +1,13 @@
+# Table Tab 8 2 Vision V2 Models
+
+| region_model | architecture | classes_n | test_n | accuracy | macro_f1 | ci_95_f1 | shortcut_risk_level |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Lips | MobileNetV2 (160x160) | 2 | 152 | 92.11% | 0.918 | [0.871, 0.965] | Low: Cheilitis vs Normal well-differentiated |
+| Nails | MobileNetV2 (160x160) | 3 | 157 | 86.62% | 0.854 | [0.798, 0.910] | Medium: Lighting variation on nailbed |
+| Hair | MobileNetV2 (160x160) | 2 | 153 | 84.31% | 0.839 | [0.780, 0.898] | Medium: Background scalp texture variation |
+| Eyes | MobileNetV2 (160x160) | 3 | 360 | 79.44% | 0.786 | [0.743, 0.829] | Medium: Sclera illumination & pupil dilation |
+| Combined | MobileNetV2 (160x160) | 10 | 882 | 77.10% | 0.762 | [0.734, 0.790] | Medium-High: Multi-region clinical balance |
+| Tongue | MobileNetV2 (160x160) | 3 | 199 | 71.36% | 0.702 | [0.638, 0.766] | Medium: Saliva glare & coating variation |
+| Skin | MobileNetV2 (160x160) | 2 | 303 | 66.34% | 0.648 | [0.594, 0.702] | High: Severe background artefact shortcuts |
+
+*Educational Prototype - Not a Medical Device.*

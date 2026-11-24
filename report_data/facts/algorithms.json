@@ -1,0 +1,63 @@
+{
+  "reference_matcher": {
+    "method": "Inverted Index & Exact Tag Set Intersection",
+    "input": "User-selected anatomical tags from 6 body regions",
+    "curated_rows": 116,
+    "insufficient_information_threshold": "len(user_tags) == 0",
+    "ranking_criteria": [
+      "intersection_count DESC",
+      "total_condition_tags ASC",
+      "class_label ASC (deterministic)"
+    ]
+  },
+  "scoring_service": {
+    "idf_weighting": "IDF(tag) = ln(1 + (N - n + 0.5) / (n + 0.5))",
+    "small_evidence_shrinkage": "k_shrinkage = min(1.0, 0.4 + 0.2 * match_count)",
+    "noisy_or_aggregation": "Score(Nutrient) = min(95.0, 100 * (1 - prod(1 - P_i)))",
+    "risk_bands": {
+      "High": "Score >= 60.0%",
+      "Moderate": "30.0% <= Score < 60.0%",
+      "Low": "Score < 30.0%"
+    },
+    "maximum_score_cap": 95.0,
+    "pediatric_safeguard": "Pediatric rows strictly filtered out for adult accounts"
+  },
+  "medscan_quality_audit": {
+    "max_file_size_bytes": 5242880,
+    "min_laplacian_blur_variance": 50.0,
+    "min_mean_luminance": 40.0,
+    "max_mean_luminance": 225.0,
+    "supported_formats": [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ],
+    "privacy_control": "EXIF metadata stripped; raw bytes never written to disk"
+  },
+  "medscan_blend": {
+    "shortcut_risk_penalty": {
+      "eyes": 0.15,
+      "hair": 0.15,
+      "lips": 0.20,
+      "nails": 0.30,
+      "skin": 0.25,
+      "tongue": 0.25,
+      "combined": 0.50
+    },
+    "blend_formula": "Candidate_Weight = (1.0 - penalty) * top1_confidence + checklist_bonus"
+  },
+  "nursebot_intent_router": {
+    "rate_limit": "10 queries per minute per IP/session",
+    "emergency_regex_rules": "34 acute triage symptom patterns (chest pain, stroke, severe bleeding)",
+    "web_answer_service": {
+      "allowlisted_domains": [
+        "medlineplus.gov",
+        "ods.od.nih.gov"
+      ],
+      "request_timeout_seconds": 5.0,
+      "cache_ttl_hours": 24,
+      "max_response_length_chars": 600,
+      "offline_fallback": "Vetted static nutritional reference excerpts"
+    }
+  }
+}

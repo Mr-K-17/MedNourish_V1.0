@@ -1,0 +1,146 @@
+{
+  "tabular_models": {
+    "dataset": "Main 4,000-row synthetic clinical CSV (vitamin_deficiency_disease_dataset_20260123.csv)",
+    "target_column": "disease_diagnosis (5 classes: Healthy 1,509, Anemia 1,245, Rickets_Osteomalacia 1,029, Night_Blindness 122, Scurvy 95)",
+    "profiles": {
+      "with_labs": {
+        "features_count": 32,
+        "description": "Serum biomarkers + Diet RDA % + Symptoms + Demographics",
+        "xgboost": { "accuracy": 0.9938, "macro_f1": 0.9781 },
+        "lightgbm": { "accuracy": 0.9912, "macro_f1": 0.9672 },
+        "leakage_status": "Severe Direct Target Leakage (Serum biomarker cutoffs define label)"
+      },
+      "no_labs": {
+        "features_count": 18,
+        "description": "Diet RDA % + Symptoms + Demographics",
+        "xgboost": { "accuracy": 0.9925, "macro_f1": 0.9734 },
+        "lightgbm": { "accuracy": 0.9912, "macro_f1": 0.9672 },
+        "leakage_status": "Indirect Leakage (Synthetic dietary RDA percentages aligned with disease)"
+      },
+      "symptom_lifestyle_only": {
+        "features_count": 10,
+        "description": "Observable symptoms + Demographics + Lifestyle only",
+        "xgboost": { "accuracy": 0.7987, "macro_f1": 0.6332 },
+        "lightgbm": { "accuracy": 0.7975, "macro_f1": 0.6324 },
+        "leakage_status": "Realistic Non-Invasive Baseline (Captures true clinical screening ambiguity)"
+      }
+    },
+    "hyperparameters": {
+      "xgboost": { "n_estimators": 100, "learning_rate": 0.1, "max_depth": 5, "random_state": 42 },
+      "lightgbm": { "n_estimators": 100, "learning_rate": 0.05, "num_leaves": 31, "random_state": 42 }
+    }
+  },
+  "vision_v2_models": {
+    "architecture": "MobileNetV2 (Pre-trained ImageNet Backbone + Custom Multiclass Head)",
+    "input_resolution": [224, 224, 3],
+    "normalization": "MobileNetV2 preprocessing (scaled to [-1, 1])",
+    "support_gate": ">= 40 usable images per class (lowered from v1 >= 100 gate)",
+    "training_hyperparameters": {
+      "optimizer": "Adam(learning_rate=0.0001)",
+      "loss": "CategoricalCrossentropy(label_smoothing=0.1)",
+      "batch_size": 32,
+      "max_epochs": 15,
+      "early_stopping_patience": 4
+    },
+    "regions": {
+      "combined": {
+        "classes_count": 10,
+        "classes": ["Angular_Cheilitis", "Aphthous_Ulcer", "Cheilitis", "Eye_Blepharitis", "Eye_Conjunctivitis", "Eye_Normal", "Hair_Alopecia_Areata", "Hair_Normal", "Nail_Koilonychia", "Skin_Normal"],
+        "test_samples": 662,
+        "test_accuracy": 0.4154,
+        "ci_95": [0.3776, 0.4532],
+        "macro_f1": 0.4153,
+        "color_hist_baseline": 0.2553,
+        "shortcut_risk": "LOW",
+        "tflite_float32_max_diff": 1.2e-05,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.51,
+        "tflite_drq_size_mb": 2.41
+      },
+      "eyes": {
+        "classes_count": 3,
+        "classes": ["Blepharitis", "Conjunctivitis", "Normal"],
+        "test_samples": 270,
+        "test_accuracy": 0.9889,
+        "ci_95": [0.9741, 1.0],
+        "macro_f1": 0.9889,
+        "color_hist_baseline": 0.9519,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 3e-06,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.47,
+        "tflite_drq_size_mb": 2.40
+      },
+      "hair": {
+        "classes_count": 2,
+        "classes": ["Alopecia_Areata", "Normal"],
+        "test_samples": 115,
+        "test_accuracy": 0.9304,
+        "ci_95": [0.887, 0.9739],
+        "macro_f1": 0.9056,
+        "color_hist_baseline": 0.9478,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 6e-06,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.47,
+        "tflite_drq_size_mb": 2.39
+      },
+      "lips": {
+        "classes_count": 3,
+        "classes": ["Cheilitis", "Herpes_Labialis", "Normal"],
+        "test_samples": 114,
+        "test_accuracy": 0.9035,
+        "ci_95": [0.8421, 0.9474],
+        "macro_f1": 0.7432,
+        "color_hist_baseline": 0.8333,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 1.4e-05,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.47,
+        "tflite_drq_size_mb": 2.40
+      },
+      "nails": {
+        "classes_count": 3,
+        "classes": ["Koilonychia", "Normal", "Onychomycosis"],
+        "test_samples": 118,
+        "test_accuracy": 0.7373,
+        "ci_95": [0.6525, 0.8136],
+        "macro_f1": 0.648,
+        "color_hist_baseline": 0.7373,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 5e-06,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.47,
+        "tflite_drq_size_mb": 2.40
+      },
+      "skin": {
+        "classes_count": 6,
+        "classes": ["Acne", "Eczema", "Hyperpigmentation", "Normal", "Pityriasis_Alba", "Psoriasis"],
+        "test_samples": 227,
+        "test_accuracy": 0.8106,
+        "ci_95": [0.7621, 0.859],
+        "macro_f1": 0.629,
+        "color_hist_baseline": 0.7225,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 1.3e-05,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.48,
+        "tflite_drq_size_mb": 2.40
+      },
+      "tongue": {
+        "classes_count": 4,
+        "classes": ["Aphthous_Ulcer", "Coated_Tongue", "Glossitis", "Normal"],
+        "test_samples": 149,
+        "test_accuracy": 0.8658,
+        "ci_95": [0.8121, 0.9195],
+        "macro_f1": 0.7748,
+        "color_hist_baseline": 0.7517,
+        "shortcut_risk": "HIGH",
+        "tflite_float32_max_diff": 7e-06,
+        "tflite_top1_agreement": 1.0,
+        "tflite_size_mb": 8.48,
+        "tflite_drq_size_mb": 2.40
+      }
+    }
+  }
+}

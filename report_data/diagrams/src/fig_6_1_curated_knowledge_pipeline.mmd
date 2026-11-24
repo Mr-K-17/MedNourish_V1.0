@@ -1,0 +1,5 @@
+flowchart LR
+    CSV[Curated CSVs & YAML] --> Val[Validation & Schema Check]
+    Val --> Index[Inverted Index Builder]
+    Index --> Cache[In-Memory Hash Maps]
+    Cache --> App[FastAPI Application Subsystems]

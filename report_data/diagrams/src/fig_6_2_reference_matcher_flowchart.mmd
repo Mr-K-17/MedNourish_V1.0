@@ -1,0 +1,5 @@
+flowchart LR
+    Input[Input Symptoms] --> Syn[Synonym Resolution]
+    Syn --> Index[Inverted Index Lookup]
+    Index --> Shrink[IDF Shrinkage Scaling]
+    Shrink --> Bands[Risk Band Classification]

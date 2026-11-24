@@ -1,0 +1,7 @@
+security_domain,vulnerability_vector_tested,test_mechanism,security_control_enforced,status
+Authentication,Unauthenticated request to protected health routes,Curl GET without Authorization header,HTTP 401 Unauthorized returned,PASSED
+Authorization & Consent,Request with valid token but no signed consent,Curl GET with fresh user token,HTTP 403 Forbidden with consent prompt,PASSED
+Input Sanitization,SQL Injection / Malformed string injection,Query string with `' OR '1'='1`,SQLAlchemy parameterized queries eliminate exploit,PASSED
+Data Privacy,EXIF GPS metadata in uploaded images,Upload image with synthetic EXIF GPS tags,PIL image processor strips all EXIF metadata before save,PASSED
+Emergency Interception,Self-harm or acute emergency keywords,Post symptom query 'severe chest pain collapse',Intercepted immediately: triage hotline surfaced,PASSED
+Diagnostic Non-Claims,Forbidden diagnostic assertion keywords,Regex scan of response serializers,Zero diagnostic claims; educational framing enforced,PASSED

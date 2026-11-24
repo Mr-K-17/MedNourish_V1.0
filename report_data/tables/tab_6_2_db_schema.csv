@@ -1,0 +1,44 @@
+table_name,column_name,data_type,nullable,primary_key,foreign_key,description
+user_profiles,id,VARCHAR(128),NO,YES,None,Firebase Auth UID unique user identifier
+user_profiles,age,INTEGER,YES,NO,None,User age integer (1-120) for demo purposes
+user_profiles,gender,VARCHAR(32),YES,NO,None,User gender identifier
+user_profiles,height_cm,FLOAT,YES,NO,None,User height in centimeters
+user_profiles,weight_kg,FLOAT,YES,NO,None,User weight in kilograms
+user_profiles,blood_type,VARCHAR(16),YES,NO,None,Blood group (A+ A- B+ B- AB+ AB- O+ O- Unknown)
+user_profiles,conditions_json,TEXT,YES,NO,None,JSON serialized array of existing medical conditions
+user_profiles,other_condition,VARCHAR(128),YES,NO,None,Free-text entry for other pre-existing condition
+user_profiles,consent_timestamp,DATETIME,YES,NO,None,Timestamp when user affirmed educational consent
+user_profiles,created_at,DATETIME,NO,NO,None,Record creation timestamp (UTC)
+user_profiles,updated_at,DATETIME,NO,NO,None,Record last updated timestamp (UTC)
+user_consent_logs,id,INTEGER,NO,YES,None,Autoincrementing consent event identifier
+user_consent_logs,user_id,VARCHAR(128),NO,NO,user_profiles.id,Target user foreign key
+user_consent_logs,consent_type,VARCHAR(64),NO,NO,None,Consent category (e.g. adult_prototype_consent)
+user_consent_logs,version,VARCHAR(32),NO,NO,None,Terms version consented to (e.g. v1.0)
+user_consent_logs,timestamp,DATETIME,NO,NO,None,Timestamp when consent was recorded
+care_plan_items,id,VARCHAR(64),NO,YES,None,Unique UUID task identifier
+care_plan_items,user_id,VARCHAR(128),NO,NO,user_profiles.id,Target user foreign key
+care_plan_items,title,VARCHAR(255),NO,NO,None,Task description (hydration sleep food walk)
+care_plan_items,category,VARCHAR(64),NO,NO,None,Task category (lifestyle diet hydration exercise)
+care_plan_items,time_of_day,VARCHAR(32),YES,NO,None,Target execution time (morning afternoon evening)
+care_plan_items,frequency,VARCHAR(32),NO,NO,None,Recurrence schedule (daily weekly)
+care_plan_items,is_completed,BOOLEAN,NO,NO,None,Task completion toggle flag
+care_plan_items,completed_at,DATETIME,YES,NO,None,Timestamp of task completion
+care_plan_items,source_nutrient,VARCHAR(128),YES,NO,None,Nutrient deficiency that triggered auto-sync
+care_plan_items,created_at,DATETIME,NO,NO,None,Task creation timestamp
+saved_summaries,id,VARCHAR(64),NO,YES,None,Unique UUID assessment summary identifier
+saved_summaries,user_id,VARCHAR(128),NO,NO,user_profiles.id,Target user foreign key
+saved_summaries,engine,VARCHAR(32),NO,NO,None,Assessment source engine (medbot medscan explorer)
+saved_summaries,top_deficiency,VARCHAR(128),NO,NO,None,Highest ranking canonical deficiency
+saved_summaries,score_percentage,FLOAT,NO,NO,None,Reference match percentage (0.0 to 95.0)
+saved_summaries,risk_band,VARCHAR(32),NO,NO,None,Heuristic demo risk band (High Moderate Low)
+saved_summaries,symptoms_summary,TEXT,YES,NO,None,Summary string of contributing symptom tags
+saved_summaries,details_json,TEXT,YES,NO,None,JSON serialized contributing rows and explanations
+saved_summaries,created_at,DATETIME,NO,NO,None,Assessment record creation timestamp
+medscan_sessions,id,VARCHAR(64),NO,YES,None,Unique UUID photographic scan session identifier
+medscan_sessions,user_id,VARCHAR(128),NO,NO,user_profiles.id,Target user foreign key
+medscan_sessions,region,VARCHAR(32),NO,NO,None,Anatomical area (eyes hair lips nails skin tongue)
+medscan_sessions,quality_metrics_json,TEXT,NO,NO,None,JSON metrics of blur variance and mean luminance
+medscan_sessions,candidates_json,TEXT,NO,NO,None,JSON model predictions with shortcut risk penalty
+medscan_sessions,checklist_json,TEXT,NO,NO,None,JSON user responses to clinical follow-up checklist
+medscan_sessions,blended_results_json,TEXT,NO,NO,None,JSON blended ranking passed to reference matcher
+medscan_sessions,created_at,DATETIME,NO,NO,None,Session creation timestamp

@@ -1,0 +1,334 @@
+model_family,model_id,true_class,predicted_class,count,row_normalized_recall
+Tabular,tabular_xgboost_with_labs,Anemia,Anemia,248,0.9960
+Tabular,tabular_xgboost_with_labs,Anemia,Healthy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Anemia,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_with_labs,Anemia,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Anemia,Scurvy,1,0.0040
+Tabular,tabular_xgboost_with_labs,Healthy,Anemia,1,0.0033
+Tabular,tabular_xgboost_with_labs,Healthy,Healthy,300,0.9934
+Tabular,tabular_xgboost_with_labs,Healthy,Night_Blindness,1,0.0033
+Tabular,tabular_xgboost_with_labs,Healthy,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Healthy,Scurvy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Night_Blindness,Anemia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Night_Blindness,Healthy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Night_Blindness,Night_Blindness,24,1.0000
+Tabular,tabular_xgboost_with_labs,Night_Blindness,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Rickets_Osteomalacia,Anemia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Rickets_Osteomalacia,Healthy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Rickets_Osteomalacia,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_with_labs,Rickets_Osteomalacia,Rickets_Osteomalacia,205,0.9951
+Tabular,tabular_xgboost_with_labs,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_xgboost_with_labs,Scurvy,Anemia,0,0.0000
+Tabular,tabular_xgboost_with_labs,Scurvy,Healthy,0,0.0000
+Tabular,tabular_xgboost_with_labs,Scurvy,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_with_labs,Scurvy,Rickets_Osteomalacia,1,0.0526
+Tabular,tabular_xgboost_with_labs,Scurvy,Scurvy,18,0.9474
+Tabular,tabular_lightgbm_with_labs,Anemia,Anemia,247,0.9920
+Tabular,tabular_lightgbm_with_labs,Anemia,Healthy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Anemia,Night_Blindness,1,0.0040
+Tabular,tabular_lightgbm_with_labs,Anemia,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Anemia,Scurvy,1,0.0040
+Tabular,tabular_lightgbm_with_labs,Healthy,Anemia,1,0.0033
+Tabular,tabular_lightgbm_with_labs,Healthy,Healthy,301,0.9967
+Tabular,tabular_lightgbm_with_labs,Healthy,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Healthy,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Healthy,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Night_Blindness,Anemia,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Night_Blindness,Healthy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Night_Blindness,Night_Blindness,23,0.9583
+Tabular,tabular_lightgbm_with_labs,Night_Blindness,Rickets_Osteomalacia,1,0.0417
+Tabular,tabular_lightgbm_with_labs,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Rickets_Osteomalacia,Anemia,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Rickets_Osteomalacia,Healthy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Rickets_Osteomalacia,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Rickets_Osteomalacia,Rickets_Osteomalacia,205,0.9951
+Tabular,tabular_lightgbm_with_labs,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_lightgbm_with_labs,Scurvy,Anemia,1,0.0526
+Tabular,tabular_lightgbm_with_labs,Scurvy,Healthy,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Scurvy,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_with_labs,Scurvy,Rickets_Osteomalacia,1,0.0526
+Tabular,tabular_lightgbm_with_labs,Scurvy,Scurvy,17,0.8947
+Tabular,tabular_xgboost_no_labs,Anemia,Anemia,248,0.9960
+Tabular,tabular_xgboost_no_labs,Anemia,Healthy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Anemia,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_no_labs,Anemia,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_no_labs,Anemia,Scurvy,1,0.0040
+Tabular,tabular_xgboost_no_labs,Healthy,Anemia,1,0.0033
+Tabular,tabular_xgboost_no_labs,Healthy,Healthy,300,0.9934
+Tabular,tabular_xgboost_no_labs,Healthy,Night_Blindness,1,0.0033
+Tabular,tabular_xgboost_no_labs,Healthy,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_no_labs,Healthy,Scurvy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Night_Blindness,Anemia,1,0.0417
+Tabular,tabular_xgboost_no_labs,Night_Blindness,Healthy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Night_Blindness,Night_Blindness,23,0.9583
+Tabular,tabular_xgboost_no_labs,Night_Blindness,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_xgboost_no_labs,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Rickets_Osteomalacia,Anemia,0,0.0000
+Tabular,tabular_xgboost_no_labs,Rickets_Osteomalacia,Healthy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Rickets_Osteomalacia,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_no_labs,Rickets_Osteomalacia,Rickets_Osteomalacia,205,0.9951
+Tabular,tabular_xgboost_no_labs,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_xgboost_no_labs,Scurvy,Anemia,0,0.0000
+Tabular,tabular_xgboost_no_labs,Scurvy,Healthy,0,0.0000
+Tabular,tabular_xgboost_no_labs,Scurvy,Night_Blindness,0,0.0000
+Tabular,tabular_xgboost_no_labs,Scurvy,Rickets_Osteomalacia,1,0.0526
+Tabular,tabular_xgboost_no_labs,Scurvy,Scurvy,18,0.9474
+Tabular,tabular_lightgbm_no_labs,Anemia,Anemia,247,0.9920
+Tabular,tabular_lightgbm_no_labs,Anemia,Healthy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Anemia,Night_Blindness,1,0.0040
+Tabular,tabular_lightgbm_no_labs,Anemia,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Anemia,Scurvy,1,0.0040
+Tabular,tabular_lightgbm_no_labs,Healthy,Anemia,1,0.0033
+Tabular,tabular_lightgbm_no_labs,Healthy,Healthy,301,0.9967
+Tabular,tabular_lightgbm_no_labs,Healthy,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Healthy,Rickets_Osteomalacia,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Healthy,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Night_Blindness,Anemia,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Night_Blindness,Healthy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Night_Blindness,Night_Blindness,23,0.9583
+Tabular,tabular_lightgbm_no_labs,Night_Blindness,Rickets_Osteomalacia,1,0.0417
+Tabular,tabular_lightgbm_no_labs,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Rickets_Osteomalacia,Anemia,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Rickets_Osteomalacia,Healthy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Rickets_Osteomalacia,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Rickets_Osteomalacia,Rickets_Osteomalacia,205,0.9951
+Tabular,tabular_lightgbm_no_labs,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_lightgbm_no_labs,Scurvy,Anemia,1,0.0526
+Tabular,tabular_lightgbm_no_labs,Scurvy,Healthy,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Scurvy,Night_Blindness,0,0.0000
+Tabular,tabular_lightgbm_no_labs,Scurvy,Rickets_Osteomalacia,1,0.0526
+Tabular,tabular_lightgbm_no_labs,Scurvy,Scurvy,17,0.8947
+Tabular,tabular_xgboost_symptom_lifestyle_only,Anemia,Anemia,183,0.7349
+Tabular,tabular_xgboost_symptom_lifestyle_only,Anemia,Healthy,12,0.0482
+Tabular,tabular_xgboost_symptom_lifestyle_only,Anemia,Night_Blindness,8,0.0321
+Tabular,tabular_xgboost_symptom_lifestyle_only,Anemia,Rickets_Osteomalacia,40,0.1606
+Tabular,tabular_xgboost_symptom_lifestyle_only,Anemia,Scurvy,6,0.0241
+Tabular,tabular_xgboost_symptom_lifestyle_only,Healthy,Anemia,5,0.0166
+Tabular,tabular_xgboost_symptom_lifestyle_only,Healthy,Healthy,281,0.9305
+Tabular,tabular_xgboost_symptom_lifestyle_only,Healthy,Night_Blindness,4,0.0132
+Tabular,tabular_xgboost_symptom_lifestyle_only,Healthy,Rickets_Osteomalacia,12,0.0397
+Tabular,tabular_xgboost_symptom_lifestyle_only,Healthy,Scurvy,0,0.0000
+Tabular,tabular_xgboost_symptom_lifestyle_only,Night_Blindness,Anemia,9,0.3750
+Tabular,tabular_xgboost_symptom_lifestyle_only,Night_Blindness,Healthy,4,0.1667
+Tabular,tabular_xgboost_symptom_lifestyle_only,Night_Blindness,Night_Blindness,7,0.2917
+Tabular,tabular_xgboost_symptom_lifestyle_only,Night_Blindness,Rickets_Osteomalacia,4,0.1667
+Tabular,tabular_xgboost_symptom_lifestyle_only,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_xgboost_symptom_lifestyle_only,Rickets_Osteomalacia,Anemia,27,0.1311
+Tabular,tabular_xgboost_symptom_lifestyle_only,Rickets_Osteomalacia,Healthy,16,0.0777
+Tabular,tabular_xgboost_symptom_lifestyle_only,Rickets_Osteomalacia,Night_Blindness,1,0.0049
+Tabular,tabular_xgboost_symptom_lifestyle_only,Rickets_Osteomalacia,Rickets_Osteomalacia,161,0.7816
+Tabular,tabular_xgboost_symptom_lifestyle_only,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_xgboost_symptom_lifestyle_only,Scurvy,Anemia,7,0.3684
+Tabular,tabular_xgboost_symptom_lifestyle_only,Scurvy,Healthy,0,0.0000
+Tabular,tabular_xgboost_symptom_lifestyle_only,Scurvy,Night_Blindness,1,0.0526
+Tabular,tabular_xgboost_symptom_lifestyle_only,Scurvy,Rickets_Osteomalacia,4,0.2105
+Tabular,tabular_xgboost_symptom_lifestyle_only,Scurvy,Scurvy,7,0.3684
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Anemia,Anemia,186,0.7470
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Anemia,Healthy,13,0.0522
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Anemia,Night_Blindness,6,0.0241
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Anemia,Rickets_Osteomalacia,38,0.1526
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Anemia,Scurvy,6,0.0241
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Healthy,Anemia,6,0.0199
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Healthy,Healthy,280,0.9272
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Healthy,Night_Blindness,4,0.0132
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Healthy,Rickets_Osteomalacia,12,0.0397
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Healthy,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Night_Blindness,Anemia,8,0.3333
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Night_Blindness,Healthy,4,0.1667
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Night_Blindness,Night_Blindness,8,0.3333
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Night_Blindness,Rickets_Osteomalacia,4,0.1667
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Night_Blindness,Scurvy,0,0.0000
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Rickets_Osteomalacia,Anemia,30,0.1456
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Rickets_Osteomalacia,Healthy,16,0.0777
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Rickets_Osteomalacia,Night_Blindness,1,0.0049
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Rickets_Osteomalacia,Rickets_Osteomalacia,158,0.7670
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Rickets_Osteomalacia,Scurvy,1,0.0049
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Scurvy,Anemia,8,0.4211
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Scurvy,Healthy,0,0.0000
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Scurvy,Night_Blindness,1,0.0526
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Scurvy,Rickets_Osteomalacia,4,0.2105
+Tabular,tabular_lightgbm_symptom_lifestyle_only,Scurvy,Scurvy,6,0.3158
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Other_Nutrient_Deficiency,74,0.8222
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_A_Deficiency,4,0.0444
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_B12_Deficiency,1,0.0111
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_B3_Deficiency,4,0.0444
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_B9_Deficiency,4,0.0444
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_B_Complex_Deficiency,1,0.0111
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_D_Deficiency,1,0.0111
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_E_Deficiency,1,0.0111
+Vision v2,vision_combined,Other_Nutrient_Deficiency,Vitamin_K_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_A_Deficiency,Other_Nutrient_Deficiency,19,0.2111
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_A_Deficiency,40,0.4444
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_B12_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_B3_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_B9_Deficiency,10,0.1111
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_B_Complex_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_C_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_D_Deficiency,5,0.0556
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_E_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_A_Deficiency,Vitamin_K_Deficiency,5,0.0556
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Other_Nutrient_Deficiency,27,0.3000
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_A_Deficiency,6,0.0667
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_B12_Deficiency,13,0.1444
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_B3_Deficiency,2,0.0222
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_B9_Deficiency,28,0.3111
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_B_Complex_Deficiency,6,0.0667
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_D_Deficiency,8,0.0889
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_E_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B12_Deficiency,Vitamin_K_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Other_Nutrient_Deficiency,8,0.0889
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_A_Deficiency,5,0.0556
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_B12_Deficiency,5,0.0556
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_B3_Deficiency,29,0.3222
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_B9_Deficiency,14,0.1556
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_B_Complex_Deficiency,16,0.1778
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_D_Deficiency,6,0.0667
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_E_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_B3_Deficiency,Vitamin_K_Deficiency,3,0.0333
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Other_Nutrient_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_A_Deficiency,5,0.0556
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_B12_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_B3_Deficiency,3,0.0333
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_B9_Deficiency,73,0.8111
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_B_Complex_Deficiency,3,0.0333
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_D_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_E_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_B9_Deficiency,Vitamin_K_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Other_Nutrient_Deficiency,14,0.1556
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_A_Deficiency,7,0.0778
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_B12_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_B3_Deficiency,22,0.2444
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_B9_Deficiency,14,0.1556
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_B_Complex_Deficiency,15,0.1667
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_C_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_D_Deficiency,10,0.1111
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_E_Deficiency,1,0.0111
+Vision v2,vision_combined,Vitamin_B_Complex_Deficiency,Vitamin_K_Deficiency,2,0.0222
+Vision v2,vision_combined,Vitamin_C_Deficiency,Other_Nutrient_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_A_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_B12_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_B3_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_B9_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_B_Complex_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_C_Deficiency,9,0.6923
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_D_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_E_Deficiency,4,0.3077
+Vision v2,vision_combined,Vitamin_C_Deficiency,Vitamin_K_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_D_Deficiency,Other_Nutrient_Deficiency,18,0.2000
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_A_Deficiency,14,0.1556
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_B12_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_B3_Deficiency,7,0.0778
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_B9_Deficiency,21,0.2333
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_B_Complex_Deficiency,10,0.1111
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_C_Deficiency,3,0.0333
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_D_Deficiency,7,0.0778
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_E_Deficiency,2,0.0222
+Vision v2,vision_combined,Vitamin_D_Deficiency,Vitamin_K_Deficiency,4,0.0444
+Vision v2,vision_combined,Vitamin_E_Deficiency,Other_Nutrient_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_A_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_B12_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_B3_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_B9_Deficiency,1,0.1111
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_B_Complex_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_D_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_E_Deficiency,8,0.8889
+Vision v2,vision_combined,Vitamin_E_Deficiency,Vitamin_K_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Other_Nutrient_Deficiency,1,0.1000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_A_Deficiency,1,0.1000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_B12_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_B3_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_B9_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_B_Complex_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_C_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_D_Deficiency,1,0.1000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_E_Deficiency,0,0.0000
+Vision v2,vision_combined,Vitamin_K_Deficiency,Vitamin_K_Deficiency,7,0.7000
+Vision v2,vision_eyes,Normal,Normal,89,0.9889
+Vision v2,vision_eyes,Normal,Other_Non_Nutritional,0,0.0000
+Vision v2,vision_eyes,Normal,Vitamin_A_Deficiency,1,0.0111
+Vision v2,vision_eyes,Other_Non_Nutritional,Normal,0,0.0000
+Vision v2,vision_eyes,Other_Non_Nutritional,Other_Non_Nutritional,89,0.9889
+Vision v2,vision_eyes,Other_Non_Nutritional,Vitamin_A_Deficiency,1,0.0111
+Vision v2,vision_eyes,Vitamin_A_Deficiency,Normal,1,0.0111
+Vision v2,vision_eyes,Vitamin_A_Deficiency,Other_Non_Nutritional,0,0.0000
+Vision v2,vision_eyes,Vitamin_A_Deficiency,Vitamin_A_Deficiency,89,0.9889
+Vision v2,vision_hair,Normal,Normal,83,0.9222
+Vision v2,vision_hair,Normal,Other_Non_Nutritional,7,0.0778
+Vision v2,vision_hair,Other_Non_Nutritional,Normal,1,0.0400
+Vision v2,vision_hair,Other_Non_Nutritional,Other_Non_Nutritional,24,0.9600
+Vision v2,vision_lips,NON_NUTRITIONAL,NON_NUTRITIONAL,8,0.6154
+Vision v2,vision_lips,NON_NUTRITIONAL,NUTRITIONAL,4,0.3077
+Vision v2,vision_lips,NON_NUTRITIONAL,Normal,1,0.0769
+Vision v2,vision_lips,NUTRITIONAL,NON_NUTRITIONAL,6,0.4000
+Vision v2,vision_lips,NUTRITIONAL,NUTRITIONAL,9,0.6000
+Vision v2,vision_lips,NUTRITIONAL,Normal,0,0.0000
+Vision v2,vision_lips,Normal,NON_NUTRITIONAL,0,0.0000
+Vision v2,vision_lips,Normal,NUTRITIONAL,0,0.0000
+Vision v2,vision_lips,Normal,Normal,86,1.0000
+Vision v2,vision_nails,NORMAL,NORMAL,7,0.8750
+Vision v2,vision_nails,NORMAL,Nutritional,0,0.0000
+Vision v2,vision_nails,NORMAL,Other_Non_Nutritional,1,0.1250
+Vision v2,vision_nails,Nutritional,NORMAL,0,0.0000
+Vision v2,vision_nails,Nutritional,Nutritional,14,0.7000
+Vision v2,vision_nails,Nutritional,Other_Non_Nutritional,6,0.3000
+Vision v2,vision_nails,Other_Non_Nutritional,NORMAL,11,0.1222
+Vision v2,vision_nails,Other_Non_Nutritional,Nutritional,13,0.1444
+Vision v2,vision_nails,Other_Non_Nutritional,Other_Non_Nutritional,66,0.7333
+Vision v2,vision_skin,BIOTIN,BIOTIN,4,0.6667
+Vision v2,vision_skin,BIOTIN,Normal,0,0.0000
+Vision v2,vision_skin,BIOTIN,Other_Non_Nutritional,0,0.0000
+Vision v2,vision_skin,BIOTIN,VITAMIN_C,0,0.0000
+Vision v2,vision_skin,BIOTIN,Vitamin_B3_Pellagra,1,0.1667
+Vision v2,vision_skin,BIOTIN,ZINC,1,0.1667
+Vision v2,vision_skin,Normal,BIOTIN,0,0.0000
+Vision v2,vision_skin,Normal,Normal,87,0.9667
+Vision v2,vision_skin,Normal,Other_Non_Nutritional,1,0.0111
+Vision v2,vision_skin,Normal,VITAMIN_C,1,0.0111
+Vision v2,vision_skin,Normal,Vitamin_B3_Pellagra,0,0.0000
+Vision v2,vision_skin,Normal,ZINC,1,0.0111
+Vision v2,vision_skin,Other_Non_Nutritional,BIOTIN,0,0.0000
+Vision v2,vision_skin,Other_Non_Nutritional,Normal,3,0.0333
+Vision v2,vision_skin,Other_Non_Nutritional,Other_Non_Nutritional,71,0.7889
+Vision v2,vision_skin,Other_Non_Nutritional,VITAMIN_C,3,0.0333
+Vision v2,vision_skin,Other_Non_Nutritional,Vitamin_B3_Pellagra,2,0.0222
+Vision v2,vision_skin,Other_Non_Nutritional,ZINC,11,0.1222
+Vision v2,vision_skin,VITAMIN_C,BIOTIN,3,0.2500
+Vision v2,vision_skin,VITAMIN_C,Normal,0,0.0000
+Vision v2,vision_skin,VITAMIN_C,Other_Non_Nutritional,1,0.0833
+Vision v2,vision_skin,VITAMIN_C,VITAMIN_C,7,0.5833
+Vision v2,vision_skin,VITAMIN_C,Vitamin_B3_Pellagra,0,0.0000
+Vision v2,vision_skin,VITAMIN_C,ZINC,1,0.0833
+Vision v2,vision_skin,Vitamin_B3_Pellagra,BIOTIN,2,0.1333
+Vision v2,vision_skin,Vitamin_B3_Pellagra,Normal,0,0.0000
+Vision v2,vision_skin,Vitamin_B3_Pellagra,Other_Non_Nutritional,0,0.0000
+Vision v2,vision_skin,Vitamin_B3_Pellagra,VITAMIN_C,1,0.0667
+Vision v2,vision_skin,Vitamin_B3_Pellagra,Vitamin_B3_Pellagra,10,0.6667
+Vision v2,vision_skin,Vitamin_B3_Pellagra,ZINC,2,0.1333
+Vision v2,vision_skin,ZINC,BIOTIN,7,0.5000
+Vision v2,vision_skin,ZINC,Normal,0,0.0000
+Vision v2,vision_skin,ZINC,Other_Non_Nutritional,2,0.1429
+Vision v2,vision_skin,ZINC,VITAMIN_C,0,0.0000
+Vision v2,vision_skin,ZINC,Vitamin_B3_Pellagra,0,0.0000
+Vision v2,vision_skin,ZINC,ZINC,5,0.3571
+Vision v2,vision_tongue,Diabetes,Diabetes,16,0.6667
+Vision v2,vision_tongue,Diabetes,Healthy,7,0.2917
+Vision v2,vision_tongue,Diabetes,OralCancer,0,0.0000
+Vision v2,vision_tongue,Diabetes,Other_TCM_Tongue,1,0.0417
+Vision v2,vision_tongue,Healthy,Diabetes,8,0.4444
+Vision v2,vision_tongue,Healthy,Healthy,10,0.5556
+Vision v2,vision_tongue,Healthy,OralCancer,0,0.0000
+Vision v2,vision_tongue,Healthy,Other_TCM_Tongue,0,0.0000
+Vision v2,vision_tongue,OralCancer,Diabetes,0,0.0000
+Vision v2,vision_tongue,OralCancer,Healthy,0,0.0000
+Vision v2,vision_tongue,OralCancer,OralCancer,16,0.9412
+Vision v2,vision_tongue,OralCancer,Other_TCM_Tongue,1,0.0588
+Vision v2,vision_tongue,Other_TCM_Tongue,Diabetes,0,0.0000
+Vision v2,vision_tongue,Other_TCM_Tongue,Healthy,0,0.0000
+Vision v2,vision_tongue,Other_TCM_Tongue,OralCancer,3,0.0333
+Vision v2,vision_tongue,Other_TCM_Tongue,Other_TCM_Tongue,87,0.9667

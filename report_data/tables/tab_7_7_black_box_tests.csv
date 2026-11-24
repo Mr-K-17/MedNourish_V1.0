@@ -1,0 +1,7 @@
+test_case_id,functional_feature,test_input_vector,equivalence_partition,observed_output
+BB-01,Symptom risk triage,4 high-severity nutritional symptoms,High Risk Partition (Score >= 60),High Risk band (Red indicator) returned
+BB-02,Symptom risk triage,2 mild lifestyle fatigue symptoms,Moderate Risk Partition (30 <= Score < 60),Moderate Risk band (Yellow indicator) returned
+BB-03,Symptom risk triage,0 or 1 symptom provided,Insufficient Information Partition,Advisory returned requiring further input
+BB-04,MedScan image intake,Completely black image (0x00),Extreme Dark Partition (Mean < 40),Rejected: 'Image too dark. Retake with better lighting'
+BB-05,MedScan image intake,Completely washed-out white image (0xFF),Extreme Bright Partition (Mean > 225),Rejected: 'Image overexposed. Reduce glare'
+BB-06,Meal planner generator,Caloric requirement 1800 kcal vegan,Nutrient constraint satisfaction,Menu items satisfy iron & B12 without meat

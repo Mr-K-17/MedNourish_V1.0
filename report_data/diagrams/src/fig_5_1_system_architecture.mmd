@@ -1,0 +1,31 @@
+graph TD
+    subgraph Frontend["Presentation Layer (React 18 / Vite / TS)"]
+        UI_Banner["Educational Disclaimer Banner"]
+        UI_M1["Symptom Matcher Explorer"]
+        UI_M2["MedBot Guided Dialogue"]
+        UI_M3["MedScan Camera & Upload"]
+        UI_M4["NurseBot Health Assistant"]
+        UI_M5["Virtual Ward Risk Monitor"]
+        UI_M6["CarePlan & Meal Planner"]
+    end
+    subgraph Gateway["Application API Gateway (FastAPI / PyMySQL)"]
+        AUTH["Firebase Token & Consent Gate"]
+        TRIAGE["Emergency Keyword Interceptor"]
+        MATCHER["Reference Matcher & Scoring Engine"]
+        GATE["Image Quality Gate (Laplacian & Lum)"]
+        AGG["Recency Aggregation Engine"]
+        ICS["RFC 5545 iCalendar Generator"]
+    end
+    subgraph MLEngine["Edge Machine Learning Engine"]
+        TFLITE["7 MobileNetV2 TFLite DRQ Models"]
+        TABULAR["XGBoost Tabular Classifiers"]
+        SHORTCUT["Shortcut Penalty Calibrator"]
+    end
+    subgraph Database["Persistence Layer (SQLAlchemy ORM)"]
+        DB_SQL["MySQL / SQLite Relational DB"]
+        DB_KNOW["Curated Clinical CSVs & YAML"]
+    end
+    Frontend -->|HTTPS/REST| Gateway
+    Gateway -->|Tensors| MLEngine
+    MLEngine -->|Inference Scores| Gateway
+    Gateway -->|SQL Queries| Database

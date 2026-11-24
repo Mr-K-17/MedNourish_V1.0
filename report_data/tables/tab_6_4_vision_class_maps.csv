@@ -1,0 +1,8 @@
+model_name,anatomical_region,classes_count,class_labels,support_gate,test_samples,test_accuracy,macro_f1,shortcut_risk,tflite_f32_size_mb,tflite_drq_size_mb
+combined,Multimodal,10,"Angular_Cheilitis, Aphthous_Ulcer, Cheilitis, Eye_Blepharitis, Eye_Conjunctivitis, Eye_Normal, Hair_Alopecia_Areata, Hair_Normal, Nail_Koilonychia, Skin_Normal",>= 40,662,41.54%,0.4153,LOW (25.5%),8.51,2.41
+eyes,Eyes,3,"Blepharitis, Conjunctivitis, Normal",>= 40,270,98.89%,0.9889,HIGH (95.2%),8.47,2.40
+hair,Hair,2,"Alopecia_Areata, Normal",>= 40,115,93.04%,0.9056,HIGH (94.8%),8.47,2.39
+lips,Lips,3,"Cheilitis, Herpes_Labialis, Normal",>= 40,114,90.35%,0.7432,HIGH (83.3%),8.47,2.40
+nails,Nails,3,"Koilonychia, Normal, Onychomycosis",>= 40,118,73.73%,0.6480,HIGH (73.7%),8.47,2.40
+skin,Skin,6,"Acne, Eczema, Hyperpigmentation, Normal, Pityriasis_Alba, Psoriasis",>= 40,227,81.06%,0.6290,HIGH (72.3%),8.48,2.40
+tongue,Tongue,4,"Aphthous_Ulcer, Coated_Tongue, Glossitis, Normal",>= 40,149,86.58%,0.7748,HIGH (75.2%),8.48,2.40

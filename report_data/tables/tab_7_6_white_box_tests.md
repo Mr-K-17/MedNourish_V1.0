@@ -1,0 +1,12 @@
+# Table Tab 7 6 White Box Tests
+
+| test_case_id | target_internal_logic | code_branch_tested | boundary_condition | branch_outcome |
+| --- | --- | --- | --- | --- |
+| WB-01 | ReferenceMatcher tie-breaking | Score equality branch | Two conditions have identical score | Deterministic alphabetical sort by condition name |
+| WB-02 | ScoringEngine shrinkage | Formula k = min(1.0, 0.4 + 0.2*m) | m=1 (k=0.6), m=3 (k=1.0) | Verified k clamps strictly at 1.0 for m >= 3 |
+| WB-03 | Database factory connector | create_engine switch | DB_MODE='sqlite' vs 'mysql' | Correct dialect URL instantiated dynamically |
+| WB-04 | Image quality Laplacian | cv2.Laplacian(img, cv2.CV_64F).var() | Score = 49.9 vs 50.1 | 49.9 rejected as blurry, 50.1 accepted |
+| WB-05 | Image luminance calculation | np.mean(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)) | Score = 39.9 vs 40.0 | 39.9 rejected as underexposed, 40.0 accepted |
+| WB-06 | MedScan shortcut penalty | Skin condition heuristic | Nail model run on skin image | Confidence scaled down by penalty coefficient 0.55 |
+
+*Educational Prototype - Not a Medical Device.*

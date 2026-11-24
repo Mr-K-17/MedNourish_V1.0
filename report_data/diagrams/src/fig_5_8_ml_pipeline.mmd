@@ -1,0 +1,6 @@
+flowchart LR
+    Data[Dataset Ingestion] --> Clean[Quality Gate & Leakage Purge]
+    Clean --> Train[Train: XGBoost / MobileNetV2]
+    Train --> Quant[Dynamic Range Quantization DRQ]
+    Quant --> Audit[Parity Check & Grad-CAM Audit]
+    Audit --> Deploy[TFLite CPU Edge Deployment]

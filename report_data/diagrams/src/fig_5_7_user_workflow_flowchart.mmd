@@ -1,0 +1,20 @@
+flowchart TD
+    Start([Portal Access]) --> Banner[View Educational Disclaimer]
+    Banner --> Consent{Signed Consent?}
+    Consent -- No --> SignConsent[Display Consent Gate Modal]
+    SignConsent --> Consent
+    Consent -- Yes --> ChooseMode{Select Assessment Modality}
+    ChooseMode -->|Explorer| Sym[Enter Symptoms]
+    ChooseMode -->|MedBot| Bot[Guided Dialogue]
+    ChooseMode -->|MedScan| Scan[Upload Anatomical Image]
+    Sym --> CheckInf{Symptom Count >= 2?}
+    Bot --> CheckInf
+    Scan --> Quality{Laplacian >= 50 & Lum in [40,225]?}
+    Quality -- Fail --> Rej[Reject: Suggest Lighting/Focus]
+    Quality -- Pass --> Inf[Run MobileNetV2 Inference]
+    CheckInf -- Fail --> Insuff[Display Insufficient Info Warning]
+    CheckInf -- Yes --> Score[Calculate Noisy-OR Risk Score]
+    Inf --> Merge[Aggregate in Virtual Ward]
+    Score --> Merge
+    Merge --> Care[Generate CarePlan & iCalendar Feed]
+    Care --> Print[Export Summary / Consult Doctor]

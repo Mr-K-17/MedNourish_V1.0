@@ -1,0 +1,19 @@
+graph LR
+    User((Patient / User))
+    Auditor((Auditor / Clinician))
+    subgraph MedNourish["MEDNOURISH System Boundary"]
+        UC1["Acknowledge Consent & Disclaimers"]
+        UC2["Match Clinical Symptoms"]
+        UC3["Guided MedBot Interview"]
+        UC4["Upload Anatomical Photo"]
+        UC5["View Ward Trends"]
+        UC6["Export CarePlan iCal"]
+        UC7["Review Clinical Summary"]
+    end
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    Auditor --> UC7

@@ -1,0 +1,8 @@
+region,raw_images,retained_images,support_threshold
+Combined,25632,4410,40
+Eyes,41845,1800,40
+Hair,2251,765,40
+Lips,5258,760,40
+Nails,2278,785,40
+Skin,266443,1515,40
+Tongue,20585,995,40

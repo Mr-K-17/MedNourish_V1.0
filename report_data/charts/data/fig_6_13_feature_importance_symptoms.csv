@@ -1,0 +1,11 @@
+feature_name,importance_score
+fatigue,0.245
+bone_pain,0.182
+diet_type,0.141
+sun_exposure_hours,0.118
+smoking_status,0.089
+brittle_nails,0.075
+alcohol_consumption,0.056
+physical_activity_level,0.042
+dry_skin,0.031
+bleeding_gums,0.021

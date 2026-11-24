@@ -1,0 +1,5 @@
+flowchart LR
+    Gate[Support Gate >= 40 Filter] --> Aug[Stratified Split & Augmentation]
+    Aug --> Train[Two-Stage Fine-Tuning]
+    Train --> Export[TFLite DRQ Converter]
+    Export --> Card[Parity Validation & Model Card Export]

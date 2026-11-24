@@ -1,0 +1,31 @@
+{
+  "operating_system": "Microsoft Windows 11 Home Single Language 64-bit (10.0.26200)",
+  "processor": "AMD Ryzen 7 7445HS with Radeon 740M Graphics (6 cores, 12 threads)",
+  "ram_total_gb": 15.23,
+  "graphics": [
+    "AMD Radeon 740M Graphics (Integrated)",
+    "NVIDIA GeForce RTX 4050 Laptop GPU (Dedicated, 6 GB VRAM)"
+  ],
+  "runtimes": {
+    "python_backend": "3.14.8",
+    "python_ml": "3.12.10",
+    "node_js": "v24.21.0",
+    "npm": "11.19.0",
+    "git": "2.55.0.windows.5"
+  },
+  "core_libraries": {
+    "fastapi": "0.143.0",
+    "uvicorn": "0.54.0",
+    "sqlalchemy": "2.1.4",
+    "react": "18.3.1",
+    "vite": "5.4.8",
+    "recharts": "2.12.7",
+    "tensorflow_cpu": "2.18.0",
+    "xgboost": "2.1.4 (tf venv) / 3.4.1 (ml venv)",
+    "lightgbm": "4.6.0 (tf venv) / 4.7.0 (ml venv)",
+    "scikit_learn": "1.6.1 (tf venv) / 1.9.1 (ml venv)",
+    "opencv_python": "4.11.0.86",
+    "pillow": "12.3.0 (backend) / 11.1.0 (tf venv)",
+    "numpy": "2.5.4 (backend) / 1.26.4 (tf venv)"
+  }
+}

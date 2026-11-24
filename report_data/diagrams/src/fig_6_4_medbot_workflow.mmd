@@ -1,0 +1,8 @@
+flowchart TD
+    Init[Start Session] --> Prioritize[Calculate Maximum Entropy Symptom]
+    Prioritize --> Query[Surface Question / Speech Prompt]
+    Query --> Input[User Responds: Voice or Chip]
+    Input --> Update[Update Hypotheses & Evidence]
+    Update --> Done{Confidence >= 0.85 or Turns >= 8?}
+    Done -- No --> Prioritize
+    Done -- Yes --> Summary[Save Session & Export Summary]

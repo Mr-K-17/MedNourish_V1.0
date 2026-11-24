@@ -1,0 +1,8 @@
+graph TD
+    P1["1.0 Auth & Consent"] --> DB1[(D1: Relational DB)]
+    P2["2.0 Symptom Matcher"] --> DB2[(D2: Curated Knowledge)]
+    P2 --> DB1
+    P3["3.0 Image Quality & MedScan"] --> DB1
+    P4["4.0 NurseBot Triage"] --> DB2
+    P5["5.0 CarePlan & Sync"] --> DB1
+    P5 --> DB2

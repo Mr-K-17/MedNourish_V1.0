@@ -1,0 +1,16 @@
+graph LR
+    subgraph Core["MEDNOURISH Subsystems"]
+        M1["M1: Reference Explorer"]
+        M2["M2: MedBot Interview"]
+        M3["M3: MedScan Vision"]
+        M4["M4: NurseBot FAQ"]
+        M5["M5: Virtual Ward"]
+        M6["M6: CarePlan & Calendar"]
+    end
+    subgraph Safety["Safety & Governance Engine"]
+        DISC["Non-Diagnostic Disclaimer"]
+        CONS["User Consent Gate"]
+        EMERG["Emergency Triage Interceptor"]
+        EXIF["EXIF Privacy Stripper"]
+    end
+    Safety --> Core

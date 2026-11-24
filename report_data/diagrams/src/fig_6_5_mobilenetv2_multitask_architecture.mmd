@@ -1,0 +1,5 @@
+flowchart LR
+    Input[Input Tensor 160x160x3] --> Backbone[MobileNetV2 Inverted Residuals]
+    Backbone --> Head[GlobalAvgPool + Dropout + Dense Softmax]
+    Head --> Quant[TFLite Dynamic Range Quantization INT8]
+    Quant --> Penalty[Shortcut Penalty Calibrator]

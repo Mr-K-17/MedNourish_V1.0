@@ -1,0 +1,20 @@
+sequenceDiagram
+    autonumber
+    actor User as Patient User
+    participant UI as React Frontend
+    participant Gate as ImageQualityGate
+    participant TFLite as TFLite Vision Engine
+    participant DB as MySQL / SQLite
+
+    User->>UI: Uploads anatomical photo
+    UI->>Gate: POST /api/v1/medscan/analyze
+    Note over Gate: Evaluate Laplacian var & mean luminance
+    alt Blurry or Poorly Lit
+        Gate-->>UI: 422 Rejected (Actionable Lighting / Blur Tip)
+    else Quality Approved
+        Gate->>TFLite: Run inference on 160x160 tensor
+        TFLite-->>Gate: Class probabilities & shortcut penalty
+        Gate->>DB: INSERT INTO medscan_sessions
+        DB-->>Gate: 201 Created
+        Gate-->>UI: 200 OK (Classification, Confidence, Advisory)
+    end

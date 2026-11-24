@@ -1,0 +1,9 @@
+flowchart TD
+    Query[User Health Query] --> Check{Emergency Keywords?}
+    Check -- Yes --> Triage[Trigger Emergency Modal: Dial 911 / 112]
+    Check -- No --> MatchLocal{Found in Curated Knowledge?}
+    MatchLocal -- Yes --> ReturnLocal[Return Curated Nutritional Guidance]
+    MatchLocal -- No --> QueryNIH[Query NIH MedlinePlus API]
+    QueryNIH --> ReturnNIH[Extract Snippet & Add Citation]
+    ReturnLocal --> Disclaimer[Attach Educational Disclaimer]
+    ReturnNIH --> Disclaimer

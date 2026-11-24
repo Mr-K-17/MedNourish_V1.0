@@ -1,0 +1,5 @@
+approach_investigated,technical_rationale,status,rejection_or_omission_reason
+Cloud Generative LLM Diagnostics (GPT-4 / Claude),Natural language patient interview,NOT IMPLEMENTED (BY DESIGN),"Hallucination risk, strict privacy compliance, non-deterministic outputs, zero offline capability"
+Full-Body Multi-Modal Transformer,End-to-end vision and text attention,NOT AVAILABLE,Requires paired clinical multi-modal datasets not present in academic corpus
+Heavyweights CNN (ResNet-50 / DenseNet-121),Deep feature representation,REJECTED IN FAVOR OF MOBILENETV2,"Excessive parameter count (>25M params), high latency on mobile edge devices without GPU"
+Uncalibrated Raw Tabular Classification,Direct probability output,REJECTED (C-33),Biochemical target leakage produced synthetic 100% accuracy; purged in V2

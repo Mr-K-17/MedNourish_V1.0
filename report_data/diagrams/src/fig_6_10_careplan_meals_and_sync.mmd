@@ -1,0 +1,5 @@
+flowchart LR
+    Def[Deficiency Risk & Diet] --> Meals[Curated Meal Synthesizer]
+    Meals --> Tasks[Daily CarePlan Checklist]
+    Tasks --> ICS[RFC 5545 iCalendar Serializer]
+    ICS --> Cal[External Calendar Subscription]

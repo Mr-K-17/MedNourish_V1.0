@@ -1,0 +1,31 @@
+{
+  "git_head_commit": "518657591e37725cd4b2ddf18932c402e57c0fa4",
+  "git_branch": "dev",
+  "total_commits_on_dev": 48,
+  "first_commit_date": "2026-10-12 19:22:20 +0530",
+  "last_commit_date": "2026-10-28 13:06:59 +0530",
+  "tags": [
+    "final-demo",
+    "pre-final-qa",
+    "v2-demo"
+  ],
+  "api_endpoints_count": 48,
+  "database_tables_count": 5,
+  "database_tables": [
+    "user_profiles",
+    "user_consent_logs",
+    "care_plan_items",
+    "saved_summaries",
+    "medscan_sessions"
+  ],
+  "react_components_count": 13,
+  "react_tsx_files_count": 15,
+  "test_counts": {
+    "backend_pytest": 115,
+    "ml_pytest": 40,
+    "e2e_smoke_steps": 18,
+    "safety_claims_scanned_files": 76
+  },
+  "dataset_physical_files": 394480,
+  "dataset_genuine_images": 364292
+}

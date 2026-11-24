@@ -1,0 +1,13 @@
+test_id,module_under_test,test_file,test_function_name,assertion_target,status
+UT-MAT-01,ReferenceMatcher,test_matcher.py,test_empty_symptoms_returns_empty,Empty input returns 0 matches,PASSED
+UT-MAT-02,ReferenceMatcher,test_matcher.py,test_single_symptom_match,IDF shrinkage weighting calculates correctly,PASSED
+UT-MAT-03,ReferenceMatcher,test_matcher.py,test_synonym_expansion,Clinical synonym resolves to canonical key,PASSED
+UT-MAT-04,ScoringEngine,test_scoring.py,test_noisy_or_probability_bounds,"Output bounded strictly in [0.0, 1.0]",PASSED
+UT-MAT-05,ScoringEngine,test_scoring.py,test_risk_band_thresholds,"Score >= 60 High, >= 30 Moderate, else Low",PASSED
+UT-MAT-06,ScoringEngine,test_scoring.py,test_insufficient_information_rule,Symptom count < 2 triggers Insufficient Info flag,PASSED
+UT-MAT-07,SymptomExtractor,test_extraction.py,test_rule_based_negation,'no fever' drops fever from positive set,PASSED
+UT-MAT-08,ImageQualityGate,test_quality.py,test_laplacian_blur_rejection,Laplacian var < 50 rejects as blurry,PASSED
+UT-MAT-09,ImageQualityGate,test_quality.py,test_luminance_boundary_rejection,Mean intensity < 40 or > 225 rejects,PASSED
+UT-MAT-10,UserProfileService,test_profile.py,test_profile_bmi_calculation,Calculates weight_kg / (height_m^2) accurately,PASSED
+UT-MAT-11,CarePlanService,test_careplan.py,test_meal_plan_truncation_fix,Food descriptions preserve full text (>135 chars),PASSED
+UT-MAT-12,CarePlanService,test_careplan.py,test_ics_rfc5545_compliance,Generates valid VCALENDAR with VEVENT and UID,PASSED

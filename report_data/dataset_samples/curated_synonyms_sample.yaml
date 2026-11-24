@@ -1,0 +1,30 @@
+version: '1.0'
+synonyms:
+  achy joints: jointpain
+  alopecia: hairloss
+  altered taste: tastechange
+  angular cheilitis: mouthcornersoreness
+  anxiety: anxiety
+  bad breath: badbreath
+  bald patches: smoothbaldpatches
+  beau lines: beaulines
+  beefy red tongue: beefyredtongue
+  bleeding gums: bleedinggums
+  bleeding lips: sorelips
+  bleeding spots on skin: folliclebleeding
+  bloodshot eyes: eyeredness
+  blurry vision: blurredvision
+  blurred vision: blurredvision
+  body aches: musclepain
+  bone aches: bonepain
+  bone pain: bonepain
+  brain fog: confusion
+  breaking nails: brittlenails
+  breathless: shortnessofbreath
+  brittle hair: brittlehair
+  brittle nails: brittlenails
+  broken hair: hairbreakage
+  bruising easily: easybruising
+  bumpy skin: smallraisedbumps
+  burning lips: lipdryness
+  burning mouth: burningmouth

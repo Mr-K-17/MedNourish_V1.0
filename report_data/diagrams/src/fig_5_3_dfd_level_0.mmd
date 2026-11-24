@@ -1,0 +1,8 @@
+graph LR
+    User["User / Patient"]
+    System["0.0 MEDNOURISH System"]
+    Ext["External Services / Clinician"]
+    User -->|Symptoms, Photos, Consent| System
+    System -->|Risk Bands, Meal Plans, Summaries| User
+    System -->|Health Queries, Emergency Triage| Ext
+    Ext -->|MedlinePlus Data, Calendar Sync| System

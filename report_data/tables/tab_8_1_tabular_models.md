@@ -1,0 +1,9 @@
+# Table Tab 8 1 Tabular Models
+
+| profile_name | model_family | feature_count | test_samples | accuracy | macro_f1 | leakage_audit_status |
+| --- | --- | --- | --- | --- | --- | --- |
+| with_labs (V1 Baseline) | RandomForest / XGBoost | 32 | 800 | 100.0% | 1.000 | FLAGGED: Direct target leakage via Serum Ferritin & Vitamin D ng/mL |
+| no_labs (V2 Pragmatic) | LightGBM / XGBoost | 24 | 800 | 88.25% | 0.874 | VERIFIED CLEAN: Biochemical markers stripped; lifestyle + vitals only |
+| symptoms_only (V2 Telehealth) | XGBoost Classifier | 12 | 800 | 76.50% | 0.751 | VERIFIED CLEAN: Self-reported qualitative symptoms only |
+
+*Educational Prototype - Not a Medical Device.*

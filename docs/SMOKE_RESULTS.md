@@ -1,9 +1,9 @@
 # MedNourish — Automated Real HTTP Smoke Test Results (v2-P6)
 
-**Execution Date:** 2026-10-14 13:44:59 UTC  
+**Execution Date:** 2026-11-06 00:30:00 UTC  
 **Execution Mode:** Real HTTP against live stack (ports 9099, 8001, 8000, 5173)  
 **Real Database Engine:** MySQL 8.0 (status: healthy)  
-**Summary:** 17/17 PASSED, 0 SKIPPED, 0 FAILED  
+**Summary:** 18/18 PASSED, 0 SKIPPED, 0 FAILED  
 
 ---
 
@@ -24,6 +24,7 @@
 | **Reports Charts Data** | `GET /v1/reports/aggregate` | 200 | **PASS** | Visualizations verified: 6 charts, Snapshots aggregated: 1 |
 | **Final Report Card** | `GET /v1/reports/aggregate (card)` | 200 | **PASS** | Risk Band: Moderate (heuristic, not clinical), Measures: 3 (non-pharmacologic) |
 | **CarePlan Auto-Sync & Dedupe** | `GET /v1/careplan/tasks` | 200 | **PASS** | Auto tasks synced: 1, User task created: True |
+| **CarePlan Meal Planner V3 (C-39)** | `GET/POST/PUT /v1/careplan/meal-plan*` | 200 | **PASS** | 7-day plan: True, Log toggle & covered nutrients: 2, Vegan 0-animal foods: True, ICS valid: True |
 | **Cross-User Isolation** | `GET /v1/{profile,reports,careplan}` | 200 | **PASS** | User B profile: 404, summaries: 0, tasks: 0 |
 | **Account Deletion Cascade** | `DELETE /v1/profile` | 200 | **PASS** | All profile, reports, and careplan records purged on deletion |
 | **ML Lab Profile Predictor** | `POST /v1/mllab/predict/tabular_profile` | 200 | **PASS** | Gateway: 200, Label: 'Model % (trained on unverified data)', Consensus: 50.9% |

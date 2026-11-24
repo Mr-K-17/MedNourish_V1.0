@@ -1,0 +1,31 @@
+================================================================================
+MEDNOURISH REPORT_DATA INTEGRITY AUDIT & SELF-CHECK VERIFICATION
+================================================================================
+Audit Target Directory: C:\Users\USER\Desktop\MedNourish-Dev\report_data
+
+[AUDIT NOTE] Documented unavailable item: charts/fig_6_15_learning_curves.png -> NOT AVAILABLE (training history logs not persisted in repository; retraining prohibited per C-09/C-16)
+[AUDIT NOTE] Documented unavailable item: logs/pytest_cov.txt -> NOT AVAILABLE (pytest-cov plugin not installed in virtual environment; new package installation prohibited)
+[AUDIT NOTE] Documented unavailable item: dataset_samples/tabular_sample.csv -> NOT AVAILABLE (raw training datasets physically quarantined outside repository per C-09/C-40 publish policy)
+[AUDIT NOTE] Documented unavailable item: dataset_samples/sample_lips.png -> NOT AVAILABLE (raw training datasets physically quarantined outside repository per C-09/C-40 publish policy)
+
+--------------------------------------------------------------------------------
+CATEGORY BREAKDOWN OF VERIFIED ARTIFACTS:
+--------------------------------------------------------------------------------
+  - CHART: 20 verified files
+  - CODE_EXCERPT: 15 verified files
+  - DATASET_SAMPLE: 9 verified files
+  - DIAGRAM: 40 verified files
+  - FACT: 6 verified files
+  - GENERAL: 8 verified files
+  - LOG: 7 verified files
+  - SCREENSHOT: 40 verified files
+  - TABLE: 46 verified files
+
+--------------------------------------------------------------------------------
+TOTAL VERIFIED AVAILABLE ARTIFACTS : 191
+TOTAL DOCUMENTED UNAVAILABLE ITEMS : 4
+TOTAL AUDIT FAILURES / ERRORS     : 0
+--------------------------------------------------------------------------------
+STATUS: PASSED - 100% ARTIFACT INTEGRITY CONFIRMED
+REPORT_DATA PACKAGE IS COMPLETE, CONSISTENT, AND READY FOR PACKAGING.
+================================================================================

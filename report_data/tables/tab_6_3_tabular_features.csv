@@ -1,0 +1,33 @@
+feature_name,category,data_type,profile_with_labs,profile_no_labs,profile_symptoms_only,clinical_significance_note
+age,Demographics,Integer,YES,YES,YES,Baseline risk across age brackets
+gender,Demographics,Categorical,YES,YES,YES,Biological sex associations
+height_cm,Demographics,Float,YES,YES,NO,Physical anthropometry
+weight_kg,Demographics,Float,YES,YES,NO,Body mass calculations
+bmi,Demographics,Float,YES,YES,NO,Computed Body Mass Index
+smoking_status,Lifestyle,Categorical,YES,YES,YES,Modulates vitamin C and antioxidant depletion
+alcohol_consumption,Lifestyle,Categorical,YES,YES,YES,Modulates thiamine (B1) and folate absorption
+physical_activity_level,Lifestyle,Categorical,YES,YES,YES,Metabolic expenditure demands
+sun_exposure_hours,Lifestyle,Float,YES,YES,YES,Cutaneous Vitamin D3 synthesis indicator
+diet_type,Lifestyle,Categorical,YES,YES,YES,Vegan vegetarian or omnivore nutritional risk
+fatigue,Symptoms,Binary (0/1),YES,YES,YES,Non-specific systemic indicator (Anemia B12 Iron)
+dry_skin,Symptoms,Binary (0/1),YES,YES,YES,Epithelial integrity (Vitamin A Essential Fatty Acids)
+night_blindness,Symptoms,Binary (0/1),YES,YES,YES,Rhodopsin regeneration failure (Vitamin A)
+brittle_nails,Symptoms,Binary (0/1),YES,YES,YES,Keratin matrix deficiency (Iron Zinc Biotin)
+bleeding_gums,Symptoms,Binary (0/1),YES,YES,YES,Collagen hydroxylation failure (Vitamin C Scurvy)
+bone_pain,Symptoms,Binary (0/1),YES,YES,YES,Impaired mineralization (Vitamin D Osteomalacia)
+hair_loss,Symptoms,Binary (0/1),YES,YES,YES,Follicular turnover failure (Zinc Iron Protein)
+mouth_ulcers,Symptoms,Binary (0/1),YES,YES,YES,Mucosal atrophy (B-Complex Iron)
+diet_vitamin_a_pct,Diet RDA %,Float,YES,YES,NO,Percentage of daily dietary Vitamin A RDA
+diet_vitamin_c_pct,Diet RDA %,Float,YES,YES,NO,Percentage of daily dietary Vitamin C RDA
+diet_vitamin_d_pct,Diet RDA %,Float,YES,YES,NO,Percentage of daily dietary Vitamin D RDA
+diet_iron_pct,Diet RDA %,Float,YES,YES,NO,Percentage of daily dietary Iron RDA
+diet_calcium_pct,Diet RDA %,Float,YES,YES,NO,Percentage of daily dietary Calcium RDA
+serum_retinol_ug_dl,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum blood Vitamin A level
+serum_ascorbic_acid_mg_dl,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum blood Vitamin C level
+serum_25_hydroxy_d_ng_ml,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum blood 25(OH)D level
+serum_ferritin_ng_ml,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum blood Ferritin level
+hemoglobin_g_dl,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Blood Hemoglobin level
+serum_calcium_mg_dl,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum Calcium level
+serum_alk_phosphatase_u_l,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Bone-specific Alkaline Phosphatase
+serum_b12_pg_ml,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum Cobalamin level
+serum_folate_ng_ml,Biomarker Lab,Float,YES,NO,NO,LEAKAGE FEATURE: Serum Folate level

@@ -1,0 +1,11 @@
+folder_name,genuine_images,segmentation_masks,annotation_files,notebooks,other_files,total_files,taxonomic_description
+EYES,41845,3080,1685,1,3,46614,"Ocular diseases, conjunctiva, blepharitis, cataract, glaucoma masks, blood smears"
+HAIR,2251,98,9,0,0,2358,"Scalp alopecia areata, follicular patterns, density segmentation masks"
+LIPS,5258,5066,16,1,0,10341,"Cheilitis, herpes labialis, angular lesions, facial lip region masks"
+MedBot_datasets,0,0,13,0,0,13,"13 curated expert reference knowledge CSV tables (mapping and routine tables)"
+NAILS,2278,0,18,0,0,2296,"Koilonychia spoon nails, onychomycosis fungal dystrophies, normal nails"
+SKIN,266443,0,28,1,0,266472,"Eczema, acne vulgaris, psoriasis, hyperpigmentation, dermal eruptions"
+TONGUE,20585,0,20165,0,1,40751,"Clinical diabetes and oral cancer tongues; TCM Shezhen v3 COCO/TXT/XML datasets"
+dataset,25632,0,0,0,0,25632,"Multimodal combined nutritional manifestations across multiple body regions"
+[ROOT_FILES],0,0,2,1,0,3,"Tabular 4000-row CSV, exploratory analysis notebook, DATASET_STRUCTURE.txt"
+TOTAL,364292,8244,21936,4,4,394480,"Complete read-only physical corpus in C:\Users\USER\Desktop\MedNourish\datasets"

@@ -1,0 +1,10 @@
+flowchart TD
+    subgraph Pyramid["Testing Strategy Pyramid"]
+        T4["Tier 4: Automated CI/CD Safety Scanners (76 Files)"]
+        T3["Tier 3: End-to-End System Smoke Tests (18 Steps)"]
+        T2["Tier 2: Module Integration Tests (API + DB + TFLite)"]
+        T1["Tier 1: Unit Tests (115 Backend + 40 ML Tests)"]
+    end
+    T1 --> T2
+    T2 --> T3
+    T3 --> T4

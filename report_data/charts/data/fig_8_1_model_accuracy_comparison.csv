@@ -1,0 +1,14 @@
+model_family,model_name,test_accuracy_pct,ci_95_low,ci_95_high,baseline_pct,is_leakage,shortcut_detected,small_sample
+Tabular XGB,with_labs,99.38,,,37.75,True,False,False
+Tabular LGB,with_labs,99.12,,,37.75,True,False,False
+Tabular XGB,no_labs,99.25,,,37.75,False,False,False
+Tabular LGB,no_labs,99.12,,,37.75,False,False,False
+Tabular XGB,symptom_lifestyle_only,79.87,,,37.75,False,False,False
+Tabular LGB,symptom_lifestyle_only,79.75,,,37.75,False,False,False
+Vision v2,combined,41.54,37.76,45.32,25.53,False,False,True
+Vision v2,eyes,98.89,97.41,100.00,95.19,False,False,False
+Vision v2,hair,93.04,88.70,97.39,94.78,False,False,False
+Vision v2,lips,90.35,84.21,94.74,83.33,False,False,True
+Vision v2,nails,73.73,65.25,81.36,73.73,False,False,True
+Vision v2,skin,81.06,76.21,85.90,72.25,False,False,True
+Vision v2,tongue,86.58,81.21,91.95,75.17,False,False,False

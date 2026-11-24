@@ -1,0 +1,21 @@
+food_id,name,cuisine,food_group,meal_slots,diet_tags,allergens,cautions,nutrients,prep_note
+f_ragi_roti,Ragi Roti with Onions,indian,millet,breakfast;lunch;dinner,veg;vegan,,high_potassium,b_complex;calcium;fiber;iron;protein_energy,Warm finger millet flatbread pressed with onion and cumin
+f_ragi_porridge,Savory Ragi Buttermilk Porridge,indian,millet,breakfast,veg,dairy,high_potassium,b2;calcium;iron;protein_energy;water,Cooling ragi malt simmered and whisked with light curd
+f_jowar_bhakri,Jowar Bhakri Flatbread,indian,millet,lunch;dinner,veg;vegan,,high_potassium,b_complex;fiber;iron;protein_energy;zinc,Hand-flattened sorghum flatbread baked on an iron skillet
+f_bajra_roti,Bajra Roti with Fenugreek,indian,millet,lunch;dinner,veg;vegan,,high_potassium,b9_folate;fiber;iron;protein_energy;zinc,Pearl millet flatbread kneaded with fresh methi greens
+f_foxtail_upma,Foxtail Millet Vegetable Upma,indian,millet,breakfast;dinner,veg;vegan,,,b_complex;fiber;iron;protein_energy;vitamin_c,Fluffy steamed foxtail millet tossed with ginger and peas
+f_little_millet_khichdi,Little Millet Moong Khichdi,indian,millet,lunch;dinner,veg;vegan,,,b_complex;fiber;protein;protein_energy;zinc,Nutritious slow-simmered millet cooked with yellow moong
+f_barnyard_pulao,Barnyard Millet Garden Pulao,indian,millet,lunch;dinner,veg;vegan,,,fiber;iron;protein_energy;vitamin_a;vitamin_c,"Millet pilaf gently spiced with bay leaf, peas, and carrots"
+f_chapathi,Whole Wheat Chapathi,indian,cereal,breakfast;lunch;dinner,veg;vegan,gluten,,b_complex;fiber;iron;protein;protein_energy,Puffed whole wheat tawa flatbread brushed with water or oil
+f_multigrain_roti,Multigrain Phulka,indian,cereal,lunch;dinner,veg;vegan,gluten,,b_complex;fiber;iron;protein;protein_energy,"Handmade phulka blended with whole wheat, oats, and barley"
+f_methi_thepla,Spiced Methi Thepla,indian,cereal,breakfast;lunch,veg;vegan,gluten,,b9_folate;fiber;iron;vitamin_a,Whole wheat rolled flatbread infused with fresh fenugreek
+f_vegetable_dalia,Broken Wheat Vegetable Dalia,indian,cereal,breakfast;dinner,veg;vegan,gluten,,b_complex;fiber;iron;vitamin_c,Hearty cracked wheat porridge cooked with peas and carrots
+f_rolled_oats_porridge,Warm Rolled Oats Porridge,global,cereal,breakfast,veg;vegan,,,b_complex;biotin;fiber;zinc,Rolled oats simmered with cinnamon and water or almond milk
+f_overnight_chia_oats,Overnight Oats with Chia Seeds,global,cereal,breakfast,veg;vegan,,,b_complex;calcium;fiber;zinc,Chilled oats soaked overnight with soaked chia and cinnamon
+f_steamed_brown_rice,Steamed Brown Basmati Rice,indian,cereal,lunch;dinner,veg;vegan,,,b3;b_complex;fiber;zinc,Nutty whole grain brown rice steamed tender and fluffy
+f_red_rice_kanji,Red Rice Kanji Broth,indian,cereal,breakfast;dinner,veg;vegan,,,fiber;iron;water;zinc,Traditional cooked red rice broth seasoned with roasted
+f_wholewheat_sourdough,Toasted Whole Wheat Sourdough,global,cereal,breakfast;lunch,veg;vegan,gluten,,b_complex;fiber;iron;zinc,Fermented artisan whole grain sourdough slice toasted crisp
+f_steamed_idli,Steamed Rice and Urad Idli,indian,cereal,breakfast;dinner,veg;vegan,,,b2;b_complex;protein;protein_energy;zinc,Fermented soft steamed rice and black gram savory cakes
+f_ragi_idli,Steamed Ragi Idli,indian,millet,breakfast;dinner,veg;vegan,,high_potassium,calcium;fiber;iron;protein;protein_energy,Fermented finger millet batter steamed into pillowy cakes
+f_plain_dosa,Crisp Sourdough Dosa,indian,cereal,breakfast;dinner,veg;vegan,,,b_complex;iron;protein;protein_energy,Thin golden fermented crepe seared crisp on a tawa
+f_pesarattu,Whole Green Moong Pesarattu,indian,pulse,breakfast;dinner,veg;vegan,,,b9_folate;fiber;iron;protein;protein_energy,Traditional Andhra green gram dosa ground with ginger and

@@ -1,0 +1,196 @@
+relative_path,category,title,target_chapter,file_size_bytes,sha256,availability_status
+CONFLICTS_RESOLVED.md,general,Conflicts Resolved.Md,Chapter 5–8 General,6479,d200d792b4447417cf74ad73b216988b6595c0c4326ac6a9eab2b430d29f1508,AVAILABLE
+PROGRESS.md,general,Progress.Md,Chapter 5–8 General,707,9ba9bb20b8839e40dcbb013927e26942ec969e7ba3f5e4bc6b86229b3219c468,AVAILABLE
+capture_proper_suite.js,general,Capture Proper Suite.Js,Chapter 5–8 General,16103,8996db7a0b55cbf93299016ddd0028e5e6a98f09f41e3157b79565b6176af15f,AVAILABLE
+check_auth.js,general,Check Auth.Js,Chapter 5–8 General,2196,bd24376ab2cd74eafb99b89be4e68ffa1fb1000d0715193d280ed25dfdfb9085,AVAILABLE
+check_console.js,general,Check Console.Js,Chapter 5–8 General,2910,826bd4305877048b4ff142cc454139bd81c8d9042fc810bd6b404dcc24811e87,AVAILABLE
+check_nav.js,general,Check Nav.Js,Chapter 5–8 General,2927,580056238a9e9a90d5e3f4204f92fd5b9041321b92f894a6c54851bc1e0a4514,AVAILABLE
+run_final_check.py,general,Run Final Check.Py,Chapter 5–8 General,3728,9323662dcc26b9fbcf5c3c1639bb3f61f3a37c4e7064c16e80b80e5f19ccd033,AVAILABLE
+test_login.js,general,Test Login.Js,Chapter 5–8 General,3035,319b814bb9b6dcf40157ccba69d2494bdb83ca345dcd38b3e6722aa8c4a4ac97,AVAILABLE
+charts/fig_6_11_image_dataset_composition.png,chart,Fig 6 11 Image Dataset Composition.Png,Chapter 8: Results & Discussion,22626,e68a161dec267b5bbe645645c951ef5f72178d75fc6451613ef1e289e4854482,AVAILABLE
+charts/fig_6_12_tabular_class_distribution.png,chart,Fig 6 12 Tabular Class Distribution.Png,Chapter 8: Results & Discussion,12223,a3644c139a156b9532909444d2a8ce8d451eb17fb2770412f99be6f4b352d9be,AVAILABLE
+charts/fig_6_13_feature_importance_symptoms.png,chart,Fig 6 13 Feature Importance Symptoms.Png,Chapter 8: Results & Discussion,12749,957d246adb8e7f0806f4e937c6d5c51f5b5be0fdef1cf83819f3e4f505573c04,AVAILABLE
+charts/fig_6_14_gradcam_overlays.png,chart,Fig 6 14 Gradcam Overlays.Png,Chapter 8: Results & Discussion,989789,a42bab6fcd7efd1f2e8ee0ed7e977d272af5be36cbfaa46c08765c4810d4e8a5,AVAILABLE
+charts/fig_8_1_model_accuracy_comparison.png,chart,Fig 8 1 Model Accuracy Comparison.Png,Chapter 8: Results & Discussion,376660,7f3335e848aace0f8faa36dc9f0a498125f1fc76a67cb0343ac160d889d2e032,AVAILABLE
+charts/fig_8_2_precision_recall_f1_comparison.png,chart,Fig 8 2 Precision Recall F1 Comparison.Png,Chapter 8: Results & Discussion,236937,d14b9966368061918ee21205cc1d65478c310198a074bf85b31f4315ceb4403f,AVAILABLE
+charts/fig_8_3_per_class_heatmaps.png,chart,Fig 8 3 Per Class Heatmaps.Png,Chapter 8: Results & Discussion,266838,3455ef50f7a8318152773e21c6dec27b04c9718ce530b8212ba93f61650c5558,AVAILABLE
+charts/fig_8_4_medscan_cv_performance.png,chart,Fig 8 4 Medscan Cv Performance.Png,Chapter 8: Results & Discussion,452055,52a9a4c741a5b713639922911a1e471eda0720bbb277eae09b47673cccd86a2c,AVAILABLE
+charts/fig_8_5_inference_latency.png,chart,Fig 8 5 Inference Latency.Png,Chapter 8: Results & Discussion,268770,43bbd0d83fd8e4e0768c97fe473067d8029497510204d2a02cc747f2392da720,AVAILABLE
+charts/fig_8_6_confusion_matrices_tabular.png,chart,Fig 8 6 Confusion Matrices Tabular.Png,Chapter 8: Results & Discussion,223928,667bfdb8dc45dd96c32baa3918d65fad70b24bc562df94f780f91cc3f344e842,AVAILABLE
+charts/fig_8_7_confusion_matrices_vision.png,chart,Fig 8 7 Confusion Matrices Vision.Png,Chapter 8: Results & Discussion,352352,c1b3c72061d20f707a22a62e15a9bd097eb8699b8cd119fa5dc5de699e93a3e3,AVAILABLE
+charts/data/fig_6_11_image_dataset_composition.csv,chart,Fig 6 11 Image Dataset Composition.Csv,Chapter 8: Results & Discussion,194,9ca5025dce2e9b3172c81b0ca24d1344a50bed22f8a647c6bf30b9808f848218,AVAILABLE
+charts/data/fig_6_12_tabular_class_distribution.csv,chart,Fig 6 12 Tabular Class Distribution.Csv,Chapter 8: Results & Discussion,152,12e6d3738a904a421cb2a63814522b609569f0082e224953d5b2169d628f0442,AVAILABLE
+charts/data/fig_6_13_feature_importance_symptoms.csv,chart,Fig 6 13 Feature Importance Symptoms.Csv,Chapter 8: Results & Discussion,244,e012594660f20d45409e67526fe4e800b1ff1c209c66e369f689b5afe6fae2af,AVAILABLE
+charts/data/fig_8_1_model_accuracy_comparison.csv,chart,Fig 8 1 Model Accuracy Comparison.Csv,Chapter 8: Results & Discussion,879,a6a3d6557229a8fb44e75af9ca2f8b05eab8c58371831fcef196da80bd392856,AVAILABLE
+charts/data/fig_8_2_precision_recall_f1_comparison.csv,chart,Fig 8 2 Precision Recall F1 Comparison.Csv,Chapter 8: Results & Discussion,911,2ed561ed63619571fa5a7eebab2e8de71b7e3e66e48e76362288b950740ad632,AVAILABLE
+charts/data/fig_8_3_per_class_heatmaps.csv,chart,Fig 8 3 Per Class Heatmaps.Csv,Chapter 8: Results & Discussion,3682,99302e47ee3376f2a4e8fd253e828142f71001b1486781668b0fb4ff3b240d47,AVAILABLE
+charts/data/fig_8_4_medscan_cv_performance.csv,chart,Fig 8 4 Medscan Cv Performance.Csv,Chapter 8: Results & Discussion,816,87d968ac214244aab902fdfc2fd123a5ba0e581f41cf575db11368c746954a34,AVAILABLE
+charts/data/fig_8_5_inference_latency.csv,chart,Fig 8 5 Inference Latency.Csv,Chapter 8: Results & Discussion,4610,79713af5000ddfc4ee954e44629cfa7a38edb1ba8e822ad01effc94c187a55ad,AVAILABLE
+charts/data/fig_8_6_and_7_confusion_matrices.csv,chart,Fig 8 6 And 7 Confusion Matrices.Csv,Chapter 8: Results & Discussion,23856,c63beb1293dc82bbfd90441c50716beca557726e7e7a117977223f24b53c8c07,AVAILABLE
+code_excerpts/careplan_ics_export.md,code_excerpt,Code Excerpt: Careplan Ics Export,Chapter 6: Implementation,1870,825052c8717d064119f6eecc84e2f96ccd139b1cf83d4f9425a757baf1961074,AVAILABLE
+code_excerpts/careplan_meal_planner.md,code_excerpt,Code Excerpt: Careplan Meal Planner,Chapter 6: Implementation,2043,01fd42b25ec0c41fb953e49e921b593d2312e990d4e77c29b7b98d96562c2930,AVAILABLE
+code_excerpts/consent_auth_dependency.md,code_excerpt,Code Excerpt: Consent Auth Dependency,Chapter 6: Implementation,1652,c8f275245803068c33c5853e5a244ebd2a1a52944fb449c70033ff20d5394b78,AVAILABLE
+code_excerpts/db_mode_switch.md,code_excerpt,Code Excerpt: Db Mode Switch,Chapter 6: Implementation,1624,b411423d8de98ae75fb3af305269081a4d44a7fdefe868e138e83d01d9a04758,AVAILABLE
+code_excerpts/matcher_core.md,code_excerpt,Code Excerpt: Matcher Core,Chapter 6: Implementation,1974,bc001b623c0a2f36706862e4334f0e02b54af6254606871b49c0569407a2f873,AVAILABLE
+code_excerpts/medscan_quality_audit.md,code_excerpt,Code Excerpt: Medscan Quality Audit,Chapter 6: Implementation,1827,b6ccfaf61f7c98d498a192f9e7951d5fa1dce007a95770a2b77cfb0f222418d0,AVAILABLE
+code_excerpts/medscan_shortcut_blend.md,code_excerpt,Code Excerpt: Medscan Shortcut Blend,Chapter 6: Implementation,1652,73a70f6d2ff98405736346b9357784f8f8c0b01fa4cb57848f1764001e5a4dee,AVAILABLE
+code_excerpts/nursebot_router_webanswer.md,code_excerpt,Code Excerpt: Nursebot Router Webanswer,Chapter 6: Implementation,2190,96870e69015bffe437946e1f83d812625eacb7b35ed0bae33aa250d80fb95b48,AVAILABLE
+code_excerpts/reports_aggregation.md,code_excerpt,Code Excerpt: Reports Aggregation,Chapter 6: Implementation,1870,57010ad26efc09b93256707d7abdd510af80ae6eb9b19be13852c617ae219f67,AVAILABLE
+code_excerpts/safety_claims_scanner.md,code_excerpt,Code Excerpt: Safety Claims Scanner,Chapter 6: Implementation,2029,19382c3002fe3a37ddc3ec0636fab5e8dbcec90d9e8cbf5d19950b0e0478cfd5,AVAILABLE
+code_excerpts/scoring_formulas.md,code_excerpt,Code Excerpt: Scoring Formulas,Chapter 6: Implementation,1740,27eb4b44be582a04724d663ddae01a9f9dc797a148ab7fbe75c7054c8a813a34,AVAILABLE
+code_excerpts/symptom_extraction.md,code_excerpt,Code Excerpt: Symptom Extraction,Chapter 6: Implementation,2035,6e4947ac5c847ee2d1920a097705a78661e6fa9824d46835a9be6f59a7669bb6,AVAILABLE
+code_excerpts/tabular_preprocessor.md,code_excerpt,Code Excerpt: Tabular Preprocessor,Chapter 6: Implementation,2172,7c220dd5e56e050c5c47b7cc8b80dce9e7826b802d21bde608eb35f9c5e79c9a,AVAILABLE
+code_excerpts/tflite_parity_check.md,code_excerpt,Code Excerpt: Tflite Parity Check,Chapter 6: Implementation,1625,d27f609fb13a0ca5751758a1a850fd69e2880e6d936b82478d8e721660f62fde,AVAILABLE
+code_excerpts/vision_model_builder.md,code_excerpt,Code Excerpt: Vision Model Builder,Chapter 6: Implementation,1907,6684038fea256f4c365c716417a4e7b31a5fb72631f4c89019b9771b919278ff,AVAILABLE
+dataset_samples/curated_food_items_sample.csv,dataset_sample,Dataset Sample: Curated Food Items Sample.Csv,Chapter 5 & 6 Evidence,3773,a67aed19a923b16d43e5822d93649f94685094c63dc89aa9dcf0c99e13e5cdf4,AVAILABLE
+dataset_samples/curated_nutrient_guidance_sample.csv,dataset_sample,Dataset Sample: Curated Nutrient Guidance Sample.Csv,Chapter 5 & 6 Evidence,6638,90cd9ee272d94f6751f68a336ab7695ce98c12ef9ac1c4417fba345e9423d976,AVAILABLE
+dataset_samples/curated_synonyms_sample.yaml,dataset_sample,Dataset Sample: Curated Synonyms Sample.Yaml,Chapter 5 & 6 Evidence,860,f2251801bb7eda1faa331a568b66204530161a07e63f521e7a09be06ba17a97f,AVAILABLE
+dataset_samples/sample_combined.png,dataset_sample,Dataset Sample: Sample Combined.Png,Chapter 5 & 6 Evidence,65331,bd1401a30237c5996f41eef66a4b096bab4e5e54986fc8b4a0837566f682d36b,AVAILABLE
+dataset_samples/sample_eyes.png,dataset_sample,Dataset Sample: Sample Eyes.Png,Chapter 5 & 6 Evidence,50614,3eef44e98dd7700d788d14e3f1014c7067a6cc63e1e64b9f79c8378be968ae9f,AVAILABLE
+dataset_samples/sample_hair.png,dataset_sample,Dataset Sample: Sample Hair.Png,Chapter 5 & 6 Evidence,76723,dc6d2524437ccf0b8734b0445b292f290f84073c18fe206e2e48d04cdca692f6,AVAILABLE
+dataset_samples/sample_nails.png,dataset_sample,Dataset Sample: Sample Nails.Png,Chapter 5 & 6 Evidence,85752,f0b770eb7f7960cad2d23c9205ba23544ca882e082e2a6ae5a04d99ed567a8ff,AVAILABLE
+dataset_samples/sample_skin.png,dataset_sample,Dataset Sample: Sample Skin.Png,Chapter 5 & 6 Evidence,69286,eefc0a7e12b197fa1965bd412bd645f7f7847d3329dd75959025340c3867499f,AVAILABLE
+dataset_samples/sample_tongue.png,dataset_sample,Dataset Sample: Sample Tongue.Png,Chapter 5 & 6 Evidence,65533,a7eb92ab8cc04f1438a6cf2b39ebb669b6eefce90c63d44fcec61de23991d916,AVAILABLE
+diagrams/fig_5_1_system_architecture.png,diagram,Fig 5 1 System Architecture.Png,Chapter 5: Methodology,96625,f5306eefc86a7a074e16f2c9771ba3290dc9aca701829046baea5329661b0fef,AVAILABLE
+diagrams/fig_5_2_proposed_system_modules.png,diagram,Fig 5 2 Proposed System Modules.Png,Chapter 5: Methodology,77600,52dbdd58f70b103df779bc3aaab2b4be65b519bf754cead4392aa369b0a38d44,AVAILABLE
+diagrams/fig_5_3_dfd_level_0.png,diagram,Fig 5 3 Dfd Level 0.Png,Chapter 5: Methodology,54729,d6623af19f6b60f62cd5c304e147ffb028fe0dd303f17fdb96707194cd49d0ab,AVAILABLE
+diagrams/fig_5_4_dfd_level_1.png,diagram,Fig 5 4 Dfd Level 1.Png,Chapter 5: Methodology,59982,97dabc4fc6fd8ee1fee06ff85d57489ba54f4dab24c525b97e20bfefab7e3d75,AVAILABLE
+diagrams/fig_5_5_use_case_diagram.png,diagram,Fig 5 5 Use Case Diagram.Png,Chapter 5: Methodology,84192,6586487c4d11d5565ba87c4ddcca989a42d13b9c8d2fc30dc10916abc799546a,AVAILABLE
+diagrams/fig_5_6_er_database_schema.png,diagram,Fig 5 6 Er Database Schema.Png,Chapter 5: Methodology,67026,d71f94b90ab7387fbafd75f82ce9196729bbdf573e8497520858444c233591a2,AVAILABLE
+diagrams/fig_5_7_user_workflow_flowchart.png,diagram,Fig 5 7 User Workflow Flowchart.Png,Chapter 5: Methodology,59811,da39282e1135b38392c6c1c6936d34558dce8934104e9f09327656672473185f,AVAILABLE
+diagrams/fig_5_8_ml_pipeline.png,diagram,Fig 5 8 Ml Pipeline.Png,Chapter 5: Methodology,73200,c7e880d9b6051ac627df14d517a07d407c0481967a87efe7375018468e23d43a,AVAILABLE
+diagrams/fig_5_9_safety_privacy_layers.png,diagram,Fig 5 9 Safety Privacy Layers.Png,Chapter 5: Methodology,53709,45ae1f956b44132c4470d3acc1d5b0b1ffe683365aec151c6c634ac292ada3b9,AVAILABLE
+diagrams/fig_6_10_careplan_meals_and_sync.png,diagram,Fig 6 10 Careplan Meals And Sync.Png,Chapter 5: Methodology,48331,3b26bd171649ba976c78d4d7e3b1fe858dabf117281239d609d9c194eb5039ff,AVAILABLE
+diagrams/fig_6_1_curated_knowledge_pipeline.png,diagram,Fig 6 1 Curated Knowledge Pipeline.Png,Chapter 5: Methodology,54157,4c4e844d63015caf4415eac250d3bcee091562327d040bb8abb96b2d067b383e,AVAILABLE
+diagrams/fig_6_2_reference_matcher_flowchart.png,diagram,Fig 6 2 Reference Matcher Flowchart.Png,Chapter 5: Methodology,44696,f217bf6caff51116d4e3b9dc673c1ebccb1d6a103b12b4efea5922284342a094,AVAILABLE
+diagrams/fig_6_3_scoring_formulas_flowchart.png,diagram,Fig 6 3 Scoring Formulas Flowchart.Png,Chapter 5: Methodology,58619,c4652417ed659c66eca14c5bb43391e08a4d701133f723e5216633fd912b9c68,AVAILABLE
+diagrams/fig_6_4_medbot_workflow.png,diagram,Fig 6 4 Medbot Workflow.Png,Chapter 5: Methodology,43470,766794d2470b4b5da45072afbcc30745eb0c9ed68731f6ec2c228831cda2f2b9,AVAILABLE
+diagrams/fig_6_5_mobilenetv2_multitask_architecture.png,diagram,Fig 6 5 Mobilenetv2 Multitask Architecture.Png,Chapter 5: Methodology,88114,c6d25ebfaf9b7dea73f04eb03f08638cd6ac66e67a2c7fa2671db8497558e3f7,AVAILABLE
+diagrams/fig_6_6_vision_training_export_flow.png,diagram,Fig 6 6 Vision Training Export Flow.Png,Chapter 5: Methodology,48309,aff22a1c7a9c870b0efed15cdd40898d23d57cb4b019da961a0192bb4bd12f00,AVAILABLE
+diagrams/fig_6_7_medscan_sequence_diagram.png,diagram,Fig 6 7 Medscan Sequence Diagram.Png,Chapter 5: Methodology,42593,5a475d02f6f4478a89e68b364d3fd09e31da72c0efb6c90f0eaf50512fb808c3,AVAILABLE
+diagrams/fig_6_8_nursebot_intent_router.png,diagram,Fig 6 8 Nursebot Intent Router.Png,Chapter 5: Methodology,44388,a44c077868c7781501cc9d0f01dee46e092c4634ab8e17bfb8e415ef1bc5358b,AVAILABLE
+diagrams/fig_6_9_recency_weighted_aggregation.png,diagram,Fig 6 9 Recency Weighted Aggregation.Png,Chapter 5: Methodology,75292,28b7553de6dcefb7bc0e594a387b8977a80b82da469154b376aa9902b506f224,AVAILABLE
+diagrams/fig_7_1_testing_strategy.png,diagram,Fig 7 1 Testing Strategy.Png,Chapter 5: Methodology,75396,2809aeda2b93e4375d945ff92c76fa9bd74c6dfade3c4a2e65114322cc1a08a9,AVAILABLE
+diagrams/src/fig_5_1_system_architecture.mmd,diagram,Fig 5 1 System Architecture.Mmd,Chapter 5: Methodology,1301,46fc297ae7de7b3e5e6d36a60d4f2f213f213509360ff52257582d34e07302ed,AVAILABLE
+diagrams/src/fig_5_2_proposed_system_modules.mmd,diagram,Fig 5 2 Proposed System Modules.Mmd,Chapter 5: Methodology,519,5199138c4c9c1b4e0beed38ac94bec3dd1084ab449952599b1ae66f969e46e31,AVAILABLE
+diagrams/src/fig_5_3_dfd_level_0.mmd,diagram,Fig 5 3 Dfd Level 0.Mmd,Chapter 5: Methodology,328,bdb5197533bbea1b6a1b3f8cfef764711817160c6aa6e3ea42667e1ff4ec6d46,AVAILABLE
+diagrams/src/fig_5_4_dfd_level_1.mmd,diagram,Fig 5 4 Dfd Level 1.Mmd,Chapter 5: Methodology,290,6702e4482e23097ba1161d92a140c6e512f772262374d39af51f14dae74d3fe3,AVAILABLE
+diagrams/src/fig_5_5_use_case_diagram.mmd,diagram,Fig 5 5 Use Case Diagram.Mmd,Chapter 5: Methodology,547,9327d78153ba6a207b6ebde5331094049a2dda8fbcfdaab54fe7a0340569a5d8,AVAILABLE
+diagrams/src/fig_5_6_er_database_schema.mmd,diagram,Fig 5 6 Er Database Schema.Mmd,Chapter 5: Methodology,1051,e802a98150aa518a685de63296134f12cbca84b6d00be8405b9d54db20bb5693,AVAILABLE
+diagrams/src/fig_5_7_user_workflow_flowchart.mmd,diagram,Fig 5 7 User Workflow Flowchart.Mmd,Chapter 5: Methodology,982,c1d893659a7da69eac9a696e15dff22a0dd60471e5fa829509a96352d23a4cdd,AVAILABLE
+diagrams/src/fig_5_8_ml_pipeline.mmd,diagram,Fig 5 8 Ml Pipeline.Mmd,Chapter 5: Methodology,289,ec4dc5229519aa48abe34d836a3ba483571ee8c20ebe65849f8dea0df5215304,AVAILABLE
+diagrams/src/fig_5_9_safety_privacy_layers.mmd,diagram,Fig 5 9 Safety Privacy Layers.Mmd,Chapter 5: Methodology,279,3955fb82726b3a1831ced64cdc4a7a8eb8c262b6c3ebf62e22f1555f4192184c,AVAILABLE
+diagrams/src/fig_6_10_careplan_meals_and_sync.mmd,diagram,Fig 6 10 Careplan Meals And Sync.Mmd,Chapter 5: Methodology,229,eb764674437bc023df86c06ee2676bf317fbe824ed9b89e172b7fe35cf09aee0,AVAILABLE
+diagrams/src/fig_6_1_curated_knowledge_pipeline.mmd,diagram,Fig 6 1 Curated Knowledge Pipeline.Mmd,Chapter 5: Methodology,215,4996813ea626f3752e50c2746891c058933a6c5b0464f534cc8e064fb706a0a2,AVAILABLE
+diagrams/src/fig_6_2_reference_matcher_flowchart.mmd,diagram,Fig 6 2 Reference Matcher Flowchart.Mmd,Chapter 5: Methodology,204,6ffb32ee0049479fcf5bc7d810cab15c9eddb43aaf9aa0397e00dd6d8f564150,AVAILABLE
+diagrams/src/fig_6_3_scoring_formulas_flowchart.mmd,diagram,Fig 6 3 Scoring Formulas Flowchart.Mmd,Chapter 5: Methodology,168,66359bb0d8b57cde685c8f2a0f198d867a3825d23e85b37e1691e2fa25e31d3d,AVAILABLE
+diagrams/src/fig_6_4_medbot_workflow.mmd,diagram,Fig 6 4 Medbot Workflow.Mmd,Chapter 5: Methodology,399,191acff166a85d3c04447020e18c4e676d473313d5291cdfe9f11441937a462e,AVAILABLE
+diagrams/src/fig_6_5_mobilenetv2_multitask_architecture.mmd,diagram,Fig 6 5 Mobilenetv2 Multitask Architecture.Mmd,Chapter 5: Methodology,270,e617e7eb2ba99b7744e11d27f9d26845a370682d85cdd25c2d6ccfa6e40da7e4,AVAILABLE
+diagrams/src/fig_6_6_vision_training_export_flow.mmd,diagram,Fig 6 6 Vision Training Export Flow.Mmd,Chapter 5: Methodology,238,ed4a23575edbcf3669370a17294792ba00e5f71c6fc7d2cf6baa8eb87782360e,AVAILABLE
+diagrams/src/fig_6_7_medscan_sequence_diagram.mmd,diagram,Fig 6 7 Medscan Sequence Diagram.Mmd,Chapter 5: Methodology,782,d9a5b1558f77df78fbdc4c6703cb47826f4ddba31bd716349cbc91d81ea524cc,AVAILABLE
+diagrams/src/fig_6_8_nursebot_intent_router.mmd,diagram,Fig 6 8 Nursebot Intent Router.Mmd,Chapter 5: Methodology,497,163f9f00cc75de1d496c7a7f1381dc18dd5c4858d19ae8be979d65340432c40f,AVAILABLE
+diagrams/src/fig_6_9_recency_weighted_aggregation.mmd,diagram,Fig 6 9 Recency Weighted Aggregation.Mmd,Chapter 5: Methodology,215,91d16fee55ceccf4d0ebb2c173589caf420e6281ee0916cfdb809b42938e653e,AVAILABLE
+diagrams/src/fig_7_1_testing_strategy.mmd,diagram,Fig 7 1 Testing Strategy.Mmd,Chapter 5: Methodology,378,1d1e4b81a32b464c659e8b9ecbb03b68e5914c798bc4c63b8a6537932bc48126,AVAILABLE
+facts/algorithms.json,fact,Fact Reference: Algorithms.Json,Chapter 5–8 Reference Facts,2058,f95860af4d0a71369117b0adbeb77a3502f51afb4eeb57c7c6043137bedb57b8,AVAILABLE
+facts/algorithms.md,fact,Fact Reference: Algorithms.Md,Chapter 5–8 Reference Facts,4534,c6abdd6c5f116227fbe7acd552c5dbdefb591fad2bd992119938aa343c43399c,AVAILABLE
+facts/discussion.md,fact,Fact Reference: Discussion.Md,Chapter 5–8 Reference Facts,5777,40010dd269ff7b1177ca676728cb0439cbfdf46bd40c74a7dd0d34cdd164bb0b,AVAILABLE
+facts/environment.json,fact,Fact Reference: Environment.Json,Chapter 5–8 Reference Facts,996,0135edceccab6f5fec806992e595b0d3f5b14cc5e5b0a4639fd3cc33df4357b3,AVAILABLE
+facts/ml_config.json,fact,Fact Reference: Ml Config.Json,Chapter 5–8 Reference Facts,5613,d455cb6cdbec6fc98247ad5d02f8039700ce60ab7d39edff2c0ccede19d335aa,AVAILABLE
+facts/project_stats.json,fact,Fact Reference: Project Stats.Json,Chapter 5–8 Reference Facts,767,34d1e91b3510a7377fe4469777105af1a1470198c9c336e369824a1f5424bd49,AVAILABLE
+logs/final_check.txt,log,Execution Log: Final Check,Chapter 7: System Testing,2031,61683dd6a9a592c0377cc950a5ab9646c4637aabc0a87f540a7289c23b8b18c1,AVAILABLE
+logs/frontend_build.txt,log,Execution Log: Frontend Build,Chapter 7: System Testing,1184,73147a29486bf1a9bcf79a21b5887617733ec0c99be506f1469d1a6eb0eedce0,AVAILABLE
+logs/pytest_backend_mysql.txt,log,Execution Log: Pytest Backend Mysql,Chapter 7: System Testing,38048,a2b49a37f1f7f7353c7ad83dab03d9a3f15505bceb2e224bd24670afde278541,AVAILABLE
+logs/pytest_backend_sqlite.txt,log,Execution Log: Pytest Backend Sqlite,Chapter 7: System Testing,38048,c6e755989b3dc804efd6b9f8b749653a6cd8548a7c50bfa9eec2247a3872478a,AVAILABLE
+logs/pytest_ml.txt,log,Execution Log: Pytest Ml,Chapter 7: System Testing,7212,68732c17d760c01b429f7017a81973bd2a179032e043342ee194ad3dcb74e1c8,AVAILABLE
+logs/safety_scan.txt,log,Execution Log: Safety Scan,Chapter 7: System Testing,328,6a4a9bf439e383fc1601c1ceb67e7d14fc59d7c66cc54155bea95d86d4387f54,AVAILABLE
+logs/smoke_e2e.txt,log,Execution Log: Smoke E2E,Chapter 7: System Testing,6486,91f520040b503e1066323567b16cd6142fef46f1eaf486e85c01e467cf938af1,AVAILABLE
+screenshots/01_landing_page.png,screenshot,Screenshot: 01 Landing Page,Chapter 6: Implementation,85056,8d8fb131612f12eaa3abac2002b38288e48a30565d576a40090a1ca086363619,AVAILABLE
+screenshots/02_disclaimer_banner.png,screenshot,Screenshot: 02 Disclaimer Banner,Chapter 6: Implementation,61658,d81c56303f587e6fe0e1102390fae507275e670ddeb42b1e15d5d4392423909b,AVAILABLE
+screenshots/03_emergency_modal.png,screenshot,Screenshot: 03 Emergency Modal,Chapter 6: Implementation,90264,3db5d98642c63e927bcb70c7c5045f96a40b828ff90b54c0d2256503c81a7cf5,AVAILABLE
+screenshots/04_consent_gate.png,screenshot,Screenshot: 04 Consent Gate,Chapter 6: Implementation,173075,80f0accfb9ad94e0a5ede231633a7f78094be64f770a5e1b75d9d804781102cc,AVAILABLE
+screenshots/05_dashboard.png,screenshot,Screenshot: 05 Dashboard,Chapter 6: Implementation,383219,48fb5033b1489b3fe5808eca014d07ee731366bad96267de303c49a699f68a97,AVAILABLE
+screenshots/06_explorer_selection.png,screenshot,Screenshot: 06 Explorer Selection,Chapter 6: Implementation,171171,a6b66a452b8c064d0d53f073da39d2e726a6ea328b75a3d700ba7c87d526cb97,AVAILABLE
+screenshots/07_explorer_results.png,screenshot,Screenshot: 07 Explorer Results,Chapter 6: Implementation,176132,fa955208fba1acc6d0d7ce1e84cfcaed8314582a3e8123c01a80a3396cfc1c65,AVAILABLE
+screenshots/08_explorer_why.png,screenshot,Screenshot: 08 Explorer Why,Chapter 6: Implementation,176132,fa955208fba1acc6d0d7ce1e84cfcaed8314582a3e8123c01a80a3396cfc1c65,AVAILABLE
+screenshots/09_insufficient_info.png,screenshot,Screenshot: 09 Insufficient Info,Chapter 6: Implementation,176132,fa955208fba1acc6d0d7ce1e84cfcaed8314582a3e8123c01a80a3396cfc1c65,AVAILABLE
+screenshots/10_medbot_mode.png,screenshot,Screenshot: 10 Medbot Mode,Chapter 6: Implementation,119973,bab97b53256515230384642eff8c9f6ec6a698cbd0e032017fe16423b4ad0440,AVAILABLE
+screenshots/11_medbot_question.png,screenshot,Screenshot: 11 Medbot Question,Chapter 6: Implementation,118647,392e58484d5ab994ba070a6529ea2f361dabd0d8f4fbb3375caa6261ae458dfc,AVAILABLE
+screenshots/12_medbot_chips.png,screenshot,Screenshot: 12 Medbot Chips,Chapter 6: Implementation,118647,392e58484d5ab994ba070a6529ea2f361dabd0d8f4fbb3375caa6261ae458dfc,AVAILABLE
+screenshots/13_medbot_summary.png,screenshot,Screenshot: 13 Medbot Summary,Chapter 6: Implementation,119280,d6455e0eb32cf3c5467b37f0662a3fc8cded22c9b6d403055828977646416690,AVAILABLE
+screenshots/14_medscan_accepted.png,screenshot,Screenshot: 14 Medscan Accepted,Chapter 6: Implementation,145422,9b9131f5583167e326471bfeb1a7fca783e82faa54f15b69d1e0d931a6cf5152,AVAILABLE
+screenshots/15_medscan_rejected.png,screenshot,Screenshot: 15 Medscan Rejected,Chapter 6: Implementation,145422,9b9131f5583167e326471bfeb1a7fca783e82faa54f15b69d1e0d931a6cf5152,AVAILABLE
+screenshots/16_medscan_checklist.png,screenshot,Screenshot: 16 Medscan Checklist,Chapter 6: Implementation,145422,9b9131f5583167e326471bfeb1a7fca783e82faa54f15b69d1e0d931a6cf5152,AVAILABLE
+screenshots/17_nursebot_faq.png,screenshot,Screenshot: 17 Nursebot Faq,Chapter 6: Implementation,96649,8986d45163a7c2eff4ab7f6ea9e285a81b70df788c86fc571ef85226fbca3488,AVAILABLE
+screenshots/18_nursebot_medlineplus.png,screenshot,Screenshot: 18 Nursebot Medlineplus,Chapter 6: Implementation,97355,e5d254203d71411027b57f369fbcaab9c172d0205a5ec0afef35544a02498501,AVAILABLE
+screenshots/19_nursebot_emergency.png,screenshot,Screenshot: 19 Nursebot Emergency,Chapter 6: Implementation,97006,eaf24878a61005a0e887f2c51b13ff4c647503b075bced6a5c79510a56a70f51,AVAILABLE
+screenshots/20_virtual_ward.png,screenshot,Screenshot: 20 Virtual Ward,Chapter 6: Implementation,607873,d568ec1e2c89036ef64b2b730e0c908f9955c73b4d6d0436be434e4c02e005f3,AVAILABLE
+screenshots/21_careplan_tasks.png,screenshot,Screenshot: 21 Careplan Tasks,Chapter 6: Implementation,146838,a79c7890fbccef4850765442045b229194f0dad40fb8da138cd14b71a31a5a46,AVAILABLE
+screenshots/22_careplan_meals.png,screenshot,Screenshot: 22 Careplan Meals,Chapter 6: Implementation,146838,a79c7890fbccef4850765442045b229194f0dad40fb8da138cd14b71a31a5a46,AVAILABLE
+screenshots/23_careplan_ics.png,screenshot,Screenshot: 23 Careplan Ics,Chapter 6: Implementation,146838,a79c7890fbccef4850765442045b229194f0dad40fb8da138cd14b71a31a5a46,AVAILABLE
+screenshots/24a_reports_chart1.png,screenshot,Screenshot: 24A Reports Chart1,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/24b_reports_chart2.png,screenshot,Screenshot: 24B Reports Chart2,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/24c_reports_chart3.png,screenshot,Screenshot: 24C Reports Chart3,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/24d_reports_chart4.png,screenshot,Screenshot: 24D Reports Chart4,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/24e_reports_chart5.png,screenshot,Screenshot: 24E Reports Chart5,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/24f_reports_chart6.png,screenshot,Screenshot: 24F Reports Chart6,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/25_report_card.png,screenshot,Screenshot: 25 Report Card,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/26_print_preview.png,screenshot,Screenshot: 26 Print Preview,Chapter 6: Implementation,153594,bb1ee4f27261d4463d802be9ae30b862bbfa97b0ecfd1922dcd06f201340fb32,AVAILABLE
+screenshots/27_mllab_tabular.png,screenshot,Screenshot: 27 Mllab Tabular,Chapter 6: Implementation,133438,5d5a35cbd0633c1fcdce63cf54fe2f0d5040aa798102c039cdd636fa9714a1f5,AVAILABLE
+screenshots/28_mllab_vision.png,screenshot,Screenshot: 28 Mllab Vision,Chapter 6: Implementation,167650,016472e28e7d5f0d5382830e1357ada566144c53088cee99f243ccac13bf60c9,AVAILABLE
+screenshots/29_model_card_detail.png,screenshot,Screenshot: 29 Model Card Detail,Chapter 6: Implementation,134493,2862f94bd7e5dc07c11348e20e330decd25dcb454b7fab4879330c090c8104db,AVAILABLE
+screenshots/30_openapi_docs.png,screenshot,Screenshot: 30 Openapi Docs,Chapter 6: Implementation,41202,a7e11403bd8b97a4ae979134e4cd312c13a93736b9e0823558f72432f688d694,AVAILABLE
+screenshots/31_health_json.png,screenshot,Screenshot: 31 Health Json,Chapter 6: Implementation,16251,1ba01eaa6973b11f46e937c669f9f404b998b630455c8dd747e384eb02cfadd6,AVAILABLE
+screenshots/32_mobile_view.png,screenshot,Screenshot: 32 Mobile View,Chapter 6: Implementation,95049,bdf910ba96b80ab2e5523a793ad37376fb6a05d75824c1e836f774588c0edb61,AVAILABLE
+screenshots/33_terminal_services.png,screenshot,Screenshot: 33 Terminal Services,Chapter 6: Implementation,57344,49f963600d2b23a855fab1f5e317440efee9d7e3b4d589cd11fe802c62c1a873,AVAILABLE
+screenshots/34_github_ci_status.png,screenshot,Screenshot: 34 Github Ci Status,Chapter 6: Implementation,49465,9f75fc672c0be0c4c952a9ee97f78ac838d08c4676888b9f654a1ae1b62a9658,AVAILABLE
+screenshots/35_project_tree.png,screenshot,Screenshot: 35 Project Tree,Chapter 6: Implementation,63272,9abbe97b4565902aba6a1566f2db9f323bffaf2a6fcfc3a1b5825043e55e0ab3,AVAILABLE
+tables/tab_6_1_api_endpoints.csv,table,Tab 6 1 Api Endpoints.Csv,Chapter 6 or 7,5024,c50653a6829a9212b701b75afb0cb6ea59e81481365d0d9db95eaf06c62c52e1,AVAILABLE
+tables/tab_6_1_api_endpoints.md,table,Tab 6 1 Api Endpoints.Md,Chapter 6 or 7,6124,debc9dde2488815b11f35c6756e0d7b7312fac18fbf765a4f28558f6b9e7eccc,AVAILABLE
+tables/tab_6_2_db_schema.csv,table,Tab 6 2 Db Schema.Csv,Chapter 6 or 7,3882,3f8622e0745a80896a3d4e8fe6b0c269975146b5c8540f139aa9d9058e8871e6,AVAILABLE
+tables/tab_6_2_db_schema.md,table,Tab 6 2 Db Schema.Md,Chapter 6 or 7,4308,b71a17ff1d3baa5d049cdbc75033d587abfe29bb6e6dfc1fc78494d8cba408d6,AVAILABLE
+tables/tab_6_3_tabular_features.csv,table,Tab 6 3 Tabular Features.Csv,Chapter 6 or 7,2914,9634b17bc6e677a45a343569c2420c22563f0880a69617f634650a6575fce302,AVAILABLE
+tables/tab_6_3_tabular_features.md,table,Tab 6 3 Tabular Features.Md,Chapter 6 or 7,4067,bc477a1f19f3e4e98ae234c428f7d8f90ab6643027bb5fa20c58187d65cade57,AVAILABLE
+tables/tab_6_4_vision_class_maps.csv,table,Tab 6 4 Vision Class Maps.Csv,Chapter 6 or 7,1007,c776949932900c0ed767f9e4ec0257555e10026e207caaca4a1ee49002985ebb,AVAILABLE
+tables/tab_6_4_vision_class_maps.md,table,Tab 6 4 Vision Class Maps.Md,Chapter 6 or 7,1618,0b7d24756297feee31b1a36682f168fbb82a3f9344a7dd066bce55369896cf36,AVAILABLE
+tables/tab_6_5_dataset_inventory.csv,table,Tab 6 5 Dataset Inventory.Csv,Chapter 6 or 7,1177,458c8ed784bbb13ae4f89c70c9965f40e0a36a6fad9f9467352781edec0e1eaf,AVAILABLE
+tables/tab_6_5_dataset_inventory.md,table,Tab 6 5 Dataset Inventory.Md,Chapter 6 or 7,1656,d28df69e613b32a102dfb1268e2f65add17dec2daad5e46b593701742cd47c19,AVAILABLE
+tables/tab_7_10_defects_fixed.csv,table,Tab 7 10 Defects Fixed.Csv,Chapter 6 or 7,1059,cb388044d45cd245ab523f0dd93c3bd584330589a37c39d820d91512d327d160,AVAILABLE
+tables/tab_7_10_defects_fixed.md,table,Tab 7 10 Defects Fixed.Md,Chapter 6 or 7,1263,b2a9594167ad5e0e90b8a29cf364e4ce5ca2bec1459f09215f94335fb00c6a0f,AVAILABLE
+tables/tab_7_1_unit_tests.csv,table,Tab 7 1 Unit Tests.Csv,Chapter 6 or 7,1552,bd25cf664290548a0ec3d13564bfc06e81faef021c11523a26cb153e1d595d4f,AVAILABLE
+tables/tab_7_1_unit_tests.md,table,Tab 7 1 Unit Tests.Md,Chapter 6 or 7,1850,334111e450ba3c44323f6ead0ba0b20c27daf4e47902d3480a71deb3000a4d02,AVAILABLE
+tables/tab_7_2_integration_tests.csv,table,Tab 7 2 Integration Tests.Csv,Chapter 6 or 7,976,55397e498f99bdd037270b4ee844ee0c06125c0c6e45517ba8b8a0723419618b,AVAILABLE
+tables/tab_7_2_integration_tests.md,table,Tab 7 2 Integration Tests.Md,Chapter 6 or 7,1215,dc099817dcd743ac09917d933b66242e336b32ac9f39ea72f28b22f022854401,AVAILABLE
+tables/tab_7_3_validation_tests.csv,table,Tab 7 3 Validation Tests.Csv,Chapter 6 or 7,1342,3d704a03028e23b572527aeff7162016fe9689a557ca82bacfe2a99e4fe9b6e8,AVAILABLE
+tables/tab_7_3_validation_tests.md,table,Tab 7 3 Validation Tests.Md,Chapter 6 or 7,1580,d68afdbf4a22992f5be2952d1f2fcb7f09138312a944945962c9c6001fc7094b,AVAILABLE
+tables/tab_7_4_output_tests.csv,table,Tab 7 4 Output Tests.Csv,Chapter 6 or 7,787,4ad6a8a025ed851530ca2274bcf5e758e0186cc324d3a5862480f3512f26c51c,AVAILABLE
+tables/tab_7_4_output_tests.md,table,Tab 7 4 Output Tests.Md,Chapter 6 or 7,973,97b36650ecd95ed7a7b536b24c450ada977fc687257ea1e318b0f98b91278759,AVAILABLE
+tables/tab_7_5_system_tests.csv,table,Tab 7 5 System Tests.Csv,Chapter 6 or 7,2382,970685ca15511eb07b07f24d322b815af5c975df759b3b4b9432e5335db344ce,AVAILABLE
+tables/tab_7_5_system_tests.md,table,Tab 7 5 System Tests.Md,Chapter 6 or 7,2754,4ddebdb9830746b2ff4e5529d9233f159b413627e462fb8ec2dc0d83cc2c6dca,AVAILABLE
+tables/tab_7_6_white_box_tests.csv,table,Tab 7 6 White Box Tests.Csv,Chapter 6 or 7,922,e63086428f605593e28919cd5f45667403c3058e8d3cf1198f7e6c540e879638,AVAILABLE
+tables/tab_7_6_white_box_tests.md,table,Tab 7 6 White Box Tests.Md,Chapter 6 or 7,1113,9d6290aeab453998c365812559bf3460fb0c23d45601285f35107d8191d03863,AVAILABLE
+tables/tab_7_7_black_box_tests.csv,table,Tab 7 7 Black Box Tests.Csv,Chapter 6 or 7,948,fa5f6e04affc9c6b9111f917a719e79ab2b7f25a88d084d151c7c1ebcd9ac6b3,AVAILABLE
+tables/tab_7_7_black_box_tests.md,table,Tab 7 7 Black Box Tests.Md,Chapter 6 or 7,1151,b0627ccd57bd3753fede6b4d9a48838a81020b962052317c91e88f20ce4b3d4e,AVAILABLE
+tables/tab_7_8_test_summary.csv,table,Tab 7 8 Test Summary.Csv,Chapter 6 or 7,576,82a3d22441c2b5f544856f7aefce5b74b12f32fe2d813ecfb7b6e0cd0ee1c4ba,AVAILABLE
+tables/tab_7_8_test_summary.md,table,Tab 7 8 Test Summary.Md,Chapter 6 or 7,816,a2e9f58b70b36361a9ddd21bddb2ee1739a9fe81b2dc67e034ed9f219f59a420,AVAILABLE
+tables/tab_7_9_security_tests.csv,table,Tab 7 9 Security Tests.Csv,Chapter 6 or 7,1019,5875e29f187cbbead98f1ff792107ffa83b2d209ff6e8808e3c8e18c565957f1,AVAILABLE
+tables/tab_7_9_security_tests.md,table,Tab 7 9 Security Tests.Md,Chapter 6 or 7,1221,858c31756f19d2cef2f055c0b5f429da1d1c265739576b9f95d8d8e124c0f3fc,AVAILABLE
+tables/tab_8_1_tabular_models.csv,table,Tab 8 1 Tabular Models.Csv,Chapter 6 or 7,488,141b75abe41e6c2146b7ef4a86d0c458704450d66d7413fda5bec117a71800b6,AVAILABLE
+tables/tab_8_1_tabular_models.md,table,Tab 8 1 Tabular Models.Md,Chapter 6 or 7,682,640f42c7c59d214c77988b3fe56132343aedd6970703f12ab3892b15dd677d10,AVAILABLE
+tables/tab_8_2_vision_v2_models.csv,table,Tab 8 2 Vision V2 Models.Csv,Chapter 6 or 7,845,f3bb15d139fad6776c5cea976fdf9aba2bef66e6e9358ed03b5c5e9cdabe8fac,AVAILABLE
+tables/tab_8_2_vision_v2_models.md,table,Tab 8 2 Vision V2 Models.Md,Chapter 6 or 7,1113,00c737550b8aa08a4a204b63ee90b766c17a28626742a553d0bb486f3d46592d,AVAILABLE
+tables/tab_8_3_vision_v1_vs_v2.csv,table,Tab 8 3 Vision V1 Vs V2.Csv,Chapter 6 or 7,772,aac32e623d6108002c109ba2a1bd21b4e3f7877c5c511910fee9bfd11976cbd0,AVAILABLE
+tables/tab_8_3_vision_v1_vs_v2.md,table,Tab 8 3 Vision V1 Vs V2.Md,Chapter 6 or 7,941,36e4ba1b190d047e1f1b29a9502d3b5d34c905c3d2f5dd2a0d1b9e2aadcc3d38,AVAILABLE
+tables/tab_8_4_tflite_f32_vs_drq.csv,table,Tab 8 4 Tflite F32 Vs Drq.Csv,Chapter 6 or 7,474,f26fb2d5c2ea11bf151d4aeaccae99510ac54a6f38dce704b44d429bfb409845,AVAILABLE
+tables/tab_8_4_tflite_f32_vs_drq.md,table,Tab 8 4 Tflite F32 Vs Drq.Md,Chapter 6 or 7,713,a1a2c892d11bf1f68ce4599230c86a517bc312448b35e0a5ffe6d2b125247af0,AVAILABLE
+tables/tab_8_5_inference_latency.csv,table,Tab 8 5 Inference Latency.Csv,Chapter 6 or 7,546,60bed3c4d3c6bfa63a67fac57592a6f2ec5a467376411e428657f4c02d454aeb,AVAILABLE
+tables/tab_8_5_inference_latency.md,table,Tab 8 5 Inference Latency.Md,Chapter 6 or 7,757,8031418ab9579967d7cbc794025c66d048e253ad09329c752cfba415b13a00dc,AVAILABLE
+tables/tab_8_6_alternative_approaches.csv,table,Tab 8 6 Alternative Approaches.Csv,Chapter 6 or 7,810,ed7f8936e9368555cebdaf2cc0fa4c18d86b45a58144916a6baaecd5849fd9a5,AVAILABLE
+tables/tab_8_6_alternative_approaches.md,table,Tab 8 6 Alternative Approaches.Md,Chapter 6 or 7,976,e24827ad97f9b6819ac6b5c7956ffca6fed11838dfb45a546e1e59fc7a221650,AVAILABLE
+tables/tab_8_7_requirement_coverage.csv,table,Tab 8 7 Requirement Coverage.Csv,Chapter 6 or 7,672,e0764f0e511331f257a2e25259cacf801498046e32bb9697bbfd847559e5f678,AVAILABLE
+tables/tab_8_7_requirement_coverage.md,table,Tab 8 7 Requirement Coverage.Md,Chapter 6 or 7,902,9005a2f712dcf9e57f1476da2584d823855eeeca5d836c0967d856a8366b8574,AVAILABLE
+tables/tab_8_8_known_limitations.csv,table,Tab 8 8 Known Limitations.Csv,Chapter 6 or 7,1009,b2573b7a9a9557237114adc67c1207fc29f120d8edf5eb126c5f9e069e504181,AVAILABLE
+tables/tab_8_8_known_limitations.md,table,Tab 8 8 Known Limitations.Md,Chapter 6 or 7,1182,8c89812a272d3a1e2f864a5cc0282cac45c2937102d926b0eff5048ab82ebc07,AVAILABLE
+charts/fig_6_15_learning_curves.png,chart,Figure 6.15: Model Loss & Accuracy Learning Curves across Epochs,Chapter 6: Implementation,0,N/A,NOT AVAILABLE (training history logs not persisted in repository; retraining prohibited per C-09/C-16)
+logs/pytest_cov.txt,log,Pytest Automated Statement Coverage Report,Chapter 7: System Testing,0,N/A,NOT AVAILABLE (pytest-cov plugin not installed in virtual environment; new package installation prohibited)
+dataset_samples/tabular_sample.csv,dataset_sample,Tabular Dataset 20-Row Raw CSV Sample,Chapter 5: Methodology,0,N/A,NOT AVAILABLE (raw training datasets physically quarantined outside repository per C-09/C-40 publish policy)
+dataset_samples/sample_lips.png,dataset_sample,Lips Anatomical Target Raw Image Sample,Chapter 6: Implementation,0,N/A,NOT AVAILABLE (raw training datasets physically quarantined outside repository per C-09/C-40 publish policy)
